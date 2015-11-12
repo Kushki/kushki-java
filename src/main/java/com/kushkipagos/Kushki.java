@@ -1,4 +1,4 @@
-package org.kushki;
+package com.kushkipagos;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

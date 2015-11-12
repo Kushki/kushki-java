@@ -1,4 +1,4 @@
-package org.kushki;
+package com.kushkipagos;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.jersey.api.client.ClientResponse;
