@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="personalizados"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>Conjuntos de reglas personalizados a nuestro proyecto</description>
+    <rule ref="rulesets/design.xml">
+        <exclude name="ImmutableField"/>
+        <exclude name="ConfusingTernary"/>
+    </rule>
+    <rule ref="rulesets/naming.xml">
+        <exclude name="LongVariable"/>
+        <exclude name="ShortVariable"/>
+        <exclude name="AbstractNaming"/>
+        <exclude name="AvoidFieldNameMatchingTypeName"/>
+    </rule>
+    <rule ref="rulesets/optimizations.xml">
+        <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="LocalVariableCouldBeFinal"/>
+    </rule>
+    <rule ref="rulesets/junit.xml">
+        <exclude name="TestClassWithoutTestCases"/>
+        <exclude name="JUnitTestsShouldIncludeAssert"/>
+    </rule>
+</ruleset>
