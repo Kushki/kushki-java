@@ -9,3 +9,4 @@ logs/
 .idea/
 .DS_Store
 reports/
+gradle.properties
