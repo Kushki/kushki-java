@@ -8,7 +8,6 @@ apply plugin: 'findbugs'
 
 group 'com.kushkipagos'
 version '1.0-SNAPSHOT'
-archivesBaseName 'kushki-java'
 
 sourceCompatibility 1.7
 
