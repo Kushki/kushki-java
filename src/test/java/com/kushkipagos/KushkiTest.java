@@ -1,5 +1,7 @@
 package com.kushkipagos;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -7,7 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Map;
 
@@ -25,13 +30,12 @@ public class KushkiTest {
     private String merchantId;
     private Kushki kushki;
     private String language;
-    private String currency;
 
     @Before
     public void setUp() throws Exception {
         merchantId = randomAlphabetic(10);
         language = randomAlphabetic(2);
-        currency = randomAlphabetic(10);
+        String currency = randomAlphabetic(10);
         kushki = new Kushki(merchantId, language, currency);
     }
 
@@ -42,7 +46,7 @@ public class KushkiTest {
 
     @Test
     public void shouldHaveAPIURL() {
-        assertThat(Kushki.URL, is("https://kushki-api.herokuapp.com/v1/charge"));
+        assertThat(Kushki.URL, is("https://ping.auruspay.com/kushki/api/v1/charge"));
     }
 
     @Test
@@ -51,7 +55,7 @@ public class KushkiTest {
     }
 
     @Test
-    public void shouldChargeACardWithToken() throws NoSuchFieldException, IllegalAccessException {
+    public void shouldChargeACardWithToken() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String token = randomAlphabetic(10);
         String amount = String.valueOf(nextDouble(1, 99));
         WebResource.Builder builder = mockClient();
@@ -60,26 +64,30 @@ public class KushkiTest {
     }
 
     @Test
-    public void shouldSendRightParametersToChargeCard() throws NoSuchFieldException, IllegalAccessException {
+    public void shouldSendRightParametersToChargeCard() throws NoSuchFieldException, IllegalAccessException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String token = randomAlphabetic(10);
         String amount = String.valueOf(nextDouble(1, 99));
+        Encryption encryption = mock(Encryption.class);
+        String encrypted = randomAlphabetic(10);
+        mockEncryption(encryption, encrypted);
         WebResource.Builder builder = mockClient();
         kushki.charge(token, amount);
 
-        ArgumentCaptor<Map> captor = ArgumentCaptor.forClass(Map.class);
+        ArgumentCaptor<Map> encryptedParams = ArgumentCaptor.forClass(Map.class);
+        ArgumentCaptor<String> unencryptedParams = ArgumentCaptor.forClass(String.class);
 
-        verify(builder).post(eq(ClientResponse.class), captor.capture());
-        Map<String, String> parameters = captor.getValue();
+        verify(builder).post(eq(ClientResponse.class), encryptedParams.capture());
+        Map<String, String> parameters = encryptedParams.getValue();
+        assertThat(parameters.get("request"), is(encrypted));
 
-        assertThat(parameters.get("merchant_identifier"), is(merchantId));
-        assertThat(parameters.get("language_indicator"), is(language));
+        verify(encryption).encryptMessageChunk(unencryptedParams.capture());
+        parameters = new ObjectMapper().readValue(unencryptedParams.getValue(), Map.class);
         assertThat(parameters.get("transaction_token"), is(token));
-        assertThat(parameters.get("currency_code"), is(currency));
         assertThat(parameters.get("transaction_amount"), is(amount));
     }
 
     @Test
-    public void shouldReturnTransactionObjectAfterChargingCard() throws NoSuchFieldException, IllegalAccessException {
+    public void shouldReturnTransactionObjectAfterChargingCard() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String token = randomAlphabetic(10);
         String amount = String.valueOf(nextDouble(1, 99));
         WebResource.Builder builder = mockClient();
@@ -87,6 +95,18 @@ public class KushkiTest {
         when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
         Transaction transaction = kushki.charge(token, amount);
         assertThat(transaction.getResponse(), is(response));
+    }
+
+    private void mockEncryption(Encryption encryption, String encrypted) throws NoSuchFieldException, IllegalAccessException, BadPaddingException, IllegalBlockSizeException {
+        injectMockEncryption(encryption);
+        when(encryption.encryptMessageChunk(any(String.class))).thenReturn(encrypted);
+    }
+
+    private void injectMockEncryption(Encryption encryption) throws NoSuchFieldException, IllegalAccessException {
+        Class<?> klass = kushki.getClass();
+        Field field = klass.getDeclaredField("encryption");
+        field.setAccessible(true);
+        field.set(kushki, encryption);
     }
 
     private WebResource.Builder mockClient() throws NoSuchFieldException, IllegalAccessException {
