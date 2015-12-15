@@ -10,3 +10,4 @@ logs/
 .DS_Store
 reports/
 gradle.properties
+src/main/java/testrun/

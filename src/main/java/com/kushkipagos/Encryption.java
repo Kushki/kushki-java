@@ -25,15 +25,16 @@ public class Encryption {
     private final Cipher cipher;
 
     public Encryption() throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, IOException, InvalidKeySpecException {
-        String publickey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtCBqxKQo4DgvZLk5CMDFqgRdCrW10GBcbcrh5b3jicGzU4PIoNEx/g4YNmj5jD6/BEYkHp6aAXMUtn/MWzd+P+dIUvckvf4hn9IMV1gtBYkfbVcfcB37Q65eTYNCkjryWpxW4TMJ5cbjD9t0ywTU5txBdQBRYxyp7YXu+EGPpk1u1rcYhJu+27xA+VKqEi5VxL73qA//EBQRdFYoqhWwNVLeKenyoQo8OtoF7wMgM+BSK0kVsvFQP6/OJpnlGPxTOIws34Yw50TYe15w+ueGLEtQmmFAHPFkEyGTXhczBoOr2obPuJmno3JKPGBs48xXckazyotRC7B4ymCJI3fvvwIDAQAB";
-        cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+//        String publickey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtCBqxKQo4DgvZLk5CMDFqgRdCrW10GBcbcrh5b3jicGzU4PIoNEx/g4YNmj5jD6/BEYkHp6aAXMUtn/MWzd+P+dIUvckvf4hn9IMV1gtBYkfbVcfcB37Q65eTYNCkjryWpxW4TMJ5cbjD9t0ywTU5txBdQBRYxyp7YXu+EGPpk1u1rcYhJu+27xA+VKqEi5VxL73qA//EBQRdFYoqhWwNVLeKenyoQo8OtoF7wMgM+BSK0kVsvFQP6/OJpnlGPxTOIws34Yw50TYe15w+ueGLEtQmmFAHPFkEyGTXhczBoOr2obPuJmno3JKPGBs48xXckazyotRC7B4ymCJI3fvvwIDAQAB";
+        String publickey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC81t5iu5C0JxYq5/XNPiD5ol3Zw8rw3LtFIUm7y3m8o8wv5qVnzGh6XwQ8LWypdkbBDKWZZrAUd3lybZOP7/82Nb1/noYj8ixVRdbnYtbsSAbu9PxjB7a/7LCGKsugLkou74PJDadQweM88kzQOx/kzAyVbS9gCCVUguHcq2vRRQIDAQAB";
+        cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, loadPublicKey(publickey));
     }
 
     public String encryptMessageChunk(String requestMessage) throws BadPaddingException, IllegalBlockSizeException {
         byte[] cipherData;
         String chnkString;
-        String[] msgChunks = requestMessage.split("(?<=\\G.{214})");
+        String[] msgChunks = requestMessage.split("(?<=\\G.{117})");
         BASE64Encoder base64Encoder = new BASE64Encoder();
         StringBuilder buf = new StringBuilder();
         for (String msgChunk : msgChunks) {

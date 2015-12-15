@@ -64,11 +64,11 @@ public class Kushki {
 
     private String buildAndStringifyParameters(String token, String amount) throws JsonProcessingException {
         Map<String, String> parameters = new HashMap<>(5);
+        parameters.put("transaction_token", token);
+        parameters.put("transaction_amount", amount);
+        parameters.put("currency_code", currency);
         parameters.put("merchant_identifier", merchantId);
         parameters.put("language_indicator", language);
-        parameters.put("transaction_token", token);
-        parameters.put("currency_code", currency);
-        parameters.put("transaction_amount", amount);
         ObjectMapper mapper = new ObjectMapper();
 
         return mapper.writeValueAsString(parameters);
