@@ -23,34 +23,23 @@ public class Kushki {
     private String merchantId;
     private String language;
     private String currency;
-    private Encryption encryption;
+    private AurusEncryption encryption;
 
     public Kushki(String merchantId, String language, String currency) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, InvalidKeySpecException {
         this.merchantId = merchantId;
         this.language = language;
         this.currency = currency;
         this.client = Client.create();
-        this.encryption = new Encryption();
+        this.encryption = new AurusEncryption();
     }
 
     public String getMerchantId() {
         return merchantId;
     }
 
-    public Transaction charge(String token, String amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        if (amount.length() > 12 || amount.length() == 0) {
-            throw new KushkiException("Amount must be 12 characters or less");
-        } else if (amount.length() < 4) {
-            if (amount.startsWith(".")) {
-                amount = "0" + amount;
-            }
-            if (amount.contains(".")) {
-                amount = amount + "0";
-            } else {
-                amount = amount + ".00";
-            }
-        }
-        Map<String, String> parameters = buildParameters(token, amount);
+    public Transaction charge(String token, Double amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String validAmount = validateAmount(amount);
+        Map<String, String> parameters = buildParameters(token, validAmount);
         return post(parameters);
     }
 
@@ -84,5 +73,19 @@ public class Kushki {
 
     public String getLanguage() {
         return language;
+    }
+
+    private String validateAmount(Double amount) throws KushkiException {
+        if (amount == null) {
+            throw new KushkiException("El monto no puede ser nulo");
+        }
+        if (amount <= 0) {
+            throw new KushkiException("El monto debe ser superior a 0");
+        }
+        String validAmount = String.format("%.2f", amount);
+        if (validAmount.length() > 12) {
+            throw new KushkiException("El monto debe tener menos de 12 dígitos");
+        }
+        return validAmount;
     }
 }
