@@ -8,11 +8,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * Created by lmunda on 12/2/15 10:31.
@@ -35,7 +35,7 @@ public class AurusEncryption {
         StringBuilder buf = new StringBuilder();
         for (String msgChunk : msgChunks) {
             cipherData = encrypt(msgChunk);
-            chnkString = Base64.getEncoder().encodeToString(cipherData);
+            chnkString = DatatypeConverter.printBase64Binary(cipherData);
             chnkString = chnkString.replace("\n", "");
             buf.append(chnkString);
             buf.append("<FS>");
@@ -49,7 +49,7 @@ public class AurusEncryption {
     }
 
     public final PublicKey loadPublicKey(String stored) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] data = Base64.getDecoder().decode(stored);
+        byte[] data = DatatypeConverter.parseBase64Binary(stored);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(data);
         KeyFactory fact = KeyFactory.getInstance("RSA");
         return fact.generatePublic(spec);
