@@ -1,7 +1,6 @@
 package com.kushkipagos;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -14,11 +13,16 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Kushki {
-    public static final String URL = "https://ping.auruspay.com/kushki/api/v1/charge";
+    public static final String URL = "https://ping.auruspay.com/kushki/api/v1";
+
+    public static final String TOKENS_URL = URL + "/tokens";
+    public static final String CHARGE_URL = URL + "/charge";
+    public static final String VOID_URL = URL + "/void";
+    public static final String REFUND_URL = URL + "/refund";
+
     private final Client client;
     private String merchantId;
     private String language;
@@ -37,42 +41,48 @@ public class Kushki {
         return merchantId;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public AurusEncryption getEncryption() {
+        return encryption;
+    }
+
+    public Transaction getToken(Map<String, String> params) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException {
+        Map<String, String> parameters = ParametersBuilder.getTokenParameters(this, params);
+        return post(TOKENS_URL, parameters);
+    }
+
     public Transaction charge(String token, Double amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String validAmount = validateAmount(amount);
-        Map<String, String> parameters = buildParameters(token, validAmount);
-        return post(parameters);
+        Map<String, String> parameters = ParametersBuilder.getChargeParameters(this, token, validAmount);
+        return post(CHARGE_URL, parameters);
     }
 
-    private Map<String, String> buildParameters(String token, String amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException {
-        String params = buildAndStringifyParameters(token, amount);
-        String encString = encryption.encryptMessageChunk(params);
-        Map<String, String> parameters = new HashMap<>(1);
-        parameters.put("request", encString);
-        return parameters;
+    public Transaction voidCharge(String token, String ticket, Double amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String validAmount = validateAmount(amount);
+        Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, token, ticket, validAmount);
+        return post(VOID_URL, parameters);
     }
 
-    private String buildAndStringifyParameters(String token, String amount) throws JsonProcessingException {
-        Map<String, String> parameters = new HashMap<>(5);
-        parameters.put("transaction_token", token);
-        parameters.put("transaction_amount", amount);
-        parameters.put("currency_code", currency);
-        parameters.put("merchant_identifier", merchantId);
-        parameters.put("language_indicator", language);
-        ObjectMapper mapper = new ObjectMapper();
-
-        return mapper.writeValueAsString(parameters);
+    public Transaction refundCharge(String token, String ticket, Double amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String validAmount = validateAmount(amount);
+        Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, token, ticket, validAmount);
+        return post(REFUND_URL, parameters);
     }
 
-    private Transaction post(Map<String, String> parameters) {
-        WebResource resource = client.resource(URL);
+    private Transaction post(String url, Map<String, String> parameters) {
+        WebResource resource = client.resource(url);
+
         WebResource.Builder builder = resource.type(MediaType.APPLICATION_JSON_TYPE)
                 .accept(MediaType.APPLICATION_JSON_TYPE);
         ClientResponse response = builder.post(ClientResponse.class, parameters);
         return new Transaction(response);
-    }
-
-    public String getLanguage() {
-        return language;
     }
 
     private String validateAmount(Double amount) throws KushkiException {

@@ -32,6 +32,10 @@ public class Transaction {
         return getResponseAttribute("response_text");
     }
 
+    public String getToken() {
+        return getResponseAttribute("transaction_token");
+    }
+
     private String getResponseAttribute(String attribute) {
         return body.get(attribute).asText();
     }

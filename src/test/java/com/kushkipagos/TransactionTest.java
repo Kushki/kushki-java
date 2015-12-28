@@ -48,6 +48,7 @@ public class TransactionTest {
     public void shouldReturnResponseBodyAsJsonObject() {
         JsonNode json = mock(JsonNode.class);
         when(response.getEntity(JsonNode.class)).thenReturn(json);
+        transaction = new Transaction(response);
         assertThat(transaction.getResponseBody(), is(json));
     }
 
@@ -58,6 +59,7 @@ public class TransactionTest {
         jsonMap.put("ticket_number", ticket_number);
         JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
         when(response.getEntity(JsonNode.class)).thenReturn(node);
+        transaction = new Transaction(response);
         assertThat(transaction.getTicketNumber(), is(ticket_number));
     }
 
@@ -68,6 +70,18 @@ public class TransactionTest {
         jsonMap.put("response_text", response_text);
         JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
         when(response.getEntity(JsonNode.class)).thenReturn(node);
+        transaction = new Transaction(response);
         assertThat(transaction.getResponseText(), is(response_text));
+    }
+
+    @Test
+    public void shouldReturnToken() throws IOException {
+        Map<String, String> jsonMap = new HashMap<>(1);
+        String token = randomAlphabetic(10);
+        jsonMap.put("transaction_token", token);
+        JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
+        when(response.getEntity(JsonNode.class)).thenReturn(node);
+        transaction = new Transaction(response);
+        assertThat(transaction.getToken(), is(token));
     }
 }

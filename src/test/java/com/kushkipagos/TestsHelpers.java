@@ -1,7 +1,9 @@
 package com.kushkipagos;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.junit.Assert;
 
@@ -9,12 +11,15 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.RandomUtils.nextDouble;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,16 +44,24 @@ public final class TestsHelpers {
         field.set(kushki, encryption);
     }
 
-    public static WebResource.Builder mockClient(Kushki kushki) throws NoSuchFieldException, IllegalAccessException {
+    public static WebResource.Builder mockClient(Kushki kushki, String url) throws NoSuchFieldException, IllegalAccessException {
         Client client = mock(Client.class);
         injectMockClient(kushki, client);
         WebResource webResource = mock(WebResource.class);
         WebResource.Builder requestWithType = mock(WebResource.Builder.class);
         WebResource.Builder requestWithAccept = mock(WebResource.Builder.class);
-        when(client.resource(Kushki.URL)).thenReturn(webResource);
+        when(client.resource(url)).thenReturn(webResource);
         when(webResource.type(MediaType.APPLICATION_JSON_TYPE)).thenReturn(requestWithType);
         when(requestWithType.accept(MediaType.APPLICATION_JSON_TYPE)).thenReturn(requestWithAccept);
         return requestWithAccept;
+    }
+
+    public static WebResource.Builder mockWebBuilder(Kushki kushki, String url) throws NoSuchFieldException, IllegalAccessException, BadPaddingException, IllegalBlockSizeException {
+        WebResource.Builder builder = TestsHelpers.mockClient(kushki, url);
+        ClientResponse response = mock(ClientResponse.class);
+        when(response.getEntity(JsonNode.class)).thenReturn(mock(JsonNode.class));
+        when(builder.post(eq(ClientResponse.class), any(Map.class))).thenReturn(response);
+        return builder;
     }
 
     private static void injectMockClient(Kushki kushki, Client client) throws NoSuchFieldException, IllegalAccessException {
@@ -60,6 +73,16 @@ public final class TestsHelpers {
 
     public static Double getRandomAmount() {
         return Double.parseDouble(String.format("%.2f", nextDouble(1, 99)));
+    }
+
+    public static Map<String, String> getCardData() {
+        Map<String, String> cardParams = new HashMap<>(5);
+        cardParams.put("name", randomAlphabetic(20));
+        cardParams.put("number", "4111111111111111");
+        cardParams.put("expiry_month", "12");
+        cardParams.put("expiry_year", "20");
+        cardParams.put("cvv", "123");
+        return cardParams;
     }
 
     public static void assertThatChargeThrowsExceptionWithInvalidAmount(Kushki kushki, Double amount, String exceptionMessage) {
