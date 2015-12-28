@@ -84,4 +84,15 @@ public class TransactionTest {
         transaction = new Transaction(response);
         assertThat(transaction.getToken(), is(token));
     }
+
+    @Test
+    public void shouldApprovedAmount() throws IOException {
+        Map<String, String> jsonMap = new HashMap<>(1);
+        Double amount = TestsHelpers.getRandomAmount();
+        jsonMap.put("approved_amount", String.valueOf(amount));
+        JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
+        when(response.getEntity(JsonNode.class)).thenReturn(node);
+        transaction = new Transaction(response);
+        assertThat(transaction.getApprovedAmount(), is(amount));
+    }
 }

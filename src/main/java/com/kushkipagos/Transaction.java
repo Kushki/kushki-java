@@ -10,6 +10,7 @@ public class Transaction {
     public Transaction(ClientResponse response) {
         this.response = response;
         body = response.getEntity(JsonNode.class);
+        System.out.println(getResponseBody());
     }
 
     public ClientResponse getResponse() {
@@ -34,6 +35,10 @@ public class Transaction {
 
     public String getToken() {
         return getResponseAttribute("transaction_token");
+    }
+
+    public Double getApprovedAmount() {
+        return Double.parseDouble(getResponseAttribute("approved_amount"));
     }
 
     private String getResponseAttribute(String attribute) {
