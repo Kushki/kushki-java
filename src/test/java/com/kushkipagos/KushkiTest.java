@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.apache.commons.lang3.RandomUtils.nextDouble;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
@@ -77,7 +76,7 @@ public class KushkiTest {
     public void shouldRequestToken() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, JsonProcessingException {
         WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.TOKENS_URL);
         Map<String, String> cardParams = TestsHelpers.getCardData();
-        kushki.getToken(cardParams);
+        kushki.requestToken(cardParams);
         verify(builder).post(eq(ClientResponse.class), any(Map.class));
     }
 
@@ -91,7 +90,7 @@ public class KushkiTest {
         String encrypted = randomAlphabetic(10);
         TestsHelpers.mockEncryption(kushki, encryption, encrypted);
         WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.TOKENS_URL);
-        kushki.getToken(cardParams);
+        kushki.requestToken(cardParams);
 
         ArgumentCaptor<Map> encryptedParams = ArgumentCaptor.forClass(Map.class);
         ArgumentCaptor<String> unencryptedParams = ArgumentCaptor.forClass(String.class);
@@ -111,7 +110,7 @@ public class KushkiTest {
         ClientResponse response = mock(ClientResponse.class);
         when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
         Map<String, String> cardParams = TestsHelpers.getCardData();
-        Transaction transaction = kushki.getToken(cardParams);
+        Transaction transaction = kushki.requestToken(cardParams);
         assertThat(transaction.getResponse(), is(response));
     }
 

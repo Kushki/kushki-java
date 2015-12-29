@@ -47,7 +47,7 @@ public class KushkiIntegrationTest {
         cardParams.put("expiry_year", "20");
         cardParams.put("cvv", "123");
 
-        Transaction tokenTransaction = kushki.getToken(cardParams);
+        Transaction tokenTransaction = kushki.requestToken(cardParams);
 
         assertThat(tokenTransaction.isSuccessful(), is(false));
         assertThat(tokenTransaction.getResponseText(), is("Tarjeta no válida"));
@@ -63,7 +63,7 @@ public class KushkiIntegrationTest {
         cardParams.put("expiry_year", "cd");
         cardParams.put("cvv", "123");
 
-        Transaction tokenTransaction = kushki.getToken(cardParams);
+        Transaction tokenTransaction = kushki.requestToken(cardParams);
 
         assertThat(tokenTransaction.isSuccessful(), is(false));
         assertThat(tokenTransaction.getResponseText(), is("Tarjeta no válida"));
@@ -79,7 +79,7 @@ public class KushkiIntegrationTest {
         cardParams.put("expiry_year", "14");
         cardParams.put("cvv", "123");
 
-        Transaction tokenTransaction = kushki.getToken(cardParams);
+        Transaction tokenTransaction = kushki.requestToken(cardParams);
 
         assertThat(tokenTransaction.isSuccessful(), is(false));
         assertThat(tokenTransaction.getResponseText(), is("Tarjeta vencida"));
@@ -95,7 +95,7 @@ public class KushkiIntegrationTest {
         cardParams.put("expiry_year", "14");
         cardParams.put("cvv", "abc");
 
-        Transaction tokenTransaction = kushki.getToken(cardParams);
+        Transaction tokenTransaction = kushki.requestToken(cardParams);
 
         assertThat(tokenTransaction.isSuccessful(), is(false));
         assertThat(tokenTransaction.getResponseText(), is("CVC no válido"));
@@ -385,6 +385,6 @@ public class KushkiIntegrationTest {
         cardParams.put("expiry_month", "12");
         cardParams.put("expiry_year", "20");
         cardParams.put("cvv", "123");
-        return kushki.getToken(cardParams);
+        return kushki.requestToken(cardParams);
     }
 }
