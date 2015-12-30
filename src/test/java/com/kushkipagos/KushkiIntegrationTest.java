@@ -196,6 +196,7 @@ public class KushkiIntegrationTest {
 
         Transaction refundTransaction = kushki.refundCharge(token4refund, ticket, amount);
 
+        assertThat(tokenTransaction.isSuccessful(), is(true));
         assertThat(refundTransaction.isSuccessful(), is(false));
         assertThat(refundTransaction.getResponseText(), is("El token de la transacción no es válido"));
         assertThat(refundTransaction.getResponseCode(), is("574"));
@@ -209,6 +210,7 @@ public class KushkiIntegrationTest {
 
         Transaction refundTransaction = kushki.refundCharge(token, "", amount);
 
+        assertThat(tokenTransaction.isSuccessful(), is(true));
         assertThat(refundTransaction.isSuccessful(), is(false));
         assertThat(refundTransaction.getResponseText(), is("El número de ticket de la transacción es requerido"));
         assertThat(refundTransaction.getResponseCode(), is("705"));
@@ -330,6 +332,7 @@ public class KushkiIntegrationTest {
 
         Transaction voidTransaction = kushki.voidCharge(token, ticket, amount);
 
+        assertThat(tokenTransaction.isSuccessful(), is(true));
         assertThat(voidTransaction.isSuccessful(), is(false));
         assertThat(voidTransaction.getResponseText(), is("Transacción no encontrada"));
         assertThat(voidTransaction.getResponseCode(), is("222"));
