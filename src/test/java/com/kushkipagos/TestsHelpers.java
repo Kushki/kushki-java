@@ -84,8 +84,7 @@ public final class TestsHelpers {
             int centPosition = nextInt(0, invalidCents.length - 1);
             cents = invalidCents[centPosition];
         }
-        double amount = nextInt(1, 9999) + cents;
-        return amount;
+        return nextInt(1, 9999) + cents;
     }
 
     public static Double getRandomAmount() {

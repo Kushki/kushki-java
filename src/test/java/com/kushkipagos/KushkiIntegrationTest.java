@@ -369,12 +369,16 @@ public class KushkiIntegrationTest {
         String language = "es";
         String currency = "xyz";
         kushki = new Kushki(merchantId, language, currency);
-
         Transaction tokenTransaction = getValidTokenTransaction();
+        String token = tokenTransaction.getToken();
+        Double amount = 10.0;
 
-        assertThat(tokenTransaction.isSuccessful(), is(false));
-        assertThat(tokenTransaction.getResponseText(), is("Indicador de idioma no válido"));
-        assertThat(tokenTransaction.getResponseCode(), is("205"));
+        Transaction chargeTransaction = kushki.charge(token, amount);
+
+        assertThat(tokenTransaction.isSuccessful(), is(true));
+        assertThat(chargeTransaction.isSuccessful(), is(false));
+        assertThat(chargeTransaction.getResponseText(), is("Tipo de moneda no válida"));
+        assertThat(chargeTransaction.getResponseCode(), is("205"));
     }
 
 
