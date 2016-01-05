@@ -25,8 +25,8 @@ public class ParametersBuilder {
         return encryptParams(kushki, params);
     }
 
-    public static Map<String, String> getVoidRefundParameters(Kushki kushki, String token, String ticket, String amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException {
-        String params = buildAndStringifyVoidRefundParameters(kushki, token, ticket, amount);
+    public static Map<String, String> getVoidRefundParameters(Kushki kushki, String ticket, String amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException {
+        String params = buildAndStringifyVoidRefundParameters(kushki, ticket, amount);
         return encryptParams(kushki, params);
     }
 
@@ -54,10 +54,9 @@ public class ParametersBuilder {
         return mapper.writeValueAsString(parameters);
     }
 
-    private static String buildAndStringifyVoidRefundParameters(Kushki kushki, String token, String ticket, String amount) throws JsonProcessingException {
+    private static String buildAndStringifyVoidRefundParameters(Kushki kushki, String ticket, String amount) throws JsonProcessingException {
         Map<String, String> parameters = getCommonParameters(kushki);
         parameters.put("ticket_number", ticket);
-        parameters.put("transaction_token", token);
         parameters.put("transaction_amount", amount);
 
         ObjectMapper mapper = new ObjectMapper();

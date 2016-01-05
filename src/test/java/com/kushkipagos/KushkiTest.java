@@ -160,24 +160,22 @@ public class KushkiTest {
 
     @Test
     public void shouldVoidChargeWithTokenAndTicket() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, KushkiException, JsonProcessingException {
-        String token = randomAlphabetic(10);
         String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
         WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.VOID_URL);
-        kushki.voidCharge(token, ticket, amount);
+        kushki.voidCharge(ticket, amount);
         verify(builder).post(eq(ClientResponse.class), any(Map.class));
     }
 
     @Test
     public void shouldSendRightParametersToVoidCharge() throws NoSuchFieldException, IllegalAccessException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String token = randomAlphabetic(10);
         String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encrypted = randomAlphabetic(10);
         TestsHelpers.mockEncryption(kushki, encryption, encrypted);
         WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.VOID_URL);
-        kushki.voidCharge(token, ticket, amount);
+        kushki.voidCharge(ticket, amount);
 
         ArgumentCaptor<Map> encryptedParams = ArgumentCaptor.forClass(Map.class);
         ArgumentCaptor<String> unencryptedParams = ArgumentCaptor.forClass(String.class);
@@ -189,42 +187,38 @@ public class KushkiTest {
         verify(encryption).encryptMessageChunk(unencryptedParams.capture());
         parameters = new ObjectMapper().readValue(unencryptedParams.getValue(), Map.class);
         assertThat(parameters.get("ticket_number"), is(ticket));
-        assertThat(parameters.get("transaction_token"), is(token));
         assertThat(parameters.get("transaction_amount"), is(String.format("%.2f", amount)));
     }
 
     @Test
     public void shouldReturnTransactionObjectAfterVoidingCharge() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String token = randomAlphabetic(10);
         String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
         WebResource.Builder builder = TestsHelpers.mockClient(kushki, Kushki.VOID_URL);
         ClientResponse response = mock(ClientResponse.class);
         when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
-        Transaction transaction = kushki.voidCharge(token, ticket, amount);
+        Transaction transaction = kushki.voidCharge(ticket, amount);
         assertThat(transaction.getResponse(), is(response));
     }
 
     @Test
-    public void shouldRefundChargeWithTokenAndTicket() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, KushkiException, JsonProcessingException {
-        String token = randomAlphabetic(10);
+    public void shouldRefundChargeWithTicket() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, KushkiException, JsonProcessingException {
         String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
         WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.REFUND_URL);
-        kushki.refundCharge(token, ticket, amount);
+        kushki.refundCharge(ticket, amount);
         verify(builder).post(eq(ClientResponse.class), any(Map.class));
     }
 
     @Test
     public void shouldSendRightParametersToRefundCharge() throws NoSuchFieldException, IllegalAccessException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String token = randomAlphabetic(10);
         String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encrypted = randomAlphabetic(10);
         TestsHelpers.mockEncryption(kushki, encryption, encrypted);
         WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.REFUND_URL);
-        kushki.refundCharge(token, ticket, amount);
+        kushki.refundCharge(ticket, amount);
 
         ArgumentCaptor<Map> encryptedParams = ArgumentCaptor.forClass(Map.class);
         ArgumentCaptor<String> unencryptedParams = ArgumentCaptor.forClass(String.class);
@@ -236,19 +230,17 @@ public class KushkiTest {
         verify(encryption).encryptMessageChunk(unencryptedParams.capture());
         parameters = new ObjectMapper().readValue(unencryptedParams.getValue(), Map.class);
         assertThat(parameters.get("ticket_number"), is(ticket));
-        assertThat(parameters.get("transaction_token"), is(token));
         assertThat(parameters.get("transaction_amount"), is(String.format("%.2f", amount)));
     }
 
     @Test
     public void shouldReturnTransactionObjectAfterRefundingCharge() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String token = randomAlphabetic(10);
         String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
         WebResource.Builder builder = TestsHelpers.mockClient(kushki, Kushki.REFUND_URL);
         ClientResponse response = mock(ClientResponse.class);
         when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
-        Transaction transaction = kushki.refundCharge(token, ticket, amount);
+        Transaction transaction = kushki.refundCharge(ticket, amount);
         assertThat(transaction.getResponse(), is(response));
     }
 
