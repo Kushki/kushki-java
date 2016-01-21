@@ -48,13 +48,18 @@ public class KushkiTest {
     }
 
     @Test
+    public void shouldHaveTokensURL() {
+        assertThat(Kushki.TOKENS_URL, is(URL + "/tokens"));
+    }
+
+    @Test
     public void shouldHaveChargeURL() {
         assertThat(Kushki.CHARGE_URL, is(URL + "/charge"));
     }
 
     @Test
-    public void shouldHaveTokensURL() {
-        assertThat(Kushki.TOKENS_URL, is(URL + "/tokens"));
+    public void shouldHaveDeferredChargeURL() {
+        assertThat(Kushki.DEFERRED_CHARGE_URL, is(URL + "/deferred"));
     }
 
     @Test
@@ -159,6 +164,47 @@ public class KushkiTest {
     }
 
     @Test
+    public void shouldSendRightParametersToDeferredChargeCard() throws NoSuchFieldException, IllegalAccessException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String token = randomAlphabetic(10);
+        Double amount = TestsHelpers.getRandomAmount();
+        Integer months = TestsHelpers.getRandomMonths();
+        Double interest = TestsHelpers.getRandomInterest();
+
+        AurusEncryption encryption = mock(AurusEncryption.class);
+        String encrypted = randomAlphabetic(10);
+        TestsHelpers.mockEncryption(kushki, encryption, encrypted);
+        WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.DEFERRED_CHARGE_URL);
+        kushki.deferredCharge(token, amount, months, interest);
+
+        ArgumentCaptor<Map> encryptedParams = ArgumentCaptor.forClass(Map.class);
+        ArgumentCaptor<String> unencryptedParams = ArgumentCaptor.forClass(String.class);
+
+        verify(builder).post(eq(ClientResponse.class), encryptedParams.capture());
+        Map<String, String> parameters = encryptedParams.getValue();
+        assertThat(parameters.get("request"), is(encrypted));
+
+        verify(encryption).encryptMessageChunk(unencryptedParams.capture());
+        parameters = new ObjectMapper().readValue(unencryptedParams.getValue(), Map.class);
+        assertThat(parameters.get("transaction_token"), is(token));
+        assertThat(parameters.get("transaction_amount"), is(String.format("%.2f", amount)));
+        assertThat(parameters.get("months"), is(String.valueOf(months)));
+        assertThat(parameters.get("rate_of_interest"), is(String.format("%.2f", interest)));
+    }
+
+    @Test
+    public void shouldReturnTransactionObjectAfterDeferredChargingCard() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String token = randomAlphabetic(10);
+        Double amount = TestsHelpers.getRandomAmount();
+        Integer months = TestsHelpers.getRandomMonths();
+        Double interest = TestsHelpers.getRandomInterest();
+        WebResource.Builder builder = TestsHelpers.mockClient(kushki, Kushki.DEFERRED_CHARGE_URL);
+        ClientResponse response = mock(ClientResponse.class);
+        when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
+        Transaction transaction = kushki.deferredCharge(token, amount, months, interest);
+        assertThat(transaction.getResponse(), is(response));
+    }
+
+    @Test
     public void shouldVoidChargeWithTokenAndTicket() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, KushkiException, JsonProcessingException {
         String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
@@ -242,26 +288,5 @@ public class KushkiTest {
         when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
         Transaction transaction = kushki.refundCharge(ticket, amount);
         assertThat(transaction.getResponse(), is(response));
-    }
-
-    @Test
-    public void shouldThrowKushkiExceptionIfAmountHasMoreThan12Characters() throws KushkiException, BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
-        Double amount = 321381238123123123.0;
-        TestsHelpers.assertThatChargeThrowsExceptionWithInvalidAmount(kushki, amount, "El monto debe tener menos de 12 dígitos");
-    }
-
-    @Test
-    public void shouldThrowKushkiExceptionIfAmountIs0() throws KushkiException, BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
-        TestsHelpers.assertThatChargeThrowsExceptionWithInvalidAmount(kushki, 0.0, "El monto debe ser superior a 0");
-    }
-
-    @Test
-    public void shouldThrowKushkiExceptionIfAmountIsNegative() throws KushkiException, BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
-        TestsHelpers.assertThatChargeThrowsExceptionWithInvalidAmount(kushki, -5.0, "El monto debe ser superior a 0");
-    }
-
-    @Test
-    public void shouldThrowKushkiExceptionIfAmountIsNull() throws KushkiException, BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
-        TestsHelpers.assertThatChargeThrowsExceptionWithInvalidAmount(kushki, null, "El monto no puede ser nulo");
     }
 }
