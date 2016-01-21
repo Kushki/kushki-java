@@ -109,7 +109,6 @@ public class KushkiIntegrationTest {
         String token = tokenTransaction.getToken();
 
         Transaction chargeTransaction = kushki.charge(token, amount);
-
         assertThat(tokenTransaction.isSuccessful(), is(true));
         assertThat(chargeTransaction.isSuccessful(), is(true));
         assertThat(chargeTransaction.getResponseText(), is("Transacción aprobada"));
