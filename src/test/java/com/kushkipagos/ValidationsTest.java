@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 
 @RunWith(JUnitParamsRunner.class)
-public class ValidationsTests {
+public class ValidationsTest {
     private Kushki kushki;
 
     @Before
