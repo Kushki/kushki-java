@@ -274,6 +274,43 @@ public class KushkiIntegrationTest {
         assertThat(chargeTransaction.getResponseCode(), is("205"));
     }
 
+    @Test
+    public void shouldReturnFailedRefundTransactionAfterVoidingCharge_TC_024() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+        Transaction tokenTransaction = getValidTokenTransaction();
+        Double amount = TestsHelpers.getRandomAmount();
+        String token = tokenTransaction.getToken();
+        Transaction chargeTransaction = kushki.charge(token, amount);
+        String ticket = chargeTransaction.getTicketNumber();
+        Transaction voidTransaction = kushki.voidCharge(ticket, amount);
+
+        Transaction refundTransaction = kushki.refundCharge(ticket, amount);
+
+        assertThat(tokenTransaction.isSuccessful(), is(true));
+        assertThat(chargeTransaction.isSuccessful(), is(true));
+        assertThat(voidTransaction.isSuccessful(), is(true));
+        assertThat(refundTransaction.isSuccessful(), is(false));
+        assertThat(refundTransaction.getResponseText(), is("TRANSACTION NOT FOUND"));
+        assertThat(refundTransaction.getResponseCode(), is("222"));
+    }
+
+    @Test
+    public void shouldReturnFailedVoidTransactionAfterRefundingCharge_TC_025() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+        Transaction tokenTransaction = getValidTokenTransaction();
+        Double amount = TestsHelpers.getRandomAmount();
+        String token = tokenTransaction.getToken();
+        Transaction chargeTransaction = kushki.charge(token, amount);
+        String ticket = chargeTransaction.getTicketNumber();
+        Transaction refundTransaction = kushki.refundCharge(ticket, amount);
+
+        Transaction voidTransaction = kushki.voidCharge(ticket, amount);
+
+        assertThat(tokenTransaction.isSuccessful(), is(true));
+        assertThat(chargeTransaction.isSuccessful(), is(true));
+        assertThat(refundTransaction.isSuccessful(), is(true));
+        assertThat(voidTransaction.isSuccessful(), is(false));
+        assertThat(voidTransaction.getResponseText(), is("VOID OF SALE NOT ALLOWED"));
+        assertThat(voidTransaction.getResponseCode(), is("231"));
+    }
 
     private Transaction getValidTokenTransaction() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
         Map<String, String> cardParams = new HashMap<>(5);
