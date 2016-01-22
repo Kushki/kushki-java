@@ -46,7 +46,7 @@ public class KushkiRefundIntegrationTest_009_013__025 {
     }
 
     @Test
-    public void shouldReturnFailedRefundTransactionNoTicket_TC_012() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+    public void shouldReturnNonSuccessfulRefundTransactionNoTicket_TC_012() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         Transaction refundTransaction = kushki.refundCharge("", amount);
 
         assertsTransaction(refundTransaction, false, "El número de ticket de la transacción es requerido", "705");

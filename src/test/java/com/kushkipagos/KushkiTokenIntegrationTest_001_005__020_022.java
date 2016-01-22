@@ -14,14 +14,12 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.kushkipagos.IntegrationTestsHelpers.assertsTransaction;
-import static com.kushkipagos.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.IntegrationTestsHelpers.setupKushki;
+import static com.kushkipagos.IntegrationTestsHelpers.*;
 
 /**
  * Created by lmunda on 1/22/16 09:47.
  */
-public class KushkiTokenIntegrationTest_001_005 {
+public class KushkiTokenIntegrationTest_001_005__020_022 {
     private Kushki kushki;
     Map<String, String> cardParams = new HashMap<>(5);
     private Transaction tokenTransaction;
@@ -34,7 +32,7 @@ public class KushkiTokenIntegrationTest_001_005 {
 
     @Test
     public void shouldReturnSuccessfulTokenTransaction_TC_001() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = getValidTokenTransaction(kushki);
 
         assertsValidTransaction(tokenTransaction);
     }
@@ -75,5 +73,29 @@ public class KushkiTokenIntegrationTest_001_005 {
         tokenTransaction = kushki.requestToken(cardParams);
 
         assertsTransaction(tokenTransaction, false, "CVC no válido", "007");
+    }
+
+    @Test
+    public void shouldReturnFailedTokenTransactionInvalidMerchantId_TC_020() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+        String merchantId = "abc";
+        String language = "es";
+        String currency = "USD";
+        kushki = new Kushki(merchantId, language, currency);
+
+        Transaction tokenTransaction = getValidTokenTransaction(kushki);
+
+        assertsTransaction(tokenTransaction, false, "ID de comercio no válido", "201");
+    }
+
+    @Test
+    public void shouldReturnFailedTokenTransactionInvalidLanguage_TC_021() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+        String merchantId = "10000001408518323354818001";
+        String language = "xyz";
+        String currency = "USD";
+        kushki = new Kushki(merchantId, language, currency);
+
+        Transaction tokenTransaction = getValidTokenTransaction(kushki);
+
+        assertsTransaction(tokenTransaction, false, "Indicador de idioma no válido", "277");
     }
 }

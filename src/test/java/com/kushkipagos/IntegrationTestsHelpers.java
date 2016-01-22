@@ -12,6 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.kushkipagos.TestsHelpers.getValidCardData;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -28,12 +29,7 @@ public class IntegrationTestsHelpers {
     }
 
     public static Transaction getValidTokenTransaction(Kushki kushki) throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
-        Map<String, String> cardParams = new HashMap<>(5);
-        cardParams.put("name", "John Doe");
-        cardParams.put("number", "4111111111111111");
-        cardParams.put("expiry_month", "12");
-        cardParams.put("expiry_year", "20");
-        cardParams.put("cvv", "123");
+        Map<String, String> cardParams = getValidCardData();
         return kushki.requestToken(cardParams);
     }
 

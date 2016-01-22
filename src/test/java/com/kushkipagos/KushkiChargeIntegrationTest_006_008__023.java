@@ -17,7 +17,7 @@ import static com.kushkipagos.IntegrationTestsHelpers.*;
 /**
  * Created by lmunda on 1/22/16 10:16.
  */
-public class KushkiChargeIntegrationTest_006_008 {
+public class KushkiChargeIntegrationTest_006_008__023 {
     private Kushki kushki;
 
     Transaction tokenTransaction;
@@ -58,5 +58,20 @@ public class KushkiChargeIntegrationTest_006_008 {
         Transaction chargeTransaction = kushki.charge(token, amount);
 
         assertsTransaction(chargeTransaction, false, "El token de la transacción no es válido", "574");
+    }
+
+    @Test
+    public void shouldReturnFailedChargeTransactionInvalidCurrency_TC_023() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+        String merchantId = "10000001408518323354818001";
+        String language = "es";
+        String currency = "xyz";
+        kushki = new Kushki(merchantId, language, currency);
+        Transaction tokenTransaction = getValidTokenTransaction(kushki);
+        String token = tokenTransaction.getToken();
+
+        Transaction chargeTransaction = kushki.charge(token, amount);
+
+        assertsValidTransaction(tokenTransaction);
+        assertsTransaction(chargeTransaction, false, "Tipo de moneda no válida", "205");
     }
 }
