@@ -25,47 +25,6 @@ public class KushkiIntegrationTest {
     }
 
 
-    @Test
-    public void shouldReturnSuccessfulRefundTransaction_TC_009() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
-        Transaction tokenTransaction = IntegrationTestsHelpers.getValidTokenTransaction(kushki);
-        Double amount = TestsHelpers.getRandomAmount();
-        String token = tokenTransaction.getToken();
-        Transaction chargeTransaction = kushki.charge(token, amount);
-        String ticket = chargeTransaction.getTicketNumber();
-
-        Transaction refundTransaction = kushki.refundCharge(ticket, amount);
-
-        assertThat(tokenTransaction.isSuccessful(), is(true));
-        assertThat(chargeTransaction.isSuccessful(), is(true));
-        assertThat(refundTransaction.isSuccessful(), is(true));
-        assertThat(refundTransaction.getResponseText(), is("Transacción aprobada"));
-        assertThat(refundTransaction.getResponseCode(), is("000"));
-    }
-
-    @Test
-    public void shouldReturnFailedRefundTransactionNoTicket_TC_012() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
-        Transaction tokenTransaction = IntegrationTestsHelpers.getValidTokenTransaction(kushki);
-        Double amount = TestsHelpers.getRandomAmount();
-
-        Transaction refundTransaction = kushki.refundCharge("", amount);
-
-        assertThat(tokenTransaction.isSuccessful(), is(true));
-        assertThat(refundTransaction.isSuccessful(), is(false));
-        assertThat(refundTransaction.getResponseText(), is("El número de ticket de la transacción es requerido"));
-        assertThat(refundTransaction.getResponseCode(), is("705"));
-    }
-
-    @Test
-    public void shouldReturnFailedRefundTransactionInvalidTicket_TC_013() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
-        Double amount = TestsHelpers.getRandomAmount();
-        String ticket = "153633977318400068";
-
-        Transaction refundTransaction = kushki.refundCharge(ticket, amount);
-
-        assertThat(refundTransaction.isSuccessful(), is(false));
-        assertThat(refundTransaction.getResponseText(), is("Transacción no encontrada"));
-        assertThat(refundTransaction.getResponseCode(), is("222"));
-    }
 
     @Test
     public void shouldReturnSuccessfulVoidTransaction_TC_014() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
@@ -153,25 +112,6 @@ public class KushkiIntegrationTest {
         assertThat(chargeTransaction.isSuccessful(), is(false));
         assertThat(chargeTransaction.getResponseText(), is("Tipo de moneda no válida"));
         assertThat(chargeTransaction.getResponseCode(), is("205"));
-    }
-
-    @Test
-    public void shouldReturnFailedRefundTransactionAfterVoidingCharge_TC_024() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
-        Transaction tokenTransaction = IntegrationTestsHelpers.getValidTokenTransaction(kushki);
-        Double amount = TestsHelpers.getRandomAmount();
-        String token = tokenTransaction.getToken();
-        Transaction chargeTransaction = kushki.charge(token, amount);
-        String ticket = chargeTransaction.getTicketNumber();
-        Transaction voidTransaction = kushki.voidCharge(ticket, amount);
-
-        Transaction refundTransaction = kushki.refundCharge(ticket, amount);
-
-        assertThat(tokenTransaction.isSuccessful(), is(true));
-        assertThat(chargeTransaction.isSuccessful(), is(true));
-        assertThat(voidTransaction.isSuccessful(), is(true));
-        assertThat(refundTransaction.isSuccessful(), is(false));
-        assertThat(refundTransaction.getResponseText(), is("Transacción no encontrada"));
-        assertThat(refundTransaction.getResponseCode(), is("222"));
     }
 
     @Test
