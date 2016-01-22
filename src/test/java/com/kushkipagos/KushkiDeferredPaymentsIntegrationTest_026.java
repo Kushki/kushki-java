@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by lmunda on 1/21/16 16:15.
  */
-public class KushkiDeferredPaymentsIntegrationTest {
+public class KushkiDeferredPaymentsIntegrationTest_026 {
 
     private Kushki kushki;
 

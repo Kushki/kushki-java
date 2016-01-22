@@ -21,7 +21,7 @@ import static com.kushkipagos.IntegrationTestsHelpers.setupKushki;
 /**
  * Created by lmunda on 1/22/16 09:47.
  */
-public class KushkiTokenIntegrationTest {
+public class KushkiTokenIntegrationTest_001_005 {
     private Kushki kushki;
     Map<String, String> cardParams = new HashMap<>(5);
     private Transaction tokenTransaction;

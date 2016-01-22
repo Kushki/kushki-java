@@ -17,7 +17,7 @@ import static com.kushkipagos.IntegrationTestsHelpers.*;
 /**
  * Created by lmunda on 1/22/16 10:16.
  */
-public class KushkiChargeIntegrationTest {
+public class KushkiChargeIntegrationTest_006_008 {
     private Kushki kushki;
 
     Transaction tokenTransaction;
