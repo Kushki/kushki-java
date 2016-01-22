@@ -13,16 +13,14 @@ public class Transaction {
     }
 
     public ClientResponse getResponse() {
-        return response;
-    }
+        return response;}
 
     public boolean isSuccessful() {
         return response.getStatus() == 200;
     }
 
     public JsonNode getResponseBody() {
-        return body;
-    }
+        return body;}
 
     public String getTicketNumber() {
         return getResponseAttribute("ticket_number");
@@ -37,8 +35,7 @@ public class Transaction {
     }
 
     public Double getApprovedAmount() {
-        return Double.parseDouble(getResponseAttribute("approved_amount"));
-    }
+        return Double.parseDouble(getResponseAttribute("approved_amount"));}
 
     public String getResponseCode() {
         return getResponseAttribute("response_code");

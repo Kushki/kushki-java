@@ -80,14 +80,14 @@ public class KushkiTest {
     @Test
     public void shouldRequestToken() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, JsonProcessingException {
         WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.TOKENS_URL);
-        Map<String, String> cardParams = TestsHelpers.getCardData();
+        Map<String, String> cardParams = TestsHelpers.getValidCardData();
         kushki.requestToken(cardParams);
         verify(builder).post(eq(ClientResponse.class), any(Map.class));
     }
 
     @Test
     public void shouldSendRightParametersToRequestToken() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, IOException {
-        Map<String, String> cardParams = TestsHelpers.getCardData();
+        Map<String, String> cardParams = TestsHelpers.getValidCardData();
         ObjectMapper mapper = new ObjectMapper();
         String params = mapper.writeValueAsString(cardParams);
 
@@ -114,7 +114,7 @@ public class KushkiTest {
         WebResource.Builder builder = TestsHelpers.mockClient(kushki, Kushki.TOKENS_URL);
         ClientResponse response = mock(ClientResponse.class);
         when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
-        Map<String, String> cardParams = TestsHelpers.getCardData();
+        Map<String, String> cardParams = TestsHelpers.getValidCardData();
         Transaction transaction = kushki.requestToken(cardParams);
         assertThat(transaction.getResponse(), is(response));
     }

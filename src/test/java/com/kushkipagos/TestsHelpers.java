@@ -109,7 +109,7 @@ public final class TestsHelpers {
         return getRandomDouble(0.01, 0.99);
     }
 
-    public static Map<String, String> getCardData() {
+    public static Map<String, String> getValidCardData() {
         Map<String, String> cardParams = new HashMap<>(5);
         cardParams.put("name", randomAlphabetic(20));
         cardParams.put("number", "4111111111111111");
