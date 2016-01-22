@@ -21,50 +21,9 @@ public class KushkiIntegrationTest {
 
     @Before
     public void setup() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException {
-        kushki = IntegrationTestsHelpers.setup();
+        kushki = IntegrationTestsHelpers.setupKushki();
     }
 
-    @Test
-    public void shouldReturnSuccessfulChargeTransaction_TC_006() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        Transaction tokenTransaction = IntegrationTestsHelpers.getValidTokenTransaction(kushki);
-        Double amount = TestsHelpers.getRandomAmount();
-        String token = tokenTransaction.getToken();
-
-        Transaction chargeTransaction = kushki.charge(token, amount);
-
-        assertThat(tokenTransaction.isSuccessful(), is(true));
-        assertThat(chargeTransaction.isSuccessful(), is(true));
-        assertThat(chargeTransaction.getResponseText(), is("Transacción aprobada"));
-        assertThat(chargeTransaction.getResponseCode(), is("000"));
-    }
-
-    @Test
-    public void shouldReturnNonSuccessfulChargeTransactionUsedToken_TC_007() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        Transaction tokenTransaction = IntegrationTestsHelpers.getValidTokenTransaction(kushki);
-        Double amount = TestsHelpers.getRandomAmount();
-        String token = tokenTransaction.getToken();
-
-        Transaction firstChargeTransaction = kushki.charge(token, amount);
-        Transaction secondChargeTransaction = kushki.charge(token, amount);
-
-        assertThat(tokenTransaction.isSuccessful(), is(true));
-        assertThat(firstChargeTransaction.isSuccessful(), is(true));
-        assertThat(secondChargeTransaction.isSuccessful(), is(false));
-        assertThat(secondChargeTransaction.getResponseText(), is("El token de la transacción ha expirado"));
-        assertThat(secondChargeTransaction.getResponseCode(), is("575"));
-    }
-
-    @Test
-    public void shouldReturnNonSuccessfulChargeTransactionInvalidToken_TC_008() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String token = "k7jwynu59sd28wu81i2ygsyvllyfimju";
-        Double amount = TestsHelpers.getRandomAmount();
-
-        Transaction chargeTransaction = kushki.charge(token, amount);
-
-        assertThat(chargeTransaction.isSuccessful(), is(false));
-        assertThat(chargeTransaction.getResponseText(), is("El token de la transacción no es válido"));
-        assertThat(chargeTransaction.getResponseCode(), is("574"));
-    }
 
     @Test
     public void shouldReturnSuccessfulRefundTransaction_TC_009() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {

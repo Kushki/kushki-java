@@ -12,12 +12,15 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 /**
  * Created by lmunda on 1/21/16 16:16.
  */
 public class IntegrationTestsHelpers {
 
-    public static Kushki setup() throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IOException {
+    public static Kushki setupKushki() throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IOException {
         String merchantId = "10000001408518323354818001";
         String language = "es";
         String currency = "USD";
@@ -33,4 +36,16 @@ public class IntegrationTestsHelpers {
         cardParams.put("cvv", "123");
         return kushki.requestToken(cardParams);
     }
+
+    public static void assertsTransaction(Transaction transaction, Boolean isSuccessful,
+                                          String expectedMessage, String expectedCode) {
+        assertThat(transaction.isSuccessful(), is(isSuccessful));
+        assertThat(transaction.getResponseText(), is(expectedMessage));
+        assertThat(transaction.getResponseCode(), is(expectedCode));
+    }
+
+    public static void assertsValidTransaction(Transaction transaction) {
+        assertsTransaction(transaction, true, "Transacción aprobada", "000");
+    }
+
 }

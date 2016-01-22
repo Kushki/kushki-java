@@ -19,7 +19,7 @@ public class KushkiDeferredPaymentsIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-        kushki = IntegrationTestsHelpers.setup();
+        kushki = IntegrationTestsHelpers.setupKushki();
     }
 
     @Test

@@ -14,8 +14,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.kushkipagos.IntegrationTestsHelpers.assertsTransaction;
+import static com.kushkipagos.IntegrationTestsHelpers.assertsValidTransaction;
+import static com.kushkipagos.IntegrationTestsHelpers.setupKushki;
 
 /**
  * Created by lmunda on 1/22/16 09:47.
@@ -23,27 +24,28 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class KushkiTokenIntegrationTest {
     private Kushki kushki;
     Map<String, String> cardParams = new HashMap<>(5);
+    private Transaction tokenTransaction;
 
     @Before
     public void setup() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException {
-        kushki = IntegrationTestsHelpers.setup();
+        kushki = setupKushki();
         cardParams = TestsHelpers.getValidCardData();
     }
 
     @Test
     public void shouldReturnSuccessfulTokenTransaction_TC_001() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        Transaction tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = kushki.requestToken(cardParams);
 
-        assertsTokenTransaction(tokenTransaction, true, "Transacción aprobada", "000");
+        assertsValidTransaction(tokenTransaction);
     }
 
     @Test
     public void shouldReturnNonSuccessfulTokenTransactionInvalidCard_TC_002() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         cardParams.put("number", "5411111111115854");
 
-        Transaction tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = kushki.requestToken(cardParams);
 
-        assertsTokenTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
+        assertsTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
     }
 
     @Test
@@ -51,9 +53,9 @@ public class KushkiTokenIntegrationTest {
         cardParams.put("expiry_month", "ab");
         cardParams.put("expiry_year", "cd");
 
-        Transaction tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = kushki.requestToken(cardParams);
 
-        assertsTokenTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
+        assertsTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
     }
 
     @Test
@@ -61,24 +63,17 @@ public class KushkiTokenIntegrationTest {
         cardParams.put("expiry_month", "12");
         cardParams.put("expiry_year", "14");
 
-        Transaction tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = kushki.requestToken(cardParams);
 
-        assertsTokenTransaction(tokenTransaction, false, "Tarjeta vencida", "018");
+        assertsTransaction(tokenTransaction, false, "Tarjeta vencida", "018");
     }
 
     @Test
     public void shouldReturnNonSuccessfulTokenTransactionInvalidCVV_TC_005() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         cardParams.put("cvv", "abc");
 
-        Transaction tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = kushki.requestToken(cardParams);
 
-        assertsTokenTransaction(tokenTransaction, false, "CVC no válido", "007");
-    }
-
-    private void assertsTokenTransaction(Transaction tokenTransaction, Boolean isSuccessful,
-                                         String expectedMessage, String expectedCode) {
-        assertThat(tokenTransaction.isSuccessful(), is(isSuccessful));
-        assertThat(tokenTransaction.getResponseText(), is(expectedMessage));
-        assertThat(tokenTransaction.getResponseCode(), is(expectedCode));
+        assertsTransaction(tokenTransaction, false, "CVC no válido", "007");
     }
 }
