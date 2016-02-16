@@ -29,13 +29,13 @@ public class KushkiChargeIntegrationTest006to008and023 {
     private String token;
 
     @Before
-    public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         kushki = setupKushki();
 
         tokenTransaction = getValidTokenTransaction(kushki);
         amount = TestsHelpers.getRandomAmount();
         token = tokenTransaction.getToken();
-
+        Thread.sleep(600);
         chargeTransaction = kushki.charge(token, amount);
     }
 
@@ -51,7 +51,8 @@ public class KushkiChargeIntegrationTest006to008and023 {
 
         assertsValidTransaction(tokenTransaction);
         assertsValidTransaction(chargeTransaction);
-        assertsTransaction(secondChargeTransaction, false, "El token de la transacción ha expirado", "575");
+//        assertsTransaction(secondChargeTransaction, false, "El token de la transacción ha expirado", "575");
+        assertsTransaction(secondChargeTransaction, false, "El token de la transacción ha expirado", "578");
     }
 
     @Test
@@ -60,7 +61,8 @@ public class KushkiChargeIntegrationTest006to008and023 {
 
         Transaction chargeTransaction = kushki.charge(token, amount);
 
-        assertsTransaction(chargeTransaction, false, "El token de la transacción no es válido", "574");
+//        assertsTransaction(chargeTransaction, false, "El token de la transacción no es válido", "574");
+        assertsTransaction(chargeTransaction, false, "El token de la transacción no es válido", "577");
     }
 
     @Test

@@ -30,15 +30,16 @@ public class KushkiRefundIntegrationTest009to013and025 {
     private String ticket;
 
     @Before
-    public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         kushki = setupKushki();
 
         tokenTransaction = getValidTokenTransaction(kushki);
         amount = TestsHelpers.getRandomAmount();
         String token = tokenTransaction.getToken();
+        Thread.sleep(600);
         chargeTransaction = kushki.charge(token, amount);
         ticket = chargeTransaction.getTicketNumber();
-
+        Thread.sleep(600);
         refundTransaction = kushki.refundCharge(ticket, amount);
     }
 
