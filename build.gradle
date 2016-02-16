@@ -18,6 +18,27 @@ repositories {
     }
 }
 
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java/com/kushkipagos/unit', 'src/test/java/com/kushkipagos/commons']
+        }
+    }
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDirs = ['src/test/java/com/kushkipagos/integration', 'src/test/java/com/kushkipagos/commons']
+        }
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+
 dependencies {
     compile(
         'com.sun.jersey:jersey-client:1.19',
@@ -34,6 +55,9 @@ dependencies {
 
 test {
     dependsOn pmdMain, pmdTest, findbugsMain, findbugsTest
+    testClassesDir = sourceSets.test.output.classesDir
+    classpath = sourceSets.test.runtimeClasspath
+    outputs.upToDateWhen { false }
 }
 
 pmd {
@@ -67,6 +91,10 @@ findbugs {
     toolVersion = '3.0.0'
 }
 
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+
 tasks.withType(FindBugs) {
     reports {
         xml.enabled = false
@@ -92,6 +120,12 @@ task javadocJar(type: Jar) {
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
+}
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
 }
 
 artifacts {
@@ -145,3 +179,6 @@ uploadArchives {
         }
     }
 }
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
