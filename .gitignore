@@ -9,7 +9,6 @@ logs/
 .idea/
 .DS_Store
 reports/
-gradle.properties
 src/main/java/testrun/
 lib/JUnitParams-1.0.4-javadoc.jar
 lib/JUnitParams-1.0.4-sources.jar
