@@ -12,6 +12,7 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.7
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         url "https://oss.sonatype.org/content/repositories/public"
@@ -26,8 +27,8 @@ sourceSets {
     }
     integrationTest {
         java {
-            compileClasspath += main.output + test.output
-            runtimeClasspath += main.output + test.output
+//            compileClasspath += main.output + test.output
+//            runtimeClasspath += main.output + test.output
             srcDirs = ['src/test/java/com/kushkipagos/integration', 'src/test/java/com/kushkipagos/commons']
         }
     }
@@ -50,6 +51,9 @@ dependencies {
         'org.hamcrest:hamcrest-all:1.3',
         'org.mockito:mockito-all:2.0.2-beta',
         'pl.pragmatists:JUnitParams:1.0.4'
+    )
+    integrationTestCompile(
+        group + ':Kushki:' + version
     )
 }
 
