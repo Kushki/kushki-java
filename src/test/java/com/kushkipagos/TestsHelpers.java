@@ -25,6 +25,8 @@ import static org.mockito.Mockito.when;
  */
 public final class TestsHelpers {
 
+    public final static int THREAD_SLEEP = 1000;
+
     private TestsHelpers() {
 
     }

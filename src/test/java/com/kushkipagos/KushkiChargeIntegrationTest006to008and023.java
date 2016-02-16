@@ -35,7 +35,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
         tokenTransaction = getValidTokenTransaction(kushki);
         amount = TestsHelpers.getRandomAmount();
         token = tokenTransaction.getToken();
-        Thread.sleep(600);
+        Thread.sleep(TestsHelpers.THREAD_SLEEP);
         chargeTransaction = kushki.charge(token, amount);
     }
 
@@ -46,7 +46,8 @@ public class KushkiChargeIntegrationTest006to008and023 {
     }
 
     @Test
-    public void shouldReturnNonSuccessfulChargeTransactionUsedTokenTC007() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void shouldReturnNonSuccessfulChargeTransactionUsedTokenTC007() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
+        Thread.sleep(TestsHelpers.THREAD_SLEEP);
         Transaction secondChargeTransaction = kushki.charge(token, amount);
 
         assertsValidTransaction(tokenTransaction);
@@ -56,9 +57,10 @@ public class KushkiChargeIntegrationTest006to008and023 {
     }
 
     @Test
-    public void shouldReturnNonSuccessfulChargeTransactionInvalidTokenTC008() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void shouldReturnNonSuccessfulChargeTransactionInvalidTokenTC008() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         String token = "k7jwynu59sd28wu81i2ygsyvllyfimju";
 
+        Thread.sleep(TestsHelpers.THREAD_SLEEP);
         Transaction chargeTransaction = kushki.charge(token, amount);
 
 //        assertsTransaction(chargeTransaction, false, "El token de la transacción no es válido", "574");
@@ -66,11 +68,12 @@ public class KushkiChargeIntegrationTest006to008and023 {
     }
 
     @Test
-    public void shouldReturnFailedChargeTransactionInvalidCurrencyTC023() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public void shouldReturnFailedChargeTransactionInvalidCurrencyTC023() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InterruptedException {
         String merchantId = "10000001408518323354818001";
         String language = "es";
         String currency = "xyz";
         kushki = new Kushki(merchantId, language, currency);
+        Thread.sleep(TestsHelpers.THREAD_SLEEP);
         Transaction tokenTransaction = getValidTokenTransaction(kushki);
         String token = tokenTransaction.getToken();
 

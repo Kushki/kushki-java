@@ -30,7 +30,7 @@ public class KushkiDeferredPaymentsIntegrationTest026 {
         Double interest = TestsHelpers.getRandomInterest();
         String token = tokenTransaction.getToken();
 
-        Thread.sleep(600);
+        Thread.sleep(TestsHelpers.THREAD_SLEEP);
         Transaction deferredChargeTransaction = kushki.deferredCharge(token, amount, months, interest);
 
         assertThat(tokenTransaction.isSuccessful(), is(true));
