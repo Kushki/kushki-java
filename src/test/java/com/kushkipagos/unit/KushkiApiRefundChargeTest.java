@@ -1,7 +1,12 @@
-package com.kushkipagos;
+package com.kushkipagos.unit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiException;
+import com.kushkipagos.Transaction;
+import com.kushkipagos.AurusEncryption;
+import com.kushkipagos.commons.TestsHelpers;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.junit.Before;
@@ -22,10 +27,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by lmunda on 2/16/16 12:11.
- */
-public class KushkiApiTokenTest {
+public class KushkiApiRefundChargeTest {
     private Kushki kushki;
 
     @Before
@@ -37,24 +39,23 @@ public class KushkiApiTokenTest {
     }
 
     @Test
-    public void shouldRequestToken() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, JsonProcessingException {
-        WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.TOKENS_URL);
-        Map<String, String> cardParams = TestsHelpers.getValidCardData();
-        kushki.requestToken(cardParams);
+    public void shouldRefundChargeWithTicket() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, KushkiException, JsonProcessingException {
+        String ticket = randomAlphabetic(10);
+        Double amount = TestsHelpers.getRandomAmount();
+        WebResource.Builder builder = UnitTestsHelpers.mockWebBuilder(kushki, Kushki.REFUND_URL);
+        kushki.refundCharge(ticket, amount);
         verify(builder).post(eq(ClientResponse.class), any(Map.class));
     }
 
     @Test
-    public void shouldSendRightParametersToRequestToken() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, IOException {
-        Map<String, String> cardParams = TestsHelpers.getValidCardData();
-        ObjectMapper mapper = new ObjectMapper();
-        String params = mapper.writeValueAsString(cardParams);
-
+    public void shouldSendRightParametersToRefundCharge() throws NoSuchFieldException, IllegalAccessException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String ticket = randomAlphabetic(10);
+        Double amount = TestsHelpers.getRandomAmount();
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encrypted = randomAlphabetic(10);
-        TestsHelpers.mockEncryption(kushki, encryption, encrypted);
-        WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.TOKENS_URL);
-        kushki.requestToken(cardParams);
+        UnitTestsHelpers.mockEncryption(kushki, encryption, encrypted);
+        WebResource.Builder builder = UnitTestsHelpers.mockWebBuilder(kushki, Kushki.REFUND_URL);
+        kushki.refundCharge(ticket, amount);
 
         ArgumentCaptor<Map> encryptedParams = ArgumentCaptor.forClass(Map.class);
         ArgumentCaptor<String> unencryptedParams = ArgumentCaptor.forClass(String.class);
@@ -65,18 +66,18 @@ public class KushkiApiTokenTest {
 
         verify(encryption).encryptMessageChunk(unencryptedParams.capture());
         parameters = new ObjectMapper().readValue(unencryptedParams.getValue(), Map.class);
-        assertThat(parameters.get("card"), is(params));
+        assertThat(parameters.get("ticket_number"), is(ticket));
+        assertThat(parameters.get("transaction_amount"), is(String.format("%.2f", amount)));
     }
 
     @Test
-    public void shouldReturnTransactionObjectAfterGettingToken() throws NoSuchFieldException, IllegalAccessException, IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
-        WebResource.Builder builder = TestsHelpers.mockClient(kushki, Kushki.TOKENS_URL);
+    public void shouldReturnTransactionObjectAfterRefundingCharge() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String ticket = randomAlphabetic(10);
+        Double amount = TestsHelpers.getRandomAmount();
+        WebResource.Builder builder = UnitTestsHelpers.mockClient(kushki, Kushki.REFUND_URL);
         ClientResponse response = mock(ClientResponse.class);
         when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
-        Map<String, String> cardParams = TestsHelpers.getValidCardData();
-        Transaction transaction = kushki.requestToken(cardParams);
+        Transaction transaction = kushki.refundCharge(ticket, amount);
         assertThat(transaction.getResponse(), is(response));
     }
-
-
 }

@@ -1,6 +1,10 @@
-package com.kushkipagos;
+package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiException;
+import com.kushkipagos.commons.TestsHelpers;
+import com.kushkipagos.Transaction;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,10 +16,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import static com.kushkipagos.IntegrationTestsHelpers.assertsTransaction;
-import static com.kushkipagos.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.IntegrationTestsHelpers.getValidTokenTransaction;
-import static com.kushkipagos.IntegrationTestsHelpers.setupKushki;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.getValidTokenTransaction;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
 
 /**
  * Created by lmunda on 1/22/16 10:16.
@@ -35,7 +39,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
         tokenTransaction = getValidTokenTransaction(kushki);
         amount = TestsHelpers.getRandomAmount();
         token = tokenTransaction.getToken();
-        Thread.sleep(TestsHelpers.THREAD_SLEEP);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         chargeTransaction = kushki.charge(token, amount);
     }
 
@@ -47,7 +51,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
 
     @Test
     public void shouldReturnNonSuccessfulChargeTransactionUsedTokenTC007() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
-        Thread.sleep(TestsHelpers.THREAD_SLEEP);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         Transaction secondChargeTransaction = kushki.charge(token, amount);
 
         assertsValidTransaction(tokenTransaction);
@@ -60,7 +64,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
     public void shouldReturnNonSuccessfulChargeTransactionInvalidTokenTC008() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         String token = "k7jwynu59sd28wu81i2ygsyvllyfimju";
 
-        Thread.sleep(TestsHelpers.THREAD_SLEEP);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         Transaction chargeTransaction = kushki.charge(token, amount);
 
 //        assertsTransaction(chargeTransaction, false, "El token de la transacción no es válido", "574");
@@ -73,7 +77,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
         String language = "es";
         String currency = "xyz";
         kushki = new Kushki(merchantId, language, currency);
-        Thread.sleep(TestsHelpers.THREAD_SLEEP);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         Transaction tokenTransaction = getValidTokenTransaction(kushki);
         String token = tokenTransaction.getToken();
 

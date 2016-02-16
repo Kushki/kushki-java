@@ -1,6 +1,8 @@
-package com.kushkipagos;
+package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kushkipagos.Kushki;
+import com.kushkipagos.Transaction;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -11,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 
-import static com.kushkipagos.TestsHelpers.getValidCardData;
+import static com.kushkipagos.commons.TestsHelpers.getValidCardData;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -19,6 +21,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Created by lmunda on 1/21/16 16:16.
  */
 public final class IntegrationTestsHelpers {
+
+    public final static int THREAD_SLEEP = 600;
 
     private IntegrationTestsHelpers() {
     }

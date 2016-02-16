@@ -1,5 +1,6 @@
-package com.kushkipagos;
+package com.kushkipagos.unit;
 
+import com.kushkipagos.Kushki;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,7 +1,12 @@
-package com.kushkipagos;
+package com.kushkipagos.unit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiException;
+import com.kushkipagos.Transaction;
+import com.kushkipagos.AurusEncryption;
+import com.kushkipagos.commons.TestsHelpers;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.junit.Before;
@@ -23,9 +28,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by lmunda on 2/16/16 12:13.
+ * Created by lmunda on 2/16/16 12:14.
  */
-public class KushkiApiDeferredChargeTest {
+public class KushkiApiVoidChargeTest {
+
     private Kushki kushki;
 
     @Before
@@ -36,19 +42,24 @@ public class KushkiApiDeferredChargeTest {
         kushki = new Kushki(merchantId, language, currency);
     }
 
+    @Test
+    public void shouldVoidChargeWithTokenAndTicket() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, KushkiException, JsonProcessingException {
+        String ticket = randomAlphabetic(10);
+        Double amount = TestsHelpers.getRandomAmount();
+        WebResource.Builder builder = UnitTestsHelpers.mockWebBuilder(kushki, Kushki.VOID_URL);
+        kushki.voidCharge(ticket, amount);
+        verify(builder).post(eq(ClientResponse.class), any(Map.class));
+    }
 
     @Test
-    public void shouldSendRightParametersToDeferredChargeCard() throws NoSuchFieldException, IllegalAccessException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String token = randomAlphabetic(10);
+    public void shouldSendRightParametersToVoidCharge() throws NoSuchFieldException, IllegalAccessException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
-        Integer months = TestsHelpers.getRandomMonths();
-        Double interest = TestsHelpers.getRandomInterest();
-
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encrypted = randomAlphabetic(10);
-        TestsHelpers.mockEncryption(kushki, encryption, encrypted);
-        WebResource.Builder builder = TestsHelpers.mockWebBuilder(kushki, Kushki.DEFERRED_CHARGE_URL);
-        kushki.deferredCharge(token, amount, months, interest);
+        UnitTestsHelpers.mockEncryption(kushki, encryption, encrypted);
+        WebResource.Builder builder = UnitTestsHelpers.mockWebBuilder(kushki, Kushki.VOID_URL);
+        kushki.voidCharge(ticket, amount);
 
         ArgumentCaptor<Map> encryptedParams = ArgumentCaptor.forClass(Map.class);
         ArgumentCaptor<String> unencryptedParams = ArgumentCaptor.forClass(String.class);
@@ -59,22 +70,18 @@ public class KushkiApiDeferredChargeTest {
 
         verify(encryption).encryptMessageChunk(unencryptedParams.capture());
         parameters = new ObjectMapper().readValue(unencryptedParams.getValue(), Map.class);
-        assertThat(parameters.get("transaction_token"), is(token));
+        assertThat(parameters.get("ticket_number"), is(ticket));
         assertThat(parameters.get("transaction_amount"), is(String.format("%.2f", amount)));
-        assertThat(parameters.get("months"), is(String.valueOf(months)));
-        assertThat(parameters.get("rate_of_interest"), is(String.format("%.2f", interest)));
     }
 
     @Test
-    public void shouldReturnTransactionObjectAfterDeferredChargingCard() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String token = randomAlphabetic(10);
+    public void shouldReturnTransactionObjectAfterVoidingCharge() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String ticket = randomAlphabetic(10);
         Double amount = TestsHelpers.getRandomAmount();
-        Integer months = TestsHelpers.getRandomMonths();
-        Double interest = TestsHelpers.getRandomInterest();
-        WebResource.Builder builder = TestsHelpers.mockClient(kushki, Kushki.DEFERRED_CHARGE_URL);
+        WebResource.Builder builder = UnitTestsHelpers.mockClient(kushki, Kushki.VOID_URL);
         ClientResponse response = mock(ClientResponse.class);
         when(builder.post(eq(ClientResponse.class), any())).thenReturn(response);
-        Transaction transaction = kushki.deferredCharge(token, amount, months, interest);
+        Transaction transaction = kushki.voidCharge(ticket, amount);
         assertThat(transaction.getResponse(), is(response));
     }
 

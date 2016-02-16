@@ -1,6 +1,10 @@
-package com.kushkipagos;
+package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiException;
+import com.kushkipagos.commons.TestsHelpers;
+import com.kushkipagos.Transaction;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,10 +18,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.kushkipagos.IntegrationTestsHelpers.assertsTransaction;
-import static com.kushkipagos.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.IntegrationTestsHelpers.getValidTokenTransaction;
-import static com.kushkipagos.IntegrationTestsHelpers.setupKushki;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.getValidTokenTransaction;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
 
 /**
  * Created by lmunda on 1/22/16 09:47.

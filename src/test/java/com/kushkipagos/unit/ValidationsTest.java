@@ -1,6 +1,8 @@
-package com.kushkipagos;
+package com.kushkipagos.unit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiException;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Assert;
@@ -11,8 +13,8 @@ import org.junit.runner.RunWith;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
-import static com.kushkipagos.TestsHelpers.getRandomDouble;
-import static com.kushkipagos.TestsHelpers.getRandomInteger;
+import static com.kushkipagos.commons.TestsHelpers.getRandomDouble;
+import static com.kushkipagos.commons.TestsHelpers.getRandomInteger;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

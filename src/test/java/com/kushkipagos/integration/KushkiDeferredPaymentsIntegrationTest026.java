@@ -1,6 +1,10 @@
-package com.kushkipagos;
+package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiException;
+import com.kushkipagos.commons.TestsHelpers;
+import com.kushkipagos.Transaction;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +34,7 @@ public class KushkiDeferredPaymentsIntegrationTest026 {
         Double interest = TestsHelpers.getRandomInterest();
         String token = tokenTransaction.getToken();
 
-        Thread.sleep(TestsHelpers.THREAD_SLEEP);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         Transaction deferredChargeTransaction = kushki.deferredCharge(token, amount, months, interest);
 
         assertThat(tokenTransaction.isSuccessful(), is(true));

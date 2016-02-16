@@ -1,7 +1,9 @@
-package com.kushkipagos;
+package com.kushkipagos.unit;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kushkipagos.commons.TestsHelpers;
+import com.kushkipagos.Transaction;
 import com.sun.jersey.api.client.ClientResponse;
 import org.junit.Before;
 import org.junit.Test;
