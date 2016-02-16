@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by lmunda on 1/21/16 16:15.
  */
-public class KushkiDeferredPaymentsIntegrationTest_026 {
+public class KushkiDeferredPaymentsIntegrationTest026 {
 
     private Kushki kushki;
 
@@ -23,7 +23,7 @@ public class KushkiDeferredPaymentsIntegrationTest_026 {
     }
 
     @Test
-    public void shouldReturnSuccessfulDeferredChargeTransaction_TC_026() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+    public void shouldReturnSuccessfulDeferredChargeTransactionTC026() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         Transaction tokenTransaction = IntegrationTestsHelpers.getValidTokenTransaction(kushki);
         Double amount = TestsHelpers.getRandomAmount();
         Integer months = TestsHelpers.getRandomMonths();

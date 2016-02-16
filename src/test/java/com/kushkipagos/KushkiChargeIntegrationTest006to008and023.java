@@ -12,12 +12,15 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import static com.kushkipagos.IntegrationTestsHelpers.*;
+import static com.kushkipagos.IntegrationTestsHelpers.assertsTransaction;
+import static com.kushkipagos.IntegrationTestsHelpers.assertsValidTransaction;
+import static com.kushkipagos.IntegrationTestsHelpers.getValidTokenTransaction;
+import static com.kushkipagos.IntegrationTestsHelpers.setupKushki;
 
 /**
  * Created by lmunda on 1/22/16 10:16.
  */
-public class KushkiChargeIntegrationTest_006_008__023 {
+public class KushkiChargeIntegrationTest006to008and023 {
     private Kushki kushki;
 
     Transaction tokenTransaction;
@@ -26,7 +29,7 @@ public class KushkiChargeIntegrationTest_006_008__023 {
     private String token;
 
     @Before
-    public void setup() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         kushki = setupKushki();
 
         tokenTransaction = getValidTokenTransaction(kushki);
@@ -37,13 +40,13 @@ public class KushkiChargeIntegrationTest_006_008__023 {
     }
 
     @Test
-    public void shouldReturnSuccessfulChargeTransaction_TC_006() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void shouldReturnSuccessfulChargeTransactionTC006() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         assertsValidTransaction(tokenTransaction);
         assertsValidTransaction(chargeTransaction);
     }
 
     @Test
-    public void shouldReturnNonSuccessfulChargeTransactionUsedToken_TC_007() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void shouldReturnNonSuccessfulChargeTransactionUsedTokenTC007() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         Transaction secondChargeTransaction = kushki.charge(token, amount);
 
         assertsValidTransaction(tokenTransaction);
@@ -52,7 +55,7 @@ public class KushkiChargeIntegrationTest_006_008__023 {
     }
 
     @Test
-    public void shouldReturnNonSuccessfulChargeTransactionInvalidToken_TC_008() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void shouldReturnNonSuccessfulChargeTransactionInvalidTokenTC008() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String token = "k7jwynu59sd28wu81i2ygsyvllyfimju";
 
         Transaction chargeTransaction = kushki.charge(token, amount);
@@ -61,7 +64,7 @@ public class KushkiChargeIntegrationTest_006_008__023 {
     }
 
     @Test
-    public void shouldReturnFailedChargeTransactionInvalidCurrency_TC_023() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public void shouldReturnFailedChargeTransactionInvalidCurrencyTC023() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
         String merchantId = "10000001408518323354818001";
         String language = "es";
         String currency = "xyz";

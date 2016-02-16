@@ -12,12 +12,16 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import static com.kushkipagos.IntegrationTestsHelpers.*;
+import static com.kushkipagos.IntegrationTestsHelpers.assertsTransaction;
+import static com.kushkipagos.IntegrationTestsHelpers.assertsValidTransaction;
+import static com.kushkipagos.IntegrationTestsHelpers.getValidTokenTransaction;
+import static com.kushkipagos.IntegrationTestsHelpers.setupKushki;
+
 
 /**
  * Created by lmunda on 1/22/16 10:33.
  */
-public class KushkiRefundIntegrationTest_009_013__025 {
+public class KushkiRefundIntegrationTest009to013and025 {
     private Kushki kushki;
     private Transaction tokenTransaction;
     private Transaction chargeTransaction;
@@ -26,7 +30,7 @@ public class KushkiRefundIntegrationTest_009_013__025 {
     private String ticket;
 
     @Before
-    public void setup() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         kushki = setupKushki();
 
         tokenTransaction = getValidTokenTransaction(kushki);
@@ -39,21 +43,21 @@ public class KushkiRefundIntegrationTest_009_013__025 {
     }
 
     @Test
-    public void shouldReturnSuccessfulRefundTransaction_TC_009() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+    public void shouldReturnSuccessfulRefundTransactionTC009() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         assertsValidTransaction(tokenTransaction);
         assertsValidTransaction(chargeTransaction);
         assertsValidTransaction(refundTransaction);
     }
 
     @Test
-    public void shouldReturnNonSuccessfulRefundTransactionNoTicket_TC_012() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+    public void shouldReturnNonSuccessfulRefundTransactionNoTicketTC012() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         Transaction refundTransaction = kushki.refundCharge("", amount);
 
         assertsTransaction(refundTransaction, false, "El número de ticket de la transacción es requerido", "705");
     }
 
     @Test
-    public void shouldReturnFailedRefundTransactionInvalidTicket_TC_013() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+    public void shouldReturnFailedRefundTransactionInvalidTicketTC013() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         String ticket = "153633977318400068";
 
         Transaction refundTransaction = kushki.refundCharge(ticket, amount);
@@ -62,7 +66,7 @@ public class KushkiRefundIntegrationTest_009_013__025 {
     }
 
     @Test
-    public void shouldReturnFailedVoidTransactionAfterRefundingCharge_TC_025() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+    public void shouldReturnFailedVoidTransactionAfterRefundingChargeTC025() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         Transaction voidTransaction = kushki.voidCharge(ticket, amount);
 
         assertsValidTransaction(tokenTransaction);

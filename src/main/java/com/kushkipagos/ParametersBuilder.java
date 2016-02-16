@@ -11,7 +11,10 @@ import java.util.Map;
 /**
  * Created by lmunda on 12/28/15 12:22.
  */
-public class ParametersBuilder {
+public final class ParametersBuilder {
+
+    private ParametersBuilder() {
+    }
 
     public static Map<String, String> getTokenParameters(Kushki kushki, Map<String, String> cardParams) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException {
         ObjectMapper mapper = new ObjectMapper();

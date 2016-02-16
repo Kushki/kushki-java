@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.kushkipagos.TestsHelpers.getValidCardData;
@@ -19,7 +18,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by lmunda on 1/21/16 16:16.
  */
-public class IntegrationTestsHelpers {
+public final class IntegrationTestsHelpers {
+
+    private IntegrationTestsHelpers() {
+    }
 
     public static Kushki setupKushki() throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IOException {
         String merchantId = "10000001408518323354818001";
