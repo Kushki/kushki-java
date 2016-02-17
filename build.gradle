@@ -64,6 +64,10 @@ test {
     outputs.upToDateWhen { false }
 }
 
+jar {
+    archiveName 'Kushki.jar'
+}
+
 pmd {
     targetJdk = '1.7'
     toolVersion = '4.3'
