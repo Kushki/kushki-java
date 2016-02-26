@@ -11,6 +11,7 @@ import org.junit.Test;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
+import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -37,9 +38,7 @@ public class KushkiDeferredPaymentsIntegrationTest026 {
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         Transaction deferredChargeTransaction = kushki.deferredCharge(token, amount, months, interest);
 
-        assertThat(tokenTransaction.isSuccessful(), is(true));
-        assertThat(deferredChargeTransaction.isSuccessful(), is(true));
-        assertThat(deferredChargeTransaction.getResponseText(), is("Transacción aprobada"));
-        assertThat(deferredChargeTransaction.getResponseCode(), is("000"));
+        assertsValidTransaction(tokenTransaction);
+        assertsValidTransaction(deferredChargeTransaction);
     }
 }
