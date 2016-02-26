@@ -28,7 +28,9 @@ public final class IntegrationTestsHelpers {
     }
 
     public static Kushki setupKushki() throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IOException {
-        String merchantId = "10000001408518323354818001";
+        String merchantId = "10000001408518323354818001"; //TW
+//        String merchantId = "10000001604958481814111215"; //GMS
+//        String merchantId = "10000001604093396985111213"; //fybeca
         String language = "es";
         String currency = "USD";
         return new Kushki(merchantId, language, currency);
