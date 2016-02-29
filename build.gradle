@@ -130,6 +130,18 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'API de Java para realizar transacciones con el backend de Kushki',
+            'Implementation-Version': version,
+            'Main-Class': 'com.kushkipagos.Kushki'
+    }
+    archiveName 'Kushki.jar'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 task integrationTest(type: Test) {
     testClassesDir = sourceSets.integrationTest.output.classesDir
     classpath = sourceSets.integrationTest.runtimeClasspath

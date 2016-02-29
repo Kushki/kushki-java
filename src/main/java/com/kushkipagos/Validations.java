@@ -1,5 +1,7 @@
 package com.kushkipagos;
 
+import java.util.Locale;
+
 /**
  * Created by lmunda on 1/21/16 14:07.
  */
@@ -36,7 +38,7 @@ public final class Validations {
 
     private static String getStringValue(Number amount) {
         if (amount instanceof Double) {
-            return String.format("%.2f", amount);
+            return String.format(Locale.ENGLISH, "%.2f", amount);
         } else if (amount instanceof Integer) {
             return String.valueOf(amount);
         }

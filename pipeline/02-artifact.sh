@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
-gradle install
+gradle fatJar
 gradle integrationtest
+
+# ARTIFACTS:
+# ARTIFACT build/libs
