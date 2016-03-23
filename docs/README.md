@@ -13,6 +13,8 @@ In this step the `jar` is created and integration tests are run. Here an artifac
 `build/libs`
 
 #### `03-distribute.sh`
+**This is a manual step, triggered only after the new features have been approved.**
+
 The `jar` from the previous step is copied to the `out/artifacts/Kushki_jar/` folder using the pipeline number to
 identify it. The latest version, `Kushki.jar`, is overwritten with the newly created one. Then these files are
 added to Git and pushed.
