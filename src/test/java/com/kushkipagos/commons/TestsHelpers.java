@@ -55,9 +55,13 @@ public final class TestsHelpers {
     public static Map<String, String> getValidCardData() {
         Map<String, String> cardParams = new HashMap<>(5);
         cardParams.put("name", randomAlphabetic(20));
-        cardParams.put("number", "4111111111111111");
-        cardParams.put("expiry_month", "12");
-        cardParams.put("expiry_year", "20");
+//        cardParams.put("number", "4111111111111111");
+//        cardParams.put("expiry_month", "12");
+//        cardParams.put("expiry_year", "20");
+//        cardParams.put("cvv", "123");
+        cardParams.put("number", "4017779991118888");
+        cardParams.put("expiry_month", "04");
+        cardParams.put("expiry_year", "16");
         cardParams.put("cvv", "123");
         return cardParams;
     }
