@@ -21,15 +21,23 @@ public class Amount {
         this.ice = ice;
     }
 
-    public Map<String, Double> toHash() {
+    public Map<String, String> toHash() throws KushkiException {
+
+        String validatedSubtotalIVA = Validations.validateNumber(subtotalIVA, 0, 12, "El subtotal IVA");
+        String validatedSubtotalIVA0 = Validations.validateNumber(subtotalIVA0, 0, 12, "El subtotal IVA 0");
+        String validatedSubtotalICE = Validations.validateNumber(subtotalICE, 0, 12, "El subtotal ICE");
+        String validatedIva = Validations.validateNumber(iva, 0, 12, "El IVA");
+        String validatedIce = Validations.validateNumber(ice, 0, 12, "El ICE");
         Double total = subtotalIVA + subtotalIVA0 + subtotalICE + iva + ice;
-        Map<String, Double> hashMap = new HashMap<>();
-        hashMap.put("Subtotal_IVA", subtotalIVA);
-        hashMap.put("Subtotal_IVA0", subtotalIVA0);
-        hashMap.put("Subtotal_ICE", subtotalICE);
-        hashMap.put("IVA", iva);
-        hashMap.put("ICE", ice);
-        hashMap.put("Total_amount", total);
+        String validatedTotal = Validations.validateNumber(total, 0, 12, "El total");
+
+        Map<String, String> hashMap = new HashMap<>();
+        hashMap.put("Subtotal_IVA", validatedSubtotalIVA);
+        hashMap.put("Subtotal_IVA0", validatedSubtotalIVA0);
+        hashMap.put("Subtotal_ICE", validatedSubtotalICE);
+        hashMap.put("IVA", validatedIva);
+        hashMap.put("ICE", validatedIce);
+        hashMap.put("Total_amount", validatedTotal);
         return hashMap;
     }
 }

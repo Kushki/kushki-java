@@ -97,8 +97,8 @@ public class ValidationsTest {
         Double negativeAmount = -getRandomDouble(1.0, 150.0);
         return new Object[][]{
                 {tooLongAmount, "El monto debe tener 12 o menos dígitos"},
-                {negativeAmount, "El monto debe ser superior a 0"},
-                {0.0, "El monto debe ser superior a 0"},
+                {negativeAmount, "El monto debe ser superior o igual a 0"},
+//                {0.0, "El monto debe ser superior o igual a 0"},
                 {null, "El monto no puede ser un valor nulo"}
         };
     }
@@ -118,18 +118,18 @@ public class ValidationsTest {
         Double validInterest = getRandomDouble(0.01, 99.99);
         return new Object[][]{
                 {tooLongAmount, validMonths, validInterest, "El monto debe tener 12 o menos dígitos"},
-                {negativeAmount, validMonths, validInterest, "El monto debe ser superior a 0"},
-                {0.0, validMonths, validInterest, "El monto debe ser superior a 0"},
+                {negativeAmount, validMonths, validInterest, "El monto debe ser superior o igual a 0"},
+//                {0.0, validMonths, validInterest, "El monto debe ser superior o igual a 0"},
                 {null, validMonths, validInterest, "El monto no puede ser un valor nulo"},
 
                 {validAmount, tooLongMonths, validInterest, "El número de meses debe tener 2 o menos dígitos"},
-                {validAmount, negativeMonths, validInterest, "El número de meses debe ser superior a 0"},
-                {validAmount, 0, validInterest, "El número de meses debe ser superior a 0"},
+                {validAmount, negativeMonths, validInterest, "El número de meses debe ser superior o igual a 0"},
+//                {validAmount, 0, validInterest, "El número de meses debe ser superior o igual a 0"},
                 {validAmount, null, validInterest, "El número de meses no puede ser un valor nulo"},
 
                 {validAmount, validMonths, tooLongInterest, "La tasa de interés debe tener 5 o menos dígitos"},
-                {validAmount, validMonths, negativeInterest, "La tasa de interés debe ser superior a 0"},
-                {validAmount, validMonths, 0.0, "La tasa de interés debe ser superior a 0"},
+                {validAmount, validMonths, negativeInterest, "La tasa de interés debe ser superior o igual a 0"},
+//                {validAmount, validMonths, 0.0, "La tasa de interés debe ser superior o igual a 0"},
                 {validAmount, validMonths, null, "La tasa de interés no puede ser un valor nulo"}
         };
     }

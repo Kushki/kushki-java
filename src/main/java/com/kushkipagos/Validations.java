@@ -22,12 +22,12 @@ public final class Validations {
         return Validations.validateNumber(months, 0, 2, "El número de meses");
     }
 
-    private static String validateNumber(Number amount, Integer minValue, Integer maxLength, String amountName) throws KushkiException {
+    public static String validateNumber(Number amount, Integer minValue, Integer maxLength, String amountName) throws KushkiException {
         if (amount == null) {
             throw new KushkiException(amountName + " no puede ser un valor nulo");
         }
-        if (amount.doubleValue() <= minValue) {
-            throw new KushkiException(amountName + " debe ser superior a " + minValue);
+        if (amount.doubleValue() < minValue) {
+            throw new KushkiException(amountName + " debe ser superior o igual a " + minValue);
         }
         String validAmount = getStringValue(amount);
         if (validAmount.length() > maxLength) {
