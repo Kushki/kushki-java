@@ -16,7 +16,7 @@ public class KushkiApiTest {
     private Kushki kushki;
     private String language;
 
-    private static final String URL = "https://ping.auruspay.com/kushki/api/v1";
+    private static final String URL = "https://ping.aurusinc.com/kushki/api/v1";
 
     @Before
     public void setUp() throws Exception {
@@ -34,32 +34,32 @@ public class KushkiApiTest {
 
     @Test
     public void shouldHaveAPIURL() {
-        assertThat(Kushki.URL, is(URL));
+        assertThat(Kushki.BASE_URL, is(URL));
     }
 
     @Test
     public void shouldHaveTokensURL() {
-        assertThat(Kushki.TOKENS_URL, is(URL + "/tokens"));
+        assertThat(Kushki.TOKENS_URL, is("tokens"));
     }
 
     @Test
     public void shouldHaveChargeURL() {
-        assertThat(Kushki.CHARGE_URL, is(URL + "/charge"));
+        assertThat(Kushki.CHARGE_URL, is("charge"));
     }
 
     @Test
     public void shouldHaveDeferredChargeURL() {
-        assertThat(Kushki.DEFERRED_CHARGE_URL, is(URL + "/deferred"));
+        assertThat(Kushki.DEFERRED_CHARGE_URL, is("deferred"));
     }
 
     @Test
     public void shouldHaveVoidURL() {
-        assertThat(Kushki.VOID_URL, is(URL + "/void"));
+        assertThat(Kushki.VOID_URL, is("void"));
     }
 
     @Test
     public void shouldHaveRefundURL() {
-        assertThat(Kushki.REFUND_URL, is(URL + "/refund"));
+        assertThat(Kushki.REFUND_URL, is("refund"));
     }
 
     @Test

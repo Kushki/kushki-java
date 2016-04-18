@@ -23,13 +23,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public final class IntegrationTestsHelpers {
 
     public final static int THREAD_SLEEP = 600;
-    public static final String MERCHANT_ID = "10000001604958481814111215";
+//    public static final String SECRET_MERCHANT_ID = "10000001604093396985111213";
+//    public static final String MERCHANT_ID = "10000001604093396985111213";
+
+    public static final String SECRET_MERCHANT_ID = "10000001641088709280111217";
+    public static final String MERCHANT_ID = "10000001641080185390111217";
 
     private IntegrationTestsHelpers() {
     }
 
-    public static Kushki setupKushki() throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IOException {
-        String merchantId = MERCHANT_ID; //TW
+    public static Kushki setupKushki(Boolean isSecret) throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IOException {
+        String merchantId = MERCHANT_ID;
+        if (isSecret) {
+            merchantId = SECRET_MERCHANT_ID;
+        }
         // String merchantId = "10000001408518323354818001"; //TW 7 fails: 006, 007, 026, 025, 009, 014, 024: 006: Transacción rechazada
         // String merchantId = "10000001604958481814111215"; //GMS OK
         // String merchantId = "10000001604093396985111213"; //fybeca OK
@@ -47,6 +54,11 @@ public final class IntegrationTestsHelpers {
 
     public static void assertsTransaction(Transaction transaction, Boolean isSuccessful,
                                           String expectedMessage, String expectedCode) {
+        if (isSuccessful != transaction.isSuccessful()) {
+            System.out.println("Is successful? " + transaction.isSuccessful() + " Expected: " + isSuccessful);
+            System.out.println("Response text: " + transaction.getResponseText() + " Expected: " + expectedMessage);
+            System.out.println("Response code: " + transaction.getResponseCode() + " Expected: " + expectedCode);
+        }
         assertThat(transaction.isSuccessful(), is(isSuccessful));
         assertThat(transaction.getResponseText(), is(expectedMessage));
         assertThat(transaction.getResponseCode(), is(expectedCode));

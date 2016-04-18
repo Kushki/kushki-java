@@ -33,7 +33,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
 
     @Before
     public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException {
-        kushki = setupKushki();
+        kushki = setupKushki(false);
         cardParams = TestsHelpers.getValidCardData();
     }
 

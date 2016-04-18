@@ -1,6 +1,7 @@
 package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kushkipagos.Amount;
 import com.kushkipagos.Kushki;
 import com.kushkipagos.KushkiException;
 import com.kushkipagos.commons.TestsHelpers;
@@ -26,21 +27,23 @@ import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
  */
 public class KushkiChargeIntegrationTest006to008and023 {
     private Kushki kushki;
+    private Kushki secretKushki;
 
     Transaction tokenTransaction;
     Transaction chargeTransaction;
-    private Double amount;
+    private Amount amount;
     private String token;
 
     @Before
     public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
-        kushki = setupKushki();
+        kushki = setupKushki(false);
+        secretKushki = setupKushki(true);
 
         tokenTransaction = getValidTokenTransaction(kushki);
         amount = TestsHelpers.getRandomAmount();
         token = tokenTransaction.getToken();
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        chargeTransaction = kushki.charge(token, amount);
+        chargeTransaction = secretKushki.charge(token, amount);
     }
 
     @Test
@@ -52,7 +55,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
     @Test
     public void shouldReturnNonSuccessfulChargeTransactionUsedTokenTC007() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction secondChargeTransaction = kushki.charge(token, amount);
+        Transaction secondChargeTransaction = secretKushki.charge(token, amount);
 
         assertsValidTransaction(tokenTransaction);
         assertsValidTransaction(chargeTransaction);
@@ -64,7 +67,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
         String token = "k7jwynu59sd28wu81i2ygsyvllyfimju";
 
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction chargeTransaction = kushki.charge(token, amount);
+        Transaction chargeTransaction = secretKushki.charge(token, amount);
 
         assertsTransaction(chargeTransaction, false, "El token de la transacción no es válido", "577");
     }

@@ -1,14 +1,15 @@
 package com.kushkipagos;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -16,13 +17,13 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 
 public class Kushki {
-    public static final String URL = "https://ping.auruspay.com/kushki/api/v1";
+    public static final String BASE_URL = "https://ping.aurusinc.com/kushki/api/v1";
 
-    public static final String TOKENS_URL = URL + "/tokens";
-    public static final String CHARGE_URL = URL + "/charge";
-    public static final String DEFERRED_CHARGE_URL = URL + "/deferred";
-    public static final String VOID_URL = URL + "/void";
-    public static final String REFUND_URL = URL + "/refund";
+    public static final String TOKENS_URL = "tokens";
+    public static final String CHARGE_URL = "charge";
+    public static final String DEFERRED_CHARGE_URL = "deferred";
+    public static final String VOID_URL = "void";
+    public static final String REFUND_URL = "refund";
 
     private final Client client;
     private String merchantId;
@@ -34,8 +35,8 @@ public class Kushki {
         this.merchantId = merchantId;
         this.language = language;
         this.currency = currency;
-        this.client = Client.create();
         this.encryption = new AurusEncryption();
+        this.client = ClientBuilder.newClient();
     }
 
     public String getMerchantId() {
@@ -59,9 +60,8 @@ public class Kushki {
         return post(TOKENS_URL, parameters);
     }
 
-    public Transaction charge(String token, Double amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String validAmount = Validations.validateAmount(amount);
-        Map<String, String> parameters = ParametersBuilder.getChargeParameters(this, token, validAmount);
+    public Transaction charge(String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        Map<String, String> parameters = ParametersBuilder.getChargeParameters(this, token, amount);
         return post(CHARGE_URL, parameters);
     }
 
@@ -86,11 +86,11 @@ public class Kushki {
     }
 
     private Transaction post(String url, Map<String, String> parameters) {
-        WebResource resource = client.resource(url);
+        WebTarget target = client.target(BASE_URL).path(url);
 
-        WebResource.Builder builder = resource.type(MediaType.APPLICATION_JSON_TYPE)
-                .accept(MediaType.APPLICATION_JSON_TYPE);
-        ClientResponse response = builder.post(ClientResponse.class, parameters);
+        Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON_TYPE);
+        Response response = invocationBuilder.post(Entity.entity(parameters, MediaType.APPLICATION_JSON_TYPE));
+
         return new Transaction(response);
     }
 }

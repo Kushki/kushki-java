@@ -1,18 +1,18 @@
 package com.kushkipagos;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sun.jersey.api.client.ClientResponse;
+import javax.ws.rs.core.Response;
 
 public class Transaction {
-    private ClientResponse response;
+    private Response response;
     private JsonNode body;
 
-    public Transaction(ClientResponse response) {
+    public Transaction(Response response) {
         this.response = response;
-        body = response.getEntity(JsonNode.class);
+        body = response.readEntity(JsonNode.class);
     }
 
-    public ClientResponse getResponse() {
+    public Response getResponse() {
         return response;}
 
     public boolean isSuccessful() {

@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kushkipagos.commons.TestsHelpers;
 import com.kushkipagos.Transaction;
-import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientResponse;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,13 +20,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TransactionTest {
-    private ClientResponse response;
+    private Response response;
     private Transaction transaction;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Before
     public void setUp() throws Exception {
-        response = mock(ClientResponse.class);
+        response = mock(Response.class);
         transaction = new Transaction(response);
     }
 
@@ -49,7 +50,7 @@ public class TransactionTest {
     @Test
     public void shouldReturnResponseBodyAsJsonObject() {
         JsonNode json = mock(JsonNode.class);
-        when(response.getEntity(JsonNode.class)).thenReturn(json);
+        when(response.readEntity(JsonNode.class)).thenReturn(json);
         transaction = new Transaction(response);
         assertThat(transaction.getResponseBody(), is(json));
     }
@@ -60,7 +61,7 @@ public class TransactionTest {
         String ticket_number = randomAlphabetic(10);
         jsonMap.put("ticket_number", ticket_number);
         JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
-        when(response.getEntity(JsonNode.class)).thenReturn(node);
+        when(response.readEntity(JsonNode.class)).thenReturn(node);
         transaction = new Transaction(response);
         assertThat(transaction.getTicketNumber(), is(ticket_number));
     }
@@ -71,7 +72,7 @@ public class TransactionTest {
         String response_text = randomAlphabetic(10);
         jsonMap.put("response_text", response_text);
         JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
-        when(response.getEntity(JsonNode.class)).thenReturn(node);
+        when(response.readEntity(JsonNode.class)).thenReturn(node);
         transaction = new Transaction(response);
         assertThat(transaction.getResponseText(), is(response_text));
     }
@@ -82,7 +83,7 @@ public class TransactionTest {
         String token = randomAlphabetic(10);
         jsonMap.put("transaction_token", token);
         JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
-        when(response.getEntity(JsonNode.class)).thenReturn(node);
+        when(response.readEntity(JsonNode.class)).thenReturn(node);
         transaction = new Transaction(response);
         assertThat(transaction.getToken(), is(token));
     }
@@ -90,10 +91,10 @@ public class TransactionTest {
     @Test
     public void shouldReturnApprovedAmount() throws IOException {
         Map<String, String> jsonMap = new HashMap<>(1);
-        Double amount = TestsHelpers.getRandomAmount();
+        Double amount = TestsHelpers.getRandomDoubleAmount();
         jsonMap.put("approved_amount", String.valueOf(amount));
         JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
-        when(response.getEntity(JsonNode.class)).thenReturn(node);
+        when(response.readEntity(JsonNode.class)).thenReturn(node);
         transaction = new Transaction(response);
         assertThat(transaction.getApprovedAmount(), is(amount));
     }
@@ -104,7 +105,7 @@ public class TransactionTest {
         String responseCode = randomAlphabetic(3);
         jsonMap.put("response_code", responseCode);
         JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
-        when(response.getEntity(JsonNode.class)).thenReturn(node);
+        when(response.readEntity(JsonNode.class)).thenReturn(node);
         transaction = new Transaction(response);
         assertThat(transaction.getResponseCode(), is(responseCode));
     }
