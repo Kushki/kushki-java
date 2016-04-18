@@ -65,11 +65,9 @@ public class Kushki {
         return post(CHARGE_URL, parameters);
     }
 
-    public Transaction deferredCharge(String token, Double amount, Integer months, Double interest) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String validAmount = Validations.validateAmount(amount);
+    public Transaction deferredCharge(String token, Amount amount, Integer months) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String validMonths = Validations.validateMonths(months);
-        String validInterest = Validations.validateInterest(interest);
-        Map<String, String> parameters = ParametersBuilder.getDeferredChargeParameters(this, token, validAmount, validMonths, validInterest);
+        Map<String, String> parameters = ParametersBuilder.getDeferredChargeParameters(this, token, amount, validMonths);
         return post(DEFERRED_CHARGE_URL, parameters);
     }
 
