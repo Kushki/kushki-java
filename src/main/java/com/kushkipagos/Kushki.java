@@ -71,15 +71,13 @@ public class Kushki {
         return post(DEFERRED_CHARGE_URL, parameters);
     }
 
-    public Transaction voidCharge(String ticket, Double amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String validAmount = Validations.validateAmount(amount);
-        Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, ticket, validAmount);
+    public Transaction voidCharge(String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, ticket, amount);
         return post(VOID_URL, parameters);
     }
 
-    public Transaction refundCharge(String ticket, Double amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String validAmount = Validations.validateAmount(amount);
-        Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, ticket, validAmount);
+    public Transaction refundCharge(String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, ticket, amount);
         return post(REFUND_URL, parameters);
     }
 

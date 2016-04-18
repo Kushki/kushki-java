@@ -34,7 +34,6 @@ public class KushkiRefundIntegrationTest009to013and025 {
     private Transaction chargeTransaction;
     private Transaction refundTransaction;
     private Amount amount;
-    private Double refundAmount;
     private String ticket;
 
     @Before
@@ -44,16 +43,14 @@ public class KushkiRefundIntegrationTest009to013and025 {
 
         tokenTransaction = getValidTokenTransaction(kushki);
         amount = TestsHelpers.getRandomAmount();
-        refundAmount = TestsHelpers.getRandomDoubleAmount();
         String token = tokenTransaction.getToken();
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         chargeTransaction = secretKushki.charge(token, amount);
         ticket = chargeTransaction.getTicketNumber();
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        refundTransaction = secretKushki.refundCharge(ticket, refundAmount);
+        refundTransaction = secretKushki.refundCharge(ticket, amount);
     }
 
-    @Ignore("Test is ignored: working on charge method")
     @Test
     public void shouldReturnSuccessfulRefundTransactionTC009() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         assertsValidTransaction(tokenTransaction);
@@ -64,28 +61,26 @@ public class KushkiRefundIntegrationTest009to013and025 {
     @Test
     public void shouldReturnNonSuccessfulRefundTransactionNoTicketTC012() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction refundTransaction = secretKushki.refundCharge("", refundAmount);
+        Transaction refundTransaction = secretKushki.refundCharge("", amount);
 
         assertsTransaction(refundTransaction, false, "El número de ticket de la transacción es requerido", "705");
     }
 
-    @Ignore("Test is ignored: working on charge method")
     @Test
     public void shouldReturnFailedRefundTransactionInvalidTicketTC013() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
         String ticket = "153633977318400068";
 
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
 
-        Transaction refundTransaction = secretKushki.refundCharge(ticket, refundAmount);
+        Transaction refundTransaction = secretKushki.refundCharge(ticket, amount);
 
         assertsTransaction(refundTransaction, false, "Transacción no encontrada", "222");
     }
 
-    @Ignore("Test is ignored: working on charge method")
     @Test
     public void shouldReturnFailedVoidTransactionAfterRefundingChargeTC025() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction voidTransaction = secretKushki.voidCharge(ticket, refundAmount);
+        Transaction voidTransaction = secretKushki.voidCharge(ticket, amount);
 
         assertsValidTransaction(tokenTransaction);
         assertsValidTransaction(chargeTransaction);

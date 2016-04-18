@@ -49,34 +49,6 @@ public class ValidationsTest {
         assertThat(exception.getMessage(), is(exceptionMessage));
     }
 
-    @Test
-    @Parameters(method = "invalidAmountsAndExceptionMessages")
-    public void shouldThrowKushkiExceptionIfVoidChargeAmountIsInvalid(Double amount, String exceptionMessage) {
-        Exception exception = null;
-        try {
-            String token = randomAlphabetic(10);
-            kushki.voidCharge(token, amount);
-        } catch (KushkiException | BadPaddingException | JsonProcessingException | IllegalBlockSizeException e) {
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-        assertThat(exception.getMessage(), is(exceptionMessage));
-    }
-
-    @Test
-    @Parameters(method = "invalidAmountsAndExceptionMessages")
-    public void shouldThrowKushkiExceptionIfRefundChargeAmountIsInvalid(Double amount, String exceptionMessage) {
-        Exception exception = null;
-        try {
-            String token = randomAlphabetic(10);
-            kushki.refundCharge(token, amount);
-        } catch (KushkiException | BadPaddingException | JsonProcessingException | IllegalBlockSizeException e) {
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-        assertThat(exception.getMessage(), is(exceptionMessage));
-    }
-
     @SuppressWarnings("unused")
     private Object[][] invalidNumbersAndExceptionMessages() {
         Double tooLong = getRandomDouble(1000000000000.0, 9999999999999999999.9);
@@ -86,49 +58,6 @@ public class ValidationsTest {
                 {negative, "El valor debe ser superior o igual a 1"},
                 {0.0, "El valor debe ser superior o igual a 1"},
                 {null, "El valor no puede ser un valor nulo"}
-        };
-    }
-
-    @SuppressWarnings("unused")
-    private Object[][] invalidAmountsAndExceptionMessages() {
-        Double tooLongAmount = getRandomDouble(1000000000000.0, 9999999999999999999.9);
-        Double negativeAmount = -getRandomDouble(1.0, 150.0);
-        return new Object[][]{
-                {tooLongAmount, "El monto debe tener 12 o menos dígitos"},
-                {negativeAmount, "El monto debe ser superior o igual a 0"},
-//                {0.0, "El monto debe ser superior o igual a 0"},
-                {null, "El monto no puede ser un valor nulo"}
-        };
-    }
-
-    @SuppressWarnings("unused")
-    private Object[][] invalidParametersAndExceptionMessages() {
-        Double tooLongAmount = getRandomDouble(1000000000000.0, 9999999999999999999.9);
-        Double negativeAmount = -getRandomDouble(1.0, 150000000.0);
-        Double validAmount = getRandomDouble(1.0, 150000000.0);
-
-        Integer tooLongMonths = getRandomInteger(100, 9999);
-        Integer negativeMonths = -getRandomInteger(1, 99);
-        Integer validMonths = getRandomInteger(1, 99);
-
-        Double tooLongInterest = getRandomDouble(100.0, 9999999.9);
-        Double negativeInterest = -getRandomDouble(0.01, 99.99);
-        Double validInterest = getRandomDouble(0.01, 99.99);
-        return new Object[][]{
-                {tooLongAmount, validMonths, validInterest, "El monto debe tener 12 o menos dígitos"},
-                {negativeAmount, validMonths, validInterest, "El monto debe ser superior o igual a 0"},
-//                {0.0, validMonths, validInterest, "El monto debe ser superior o igual a 0"},
-                {null, validMonths, validInterest, "El monto no puede ser un valor nulo"},
-
-                {validAmount, tooLongMonths, validInterest, "El número de meses debe tener 2 o menos dígitos"},
-                {validAmount, negativeMonths, validInterest, "El número de meses debe ser superior o igual a 0"},
-//                {validAmount, 0, validInterest, "El número de meses debe ser superior o igual a 0"},
-                {validAmount, null, validInterest, "El número de meses no puede ser un valor nulo"},
-
-                {validAmount, validMonths, tooLongInterest, "La tasa de interés debe tener 5 o menos dígitos"},
-                {validAmount, validMonths, negativeInterest, "La tasa de interés debe ser superior o igual a 0"},
-//                {validAmount, validMonths, 0.0, "La tasa de interés debe ser superior o igual a 0"},
-                {validAmount, validMonths, null, "La tasa de interés no puede ser un valor nulo"}
         };
     }
 }
