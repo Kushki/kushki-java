@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.integration.IntegrationTestsHelpers.getValidTokenTransaction;
+import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
 
 /**
@@ -48,7 +48,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
     public void shouldReturnNonSuccessfulTokenTransactionInvalidCardTC002() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         cardParams.put("number", "5411111111115854");
 
-        tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = TokenHelper.requestToken(kushki, cardParams);
 
         assertsTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
     }
@@ -58,7 +58,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
         cardParams.put("expiry_month", "ab");
         cardParams.put("expiry_year", "cd");
 
-        tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = TokenHelper.requestToken(kushki, cardParams);
 
         assertsTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
     }
@@ -68,7 +68,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
         cardParams.put("expiry_month", "12");
         cardParams.put("expiry_year", "14");
 
-        tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = TokenHelper.requestToken(kushki, cardParams);
 
         assertsTransaction(tokenTransaction, false, "Tarjeta vencida", "018");
     }
@@ -77,7 +77,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
     public void shouldReturnNonSuccessfulTokenTransactionInvalidCVVTC005() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         cardParams.put("cvv", "abc");
 
-        tokenTransaction = kushki.requestToken(cardParams);
+        tokenTransaction = TokenHelper.requestToken(kushki, cardParams);
 
         assertsTransaction(tokenTransaction, false, "CVC no válido", "007");
     }

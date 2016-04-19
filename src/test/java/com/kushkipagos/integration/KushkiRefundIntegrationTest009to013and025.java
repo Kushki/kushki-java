@@ -19,7 +19,7 @@ import java.security.spec.InvalidKeySpecException;
 
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.integration.IntegrationTestsHelpers.getValidTokenTransaction;
+import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
 
 

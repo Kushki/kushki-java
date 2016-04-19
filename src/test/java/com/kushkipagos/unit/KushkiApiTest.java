@@ -38,11 +38,6 @@ public class KushkiApiTest {
     }
 
     @Test
-    public void shouldHaveTokensURL() {
-        assertThat(Kushki.TOKENS_URL, is("tokens"));
-    }
-
-    @Test
     public void shouldHaveChargeURL() {
         assertThat(Kushki.CHARGE_URL, is("charge"));
     }

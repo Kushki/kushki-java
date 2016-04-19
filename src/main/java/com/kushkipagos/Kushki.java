@@ -55,11 +55,6 @@ public class Kushki {
         return encryption;
     }
 
-    public Transaction requestToken(Map<String, String> cardParams) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException {
-        Map<String, String> parameters = ParametersBuilder.getTokenParameters(this, cardParams);
-        return post(TOKENS_URL, parameters);
-    }
-
     public Transaction charge(String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         Map<String, String> parameters = ParametersBuilder.getChargeParameters(this, token, amount);
         return post(CHARGE_URL, parameters);
