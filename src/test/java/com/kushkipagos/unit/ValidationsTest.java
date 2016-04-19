@@ -1,22 +1,14 @@
 package com.kushkipagos.unit;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kushkipagos.Kushki;
 import com.kushkipagos.KushkiException;
 import com.kushkipagos.Validations;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-
 import static com.kushkipagos.commons.TestsHelpers.getRandomDouble;
-import static com.kushkipagos.commons.TestsHelpers.getRandomInteger;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -26,15 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(JUnitParamsRunner.class)
 public class ValidationsTest {
-    private Kushki kushki;
-
-    @Before
-    public void setUp() throws Exception {
-        String merchantId = randomAlphabetic(10);
-        String language = randomAlphabetic(2);
-        String currency = randomAlphabetic(10);
-        kushki = new Kushki(merchantId, language, currency);
-    }
 
     @Test
     @Parameters(method = "invalidNumbersAndExceptionMessages")

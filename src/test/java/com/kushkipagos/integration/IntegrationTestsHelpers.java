@@ -12,6 +12,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static com.kushkipagos.commons.TestsHelpers.getValidCardData;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,17 +23,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public final class IntegrationTestsHelpers {
 
-    public final static int THREAD_SLEEP = 600;
+    final static int THREAD_SLEEP = 600;
 //    public static final String SECRET_MERCHANT_ID = "10000001604093396985111213";
 //    public static final String MERCHANT_ID = "10000001604093396985111213";
 
-    public static final String SECRET_MERCHANT_ID = "10000001641088709280111217";
-    public static final String MERCHANT_ID = "10000001641080185390111217";
+    private static final String SECRET_MERCHANT_ID = "10000001641088709280111217";
+    private static final String MERCHANT_ID = "10000001641080185390111217";
+
+    private static final Logger LOG = Logger.getLogger(IntegrationTestsHelpers.class.getName());
 
     private IntegrationTestsHelpers() {
     }
 
-    public static Kushki setupKushki(Boolean isSecret) throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IOException {
+    static Kushki setupKushki(Boolean isSecret) throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IOException {
         String merchantId = MERCHANT_ID;
         if (isSecret) {
             merchantId = SECRET_MERCHANT_ID;
@@ -47,25 +50,29 @@ public final class IntegrationTestsHelpers {
         return new Kushki(merchantId, language, currency);
     }
 
-    public static Transaction getValidTokenTransaction(Kushki kushki) throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
+    static Transaction getValidTokenTransaction(Kushki kushki) throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
         Map<String, String> cardParams = getValidCardData();
         return kushki.requestToken(cardParams);
     }
 
-    public static void assertsTransaction(Transaction transaction, Boolean isSuccessful,
-                                          String expectedMessage, String expectedCode) {
-        if (isSuccessful != transaction.isSuccessful()) {
-            System.out.println("Is successful? " + transaction.isSuccessful() + " Expected: " + isSuccessful);
-            System.out.println("Response text: " + transaction.getResponseText() + " Expected: " + expectedMessage);
-            System.out.println("Response code: " + transaction.getResponseCode() + " Expected: " + expectedCode);
+    static void assertsTransaction(Transaction transaction, Boolean isSuccessful,
+                                   String expectedMessage, String expectedCode) {
+        Boolean resultSuccessful = transaction.isSuccessful();
+        String resultMessage = transaction.getResponseText();
+        String resultCode = transaction.getResponseCode();
+        if (!isSuccessful.equals(resultSuccessful) || !expectedMessage.equals(resultMessage) || !expectedCode.equals(resultCode)) {
+            LOG.warning("\n\nIs successful? " + resultSuccessful + " Expected: " + isSuccessful);
+            LOG.warning("Response text: " + resultMessage + " Expected: " + expectedMessage);
+            LOG.warning("Response code: " + resultCode + " Expected: " + expectedCode + "\n\n");
         }
-        assertThat(transaction.isSuccessful(), is(isSuccessful));
-        assertThat(transaction.getResponseText(), is(expectedMessage));
-        assertThat(transaction.getResponseCode(), is(expectedCode));
+        assertThat(resultSuccessful, is(isSuccessful));
+        assertThat(resultMessage, is(expectedMessage));
+        assertThat(resultCode, is(expectedCode));
     }
 
-    public static void assertsValidTransaction(Transaction transaction) {
+    static void assertsValidTransaction(Transaction transaction) {
         assertsTransaction(transaction, true, "Transacción aprobada", "000");
     }
+
 
 }

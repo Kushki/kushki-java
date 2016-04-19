@@ -7,7 +7,6 @@ import com.kushkipagos.KushkiException;
 import com.kushkipagos.commons.TestsHelpers;
 import com.kushkipagos.Transaction;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.crypto.BadPaddingException;
@@ -27,7 +26,6 @@ import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
  * Created by lmunda on 1/22/16 10:50.
  */
 public class KuskiVoidIntegrationTest014to019and024 {
-    private Kushki kushki;
     private Kushki secretKushki;
     private Transaction tokenTransaction;
     private Transaction chargeTransaction;
@@ -37,7 +35,7 @@ public class KuskiVoidIntegrationTest014to019and024 {
 
     @Before
     public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
-        kushki = setupKushki(false);
+        Kushki kushki = setupKushki(false);
         secretKushki = setupKushki(true);
 
         tokenTransaction = getValidTokenTransaction(kushki);

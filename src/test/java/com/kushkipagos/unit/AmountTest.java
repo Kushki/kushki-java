@@ -13,7 +13,8 @@ import java.util.Map;
 
 import static com.kushkipagos.commons.TestsHelpers.getRandomDouble;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by dvillaci on 4/14/16.
@@ -66,8 +67,8 @@ public class AmountTest {
         } catch (KushkiException e) {
             exception = e;
         }
-        assertNotNull(exception);
-        assertThat(exception.getMessage(), is(exceptionMessage));
+        assertNotNull("Exception should not be null", exception);
+        assertThat("Amount should be invalid because: " + exceptionMessage, exception.getMessage(), is(exceptionMessage));
     }
 
     private static String getStringValue(Double amount) {

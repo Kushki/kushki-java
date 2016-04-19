@@ -11,7 +11,8 @@ import org.junit.Test;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
-import static com.kushkipagos.commons.TestsHelpers.*;
+import static com.kushkipagos.commons.TestsHelpers.getRandomAmount;
+import static com.kushkipagos.commons.TestsHelpers.getRandomMonths;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
