@@ -23,17 +23,17 @@ public final class ParametersBuilder {
         return encryptParams(kushki, params);
     }
 
-    public static Map<String, String> getChargeParameters(Kushki kushki, String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    static Map<String, String> getChargeParameters(Kushki kushki, String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String params = buildAndStringifyChargeParameters(kushki, token, amount);
         return encryptParams(kushki, params);
     }
 
-    public static Map<String, String> getDeferredChargeParameters(Kushki kushki, String token, Amount amount, String months) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    static Map<String, String> getDeferredChargeParameters(Kushki kushki, String token, Amount amount, String months) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String params = buildAndStringifyDeferredChargeParameters(kushki, token, amount, months);
         return encryptParams(kushki, params);
     }
 
-    public static Map<String, String> getVoidRefundParameters(Kushki kushki, String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    static Map<String, String> getVoidRefundParameters(Kushki kushki, String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String params = buildAndStringifyVoidRefundParameters(kushki, ticket, amount);
         return encryptParams(kushki, params);
     }

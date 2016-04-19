@@ -28,7 +28,7 @@ import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
  */
 public class KushkiTokenIntegrationTest001to005and020to022 {
     private Kushki kushki;
-    Map<String, String> cardParams = new HashMap<>(5);
+    private Map<String, String> cardParams = new HashMap<>(5);
     private Transaction tokenTransaction;
 
     @Before

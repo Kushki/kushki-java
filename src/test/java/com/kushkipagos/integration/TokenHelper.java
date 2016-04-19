@@ -21,7 +21,10 @@ import static com.kushkipagos.commons.TestsHelpers.getValidCardData;
  * Created by dvillaci on 4/19/16.
  */
 
-class TokenHelper {
+final class TokenHelper {
+
+    private TokenHelper() {
+    }
 
     static Transaction getValidTokenTransaction(Kushki kushki) throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException {
         Map<String, String> cardParams = getValidCardData();

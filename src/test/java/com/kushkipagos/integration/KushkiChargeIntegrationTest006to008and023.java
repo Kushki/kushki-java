@@ -29,8 +29,8 @@ public class KushkiChargeIntegrationTest006to008and023 {
     private Kushki kushki;
     private Kushki secretKushki;
 
-    Transaction tokenTransaction;
-    Transaction chargeTransaction;
+    private Transaction tokenTransaction;
+    private Transaction chargeTransaction;
     private Amount amount;
     private String token;
 

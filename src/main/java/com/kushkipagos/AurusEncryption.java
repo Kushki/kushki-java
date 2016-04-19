@@ -22,7 +22,7 @@ public class AurusEncryption {
 
     private final Cipher cipher;
 
-    public AurusEncryption() throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, IOException, InvalidKeySpecException {
+    AurusEncryption() throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, IOException, InvalidKeySpecException {
         String publickey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC81t5iu5C0JxYq5/XNPiD5ol3Zw8rw3LtFIUm7y3m8o8wv5qVnzGh6XwQ8LWypdkbBDKWZZrAUd3lybZOP7/82Nb1/noYj8ixVRdbnYtbsSAbu9PxjB7a/7LCGKsugLkou74PJDadQweM88kzQOx/kzAyVbS9gCCVUguHcq2vRRQIDAQAB";
         cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, loadPublicKey(publickey));
@@ -43,12 +43,12 @@ public class AurusEncryption {
         return buf.toString();
     }
 
-    public byte[] encrypt(String message) throws BadPaddingException, IllegalBlockSizeException {
+    private byte[] encrypt(String message) throws BadPaddingException, IllegalBlockSizeException {
         byte[] eMessageBytes = message.getBytes(Charset.forName("UTF-8"));       // Request message conversion to Byte array
         return cipher.doFinal(eMessageBytes);
     }
 
-    public final PublicKey loadPublicKey(String stored) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    private PublicKey loadPublicKey(String stored) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] data = DatatypeConverter.parseBase64Binary(stored);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(data);
         KeyFactory fact = KeyFactory.getInstance("RSA");

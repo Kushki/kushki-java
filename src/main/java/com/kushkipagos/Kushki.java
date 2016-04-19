@@ -47,11 +47,11 @@ public class Kushki {
         return language;
     }
 
-    public String getCurrency() {
+    String getCurrency() {
         return currency;
     }
 
-    public AurusEncryption getEncryption() {
+    AurusEncryption getEncryption() {
         return encryption;
     }
 

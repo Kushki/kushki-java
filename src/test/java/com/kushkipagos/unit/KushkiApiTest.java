@@ -26,7 +26,6 @@ public class KushkiApiTest {
         kushki = new Kushki(merchantId, language, currency);
     }
 
-
     @Test
     public void shouldCreateInstanceWithMerchantId() {
         assertThat(kushki.getMerchantId(), is(merchantId));

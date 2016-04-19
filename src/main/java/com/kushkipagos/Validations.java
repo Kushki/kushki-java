@@ -10,15 +10,7 @@ public final class Validations {
     private Validations() {
     }
 
-    public static String validateAmount(Double amount) throws KushkiException {
-        return Validations.validateNumber(amount, 0, 12, "El monto");
-    }
-
-    public static String validateInterest(Double interest) throws KushkiException {
-        return Validations.validateNumber(interest, 0, 5, "La tasa de interés");
-    }
-
-    public static String validateMonths(Integer months) throws KushkiException {
+    static String validateMonths(Integer months) throws KushkiException {
         return Validations.validateNumber(months, 0, 2, "El número de meses");
     }
 
