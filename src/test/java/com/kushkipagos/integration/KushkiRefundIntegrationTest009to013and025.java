@@ -7,6 +7,7 @@ import com.kushkipagos.KushkiException;
 import com.kushkipagos.commons.TestsHelpers;
 import com.kushkipagos.Transaction;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.crypto.BadPaddingException;
@@ -50,6 +51,7 @@ public class KushkiRefundIntegrationTest009to013and025 {
     }
 
     @Test
+    @Ignore("Credimatic does not support refund")
     public void shouldReturnSuccessfulRefundTransactionTC009() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         assertsValidTransaction(tokenTransaction);
         assertsValidTransaction(chargeTransaction);
@@ -76,6 +78,7 @@ public class KushkiRefundIntegrationTest009to013and025 {
     }
 
     @Test
+    @Ignore("Credimatic does not support refund")
     public void shouldReturnFailedVoidTransactionAfterRefundingChargeTC025() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         Transaction voidTransaction = secretKushki.voidCharge(ticket, amount);
