@@ -71,11 +71,6 @@ public class Kushki {
         return post(VOID_URL, parameters);
     }
 
-    public Transaction refundCharge(String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, ticket, amount);
-        return post(REFUND_URL, parameters);
-    }
-
     private Transaction post(String url, Map<String, String> parameters) {
         WebTarget target = client.target(BASE_URL).path(url);
 

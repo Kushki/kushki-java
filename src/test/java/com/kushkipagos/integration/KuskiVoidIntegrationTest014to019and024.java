@@ -72,15 +72,4 @@ public class KuskiVoidIntegrationTest014to019and024 {
 
         assertsTransaction(voidTransaction, false, "Transacción no encontrada", "222");
     }
-
-    @Test
-    public void shouldReturnFailedRefundTransactionAfterVoidingChargeTC024() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
-        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction refundTransaction = secretKushki.refundCharge(ticket, amount);
-
-        assertsValidTransaction(tokenTransaction);
-        assertsValidTransaction(chargeTransaction);
-        assertsValidTransaction(voidTransaction);
-        assertsTransaction(refundTransaction, false, "Transacción no encontrada", "222");
-    }
 }
