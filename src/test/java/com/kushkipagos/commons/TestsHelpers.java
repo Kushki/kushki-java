@@ -47,7 +47,9 @@ public final class TestsHelpers {
     }
 
     public static Integer getRandomMonths() {
-        return nextInt(1, 13);
+        int[] monthsDeferred = {3, 6, 9, 12};
+        int rnd = new Random().nextInt(monthsDeferred.length);
+        return monthsDeferred[rnd];
     }
 
     public static Map<String, String> getValidCardData() {
