@@ -16,7 +16,7 @@ public class KushkiApiTest {
     private Kushki kushki;
     private String language;
 
-    private static final String URL = "https://ping.aurusinc.com/kushki/api/v1";
+    private static final String URL = "https://uat.aurusinc.com/kushki/api/v1";
 
     @Before
     public void setUp() throws Exception {
