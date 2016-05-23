@@ -16,7 +16,8 @@ public class KushkiApiTest {
     private Kushki kushki;
     private String language;
 
-    private static final String URL = "https://uat.aurusinc.com/kushki/api/v1";
+    private static final String URL = "https://ping.aurusinc.com/kushki/api/v1";
+    private static final String UAT_URL = "https://uat.aurusinc.com/kushki/api/v1";
 
     @Before
     public void setUp() throws Exception {
@@ -33,7 +34,7 @@ public class KushkiApiTest {
 
     @Test
     public void shouldHaveAPIURL() {
-        assertThat(Kushki.BASE_URL, is(URL));
+        assertThat(Kushki.BASE_URL, is(UAT_URL));
     }
 
     @Test
