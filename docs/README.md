@@ -1,3 +1,11 @@
+# kushki-java
+
+## Build status
+
+|   | Status |
+|---|---|
+| CI         | [![Build Status](https://snap-ci.com/Kushki/kushki-java/branch/master/build_image)](https://snap-ci.com/Kushki/kushki-java/branch/master) |
+
 ## CI Pipeline
 The pipeline is in SnapCI, the steps are defined in `.sh` files in the `pipeline` folder in the main repository.
 These files are executed by each of the steps defined in SnapCI, if environment variables or artifacts have to be
