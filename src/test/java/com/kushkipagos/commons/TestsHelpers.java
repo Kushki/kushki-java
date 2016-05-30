@@ -39,7 +39,7 @@ public final class TestsHelpers {
     }
 
     public static Amount getRandomAmount() {
-        return new Amount(1d, 1d, 1d, 1d, 1d);
+        return new Amount(1d, 1d, 1d, 1d);
     }
 
     public static Double getRandomDoubleAmount() {

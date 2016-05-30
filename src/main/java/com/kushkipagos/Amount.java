@@ -10,14 +10,12 @@ public class Amount {
     private Double subtotalIVA;
     private Double iva;
     private Double subtotalIVA0;
-    private Double subtotalICE;
     private Double ice;
 
-    public Amount(Double subtotalIVA, Double iva, Double subtotalIVA0, Double subtotalICE, Double ice) {
+    public Amount(Double subtotalIVA, Double iva, Double subtotalIVA0, Double ice) {
         this.subtotalIVA = subtotalIVA;
         this.iva = iva;
         this.subtotalIVA0 = subtotalIVA0;
-        this.subtotalICE = subtotalICE;
         this.ice = ice;
     }
 
@@ -25,16 +23,14 @@ public class Amount {
 
         String validatedSubtotalIVA = Validations.validateNumber(subtotalIVA, 0, 12, "El subtotal IVA");
         String validatedSubtotalIVA0 = Validations.validateNumber(subtotalIVA0, 0, 12, "El subtotal IVA 0");
-        String validatedSubtotalICE = Validations.validateNumber(subtotalICE, 0, 12, "El subtotal ICE");
         String validatedIva = Validations.validateNumber(iva, 0, 12, "El IVA");
         String validatedIce = Validations.validateNumber(ice, 0, 12, "El ICE");
-        Double total = subtotalIVA + subtotalIVA0 + subtotalICE + iva + ice;
+        Double total = subtotalIVA + subtotalIVA0 + iva + ice;
         String validatedTotal = Validations.validateNumber(total, 0, 12, "El total");
 
         Map<String, String> hashMap = new HashMap<>();
         hashMap.put("Subtotal_IVA", validatedSubtotalIVA);
         hashMap.put("Subtotal_IVA0", validatedSubtotalIVA0);
-        hashMap.put("Subtotal_ICE", validatedSubtotalICE);
         hashMap.put("IVA", validatedIva);
         hashMap.put("ICE", validatedIce);
         hashMap.put("Total_amount", validatedTotal);
