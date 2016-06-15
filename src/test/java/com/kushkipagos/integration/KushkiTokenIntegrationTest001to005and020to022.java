@@ -2,6 +2,7 @@ package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiEnvironment;
 import com.kushkipagos.KushkiException;
 import com.kushkipagos.commons.TestsHelpers;
 import com.kushkipagos.Transaction;
@@ -87,7 +88,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
         String merchantId = "abc";
         String language = "es";
         String currency = "USD";
-        kushki = new Kushki(merchantId, language, currency);
+        kushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
 
         Transaction tokenTransaction = getValidTokenTransaction(kushki);
 
@@ -99,7 +100,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
         String merchantId = "10000001408518323354818001";
         String language = "xyz";
         String currency = "USD";
-        kushki = new Kushki(merchantId, language, currency);
+        kushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
 
         Transaction tokenTransaction = getValidTokenTransaction(kushki);
 

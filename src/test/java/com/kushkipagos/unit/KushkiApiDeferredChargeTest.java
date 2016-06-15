@@ -35,7 +35,7 @@ public class KushkiApiDeferredChargeTest {
         String merchantId = randomAlphabetic(10);
         String language = randomAlphabetic(2);
         String currency = randomAlphabetic(10);
-        kushki = new Kushki(merchantId, language, currency);
+        kushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class KushkiApiDeferredChargeTest {
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encrypted = randomAlphabetic(10);
         UnitTestsHelpers.mockEncryption(kushki, encryption, encrypted);
-        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, Kushki.BASE_URL, Kushki.DEFERRED_CHARGE_URL);
+        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, KushkiEnvironment.TESTING.getUrl(), Kushki.DEFERRED_CHARGE_URL);
         kushki.deferredCharge(token, amount, months);
 
         ArgumentCaptor<Entity> entityArgumentCaptor = ArgumentCaptor.forClass(Entity.class);
@@ -71,7 +71,7 @@ public class KushkiApiDeferredChargeTest {
         String token = randomAlphabetic(10);
         Amount amount = TestsHelpers.getRandomAmount();
         Integer months = TestsHelpers.getRandomMonths();
-        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockClient(kushki,Kushki.BASE_URL,  Kushki.DEFERRED_CHARGE_URL);
+        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockClient(kushki,KushkiEnvironment.TESTING.getUrl(),  Kushki.DEFERRED_CHARGE_URL);
         Response response = mock(Response.class);
         when(invocationBuilder.post(any(Entity.class))).thenReturn(response);
         Transaction transaction = kushki.deferredCharge(token, amount, months);

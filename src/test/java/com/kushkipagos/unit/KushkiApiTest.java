@@ -1,8 +1,15 @@
 package com.kushkipagos.unit;
 
 import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiEnvironment;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,26 +22,54 @@ public class KushkiApiTest {
     private String merchantId;
     private Kushki kushki;
     private String language;
-
-    private static final String URL = "https://ping.aurusinc.com/kushki/api/v1";
-    private static final String UAT_URL = "https://uat.aurusinc.com/kushki/api/v1";
+    private String currency;
 
     @Before
     public void setUp() throws Exception {
         merchantId = randomAlphabetic(10);
         language = randomAlphabetic(2);
-        String currency = randomAlphabetic(10);
+        currency = randomAlphabetic(10);
         kushki = new Kushki(merchantId, language, currency);
+    }
+
+    @Test
+    public void shouldCreateInstanceWithAllDefaultValues() throws Exception {
+        kushki = new Kushki(merchantId);
+        assertThat(kushki.getMerchantId(), is(merchantId));
+        assertThat(kushki.getLanguage(), is("es"));
+        assertThat(kushki.getCurrency(), is("USD"));
+        assertThat(kushki.getEnvironment(), is(KushkiEnvironment.PRODUCTION));
+    }
+
+    @Test
+    public void shouldCreateInstanceWithDefaultLanguageAndCurrency() throws Exception {
+        kushki = new Kushki(merchantId, KushkiEnvironment.STAGING);
+        assertThat(kushki.getMerchantId(), is(merchantId));
+        assertThat(kushki.getLanguage(), is("es"));
+        assertThat(kushki.getCurrency(), is("USD"));
+        assertThat(kushki.getEnvironment(), is(KushkiEnvironment.STAGING));
+    }
+
+    @Test
+    public void shouldCreateInstanceWithDefaultEnvironment() throws Exception {
+        assertThat(kushki.getMerchantId(), is(merchantId));
+        assertThat(kushki.getLanguage(), is(language));
+        assertThat(kushki.getCurrency(), is(currency));
+        assertThat(kushki.getEnvironment(), is(KushkiEnvironment.PRODUCTION));
+    }
+
+    @Test
+    public void shouldCreateInstanceWithProvidedValues() throws Exception {
+        kushki = new Kushki(merchantId, language, currency, KushkiEnvironment.STAGING);
+        assertThat(kushki.getMerchantId(), is(merchantId));
+        assertThat(kushki.getLanguage(), is(language));
+        assertThat(kushki.getCurrency(), is(currency));
+        assertThat(kushki.getEnvironment(), is(KushkiEnvironment.STAGING));
     }
 
     @Test
     public void shouldCreateInstanceWithMerchantId() {
         assertThat(kushki.getMerchantId(), is(merchantId));
-    }
-
-    @Test
-    public void shouldHaveAPIURL() {
-        assertThat(Kushki.BASE_URL, is(UAT_URL));
     }
 
     @Test

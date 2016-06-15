@@ -36,14 +36,14 @@ public class KushkiApiVoidChargeTest {
         String merchantId = randomAlphabetic(10);
         String language = randomAlphabetic(2);
         String currency = randomAlphabetic(10);
-        kushki = new Kushki(merchantId, language, currency);
+        kushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
     }
 
     @Test
     public void shouldVoidChargeWithTokenAndTicket() throws IllegalBlockSizeException, IllegalAccessException, BadPaddingException, NoSuchFieldException, KushkiException, JsonProcessingException {
         String ticket = randomAlphabetic(10);
         Amount amount = TestsHelpers.getRandomAmount();
-        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, Kushki.BASE_URL, Kushki.VOID_URL);
+        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, KushkiEnvironment.TESTING.getUrl(), Kushki.VOID_URL);
         kushki.voidCharge(ticket, amount);
         verify(invocationBuilder).post(any(Entity.class));
     }
@@ -57,7 +57,7 @@ public class KushkiApiVoidChargeTest {
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encrypted = randomAlphabetic(10);
         UnitTestsHelpers.mockEncryption(kushki, encryption, encrypted);
-        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki,Kushki.BASE_URL,  Kushki.VOID_URL);
+        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki,KushkiEnvironment.TESTING.getUrl(),  Kushki.VOID_URL);
         kushki.voidCharge(ticket, amount);
 
         ArgumentCaptor<Entity> entityArgumentCaptor = ArgumentCaptor.forClass(Entity.class);
@@ -79,7 +79,7 @@ public class KushkiApiVoidChargeTest {
         String ticket = randomAlphabetic(10);
         Amount amount = TestsHelpers.getRandomAmount();
 
-        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockClient(kushki, Kushki.BASE_URL, Kushki.VOID_URL);
+        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockClient(kushki, KushkiEnvironment.TESTING.getUrl(), Kushki.VOID_URL);
 
         Response response = mock(Response.class);
         when(invocationBuilder.post(any(Entity.class))).thenReturn(response);

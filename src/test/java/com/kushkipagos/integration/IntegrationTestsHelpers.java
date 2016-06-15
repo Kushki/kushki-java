@@ -1,6 +1,7 @@
 package com.kushkipagos.integration;
 
 import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiEnvironment;
 import com.kushkipagos.Transaction;
 
 import javax.crypto.NoSuchPaddingException;
@@ -35,7 +36,7 @@ final class IntegrationTestsHelpers {
         }
         String language = "es";
         String currency = "USD";
-        return new Kushki(merchantId, language, currency);
+        return new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
     }
 
     static void assertsTransaction(Transaction transaction, Boolean isSuccessful,
