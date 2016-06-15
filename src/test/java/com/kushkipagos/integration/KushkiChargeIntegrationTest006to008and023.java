@@ -69,7 +69,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         Transaction chargeTransaction = secretKushki.charge(token, amount);
 
-        assertsTransaction(chargeTransaction, false, "El token de la transacción no es válido", "577");
+        assertsTransaction(chargeTransaction, false, "ID de comercio no válido", "201");
     }
 
     @Test
