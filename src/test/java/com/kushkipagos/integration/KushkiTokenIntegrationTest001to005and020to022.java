@@ -24,9 +24,6 @@ import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTr
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
 
-/**
- * Created by lmunda on 1/22/16 09:47.
- */
 public class KushkiTokenIntegrationTest001to005and020to022 {
     private Kushki kushki;
     private Map<String, String> cardParams = new HashMap<>(5);

@@ -14,9 +14,6 @@ import java.util.logging.Logger;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * Created by lmunda on 1/21/16 16:16.
- */
 final class IntegrationTestsHelpers {
 
     final static int THREAD_SLEEP = 1000;
@@ -34,9 +31,7 @@ final class IntegrationTestsHelpers {
         if (isSecret) {
             merchantId = SECRET_MERCHANT_ID;
         }
-        String language = "es";
-        String currency = "USD";
-        return new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
+        return new Kushki(merchantId, "es", "USD", KushkiEnvironment.TESTING);
     }
 
     static void assertsTransaction(Transaction transaction, Boolean isSuccessful,

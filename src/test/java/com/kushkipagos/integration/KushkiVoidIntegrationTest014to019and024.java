@@ -22,28 +22,24 @@ import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTr
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
 
-/**
- * Created by lmunda on 1/22/16 10:50.
- */
-public class KuskiVoidIntegrationTest014to019and024 {
+public class KushkiVoidIntegrationTest014to019and024 {
     private Kushki secretKushki;
     private Transaction tokenTransaction;
     private Transaction chargeTransaction;
     private Transaction voidTransaction;
     private Amount amount;
-    private String ticket;
 
     @Before
     public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         Kushki kushki = setupKushki(false);
         secretKushki = setupKushki(true);
 
-        tokenTransaction = getValidTokenTransaction(kushki);
         amount = TestsHelpers.getRandomAmount();
+        tokenTransaction = getValidTokenTransaction(kushki, amount);
         String token = tokenTransaction.getToken();
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         chargeTransaction = secretKushki.charge(token, amount);
-        ticket = chargeTransaction.getTicketNumber();
+        String ticket = chargeTransaction.getTicketNumber();
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         voidTransaction = secretKushki.voidCharge(ticket, amount);
     }

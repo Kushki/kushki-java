@@ -87,7 +87,7 @@ public class Kushki {
         return environment;
     }
 
-    AurusEncryption getEncryption() {
+    public AurusEncryption getEncryption() {
         return encryption;
     }
 

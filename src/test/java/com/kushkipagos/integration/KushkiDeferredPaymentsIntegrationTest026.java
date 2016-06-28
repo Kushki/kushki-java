@@ -17,9 +17,6 @@ import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTr
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
 
-/**
- * Created by lmunda on 1/21/16 16:15.
- */
 public class KushkiDeferredPaymentsIntegrationTest026 {
 
     private Kushki kushki;
@@ -33,8 +30,8 @@ public class KushkiDeferredPaymentsIntegrationTest026 {
 
     @Test
     public void shouldReturnSuccessfulDeferredChargeTransactionTC026() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
-        Transaction tokenTransaction = getValidTokenTransaction(kushki);
         Amount amount = getRandomAmount();
+        Transaction tokenTransaction = getValidTokenTransaction(kushki, amount);
         Integer months = getRandomMonths();
         String token = tokenTransaction.getToken();
 

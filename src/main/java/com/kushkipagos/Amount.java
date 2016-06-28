@@ -3,9 +3,6 @@ package com.kushkipagos;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by dvillaci on 4/14/16.
- */
 public class Amount {
     private Double subtotalIVA;
     private Double iva;

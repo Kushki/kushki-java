@@ -8,19 +8,9 @@ import javax.crypto.IllegalBlockSizeException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by lmunda on 12/28/15 12:22.
- */
 public final class ParametersBuilder {
 
     private ParametersBuilder() {
-    }
-
-    public static Map<String, String> getTokenParameters(Kushki kushki, Map<String, String> cardParams) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException {
-        ObjectMapper mapper = new ObjectMapper();
-        String params = mapper.writeValueAsString(cardParams);
-        params = buildAndStringifyTokenParameters(kushki, params);
-        return encryptParams(kushki, params);
     }
 
     static Map<String, String> getChargeParameters(Kushki kushki, String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
@@ -43,14 +33,6 @@ public final class ParametersBuilder {
         Map<String, String> encryptedParameters = new HashMap<>(1);
         encryptedParameters.put("request", encString);
         return encryptedParameters;
-    }
-
-    private static String buildAndStringifyTokenParameters(Kushki kushki, String cardParams) throws JsonProcessingException {
-        Map<String, String> parameters = getCommonParameters(kushki);
-        parameters.put("card", cardParams);
-
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(parameters);
     }
 
     private static String buildAndStringifyChargeParameters(Kushki kushki, String token, Amount amount) throws JsonProcessingException, KushkiException {
@@ -97,5 +79,4 @@ public final class ParametersBuilder {
         parameters.put("language_indicator", kushki.getLanguage());
         return parameters;
     }
-
 }

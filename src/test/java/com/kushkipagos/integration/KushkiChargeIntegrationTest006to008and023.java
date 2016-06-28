@@ -40,8 +40,8 @@ public class KushkiChargeIntegrationTest006to008and023 {
         kushki = setupKushki(false);
         secretKushki = setupKushki(true);
 
-        tokenTransaction = getValidTokenTransaction(kushki);
         amount = TestsHelpers.getRandomAmount();
+        tokenTransaction = getValidTokenTransaction(kushki, amount);
         token = tokenTransaction.getToken();
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         chargeTransaction = secretKushki.charge(token, amount);
@@ -80,7 +80,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
         String currency = "xyz";
         kushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction tokenTransaction = getValidTokenTransaction(kushki);
+        Transaction tokenTransaction = getValidTokenTransaction(kushki, amount);
         String token = tokenTransaction.getToken();
 
         Transaction chargeTransaction = kushki.charge(token, amount);
