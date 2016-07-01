@@ -81,6 +81,7 @@ final class TokenHelper {
         parameters.put("currency_code", kushki.getCurrency());
         parameters.put("merchant_identifier", kushki.getMerchantId());
         parameters.put("language_indicator", kushki.getLanguage());
+        parameters.put("remember_me", "0");
         return parameters;
     }
 }
