@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-gradle fatJar
 gradle integrationtest
 
 # ARTIFACTS:
