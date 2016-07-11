@@ -1,0 +1,108 @@
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+ext {
+    pkgName = 'kushkipagos'
+    groupName = 'com.kushkipagos'
+    pkgDesc = 'Librería Java para integrarse con KushkiPagos'
+    githubRepo = 'github.com/Kushki/kushki-java'
+    pkgLicense = 'MIT'
+    pkgLicenseUrl = 'https://github.com/Kushki/kushki-java/blob/master/LICENSE.txt'
+    devInfo = {
+        id 'thoughtworks'
+        name 'Thoughtworks'
+        email 'kushki@thoughtworks.com'
+    }
+    bintrayUser = System.getenv('BINTRAY_USER')
+    bintrayKey = System.getenv('BINTRAY_API_KEY')
+    mavenCentralUser = System.getenv('MAVEN_CENTRAL_USER')
+    mavenCentralToken = System.getenv('MAVEN_CENTRAL_TOKEN')
+    versionTag = version.toString()
+    githubUrl = 'https://' + githubRepo
+    scmUrl = 'scm:git:git://' + githubRepo + '.git'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+    publish = true
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = pkgName
+        userOrg = user
+        licenses = [pkgLicense]
+        publicDownloadNumbers = false
+        vcsUrl = githubUrl + '.git'
+        desc = pkgDesc
+        websiteUrl = githubUrl
+        issueTrackerUrl = githubUrl + '/issues'
+        version {
+            name = versionTag
+            desc = pkgDesc
+            vcsTag = versionTag
+            released = new Date()
+            gpg {
+                sign = true
+            }
+            mavenCentralSync {
+                sync = true
+                user = mavenCentralUser
+                password = mavenCentralToken
+                close = '1'
+            }
+        }
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.name = pkgName
+        pom.version = versionTag
+        pom.groupId = groupName
+        pom.artifactId = pkgName
+        pom.project {
+            name pkgName
+            packaging 'bundle'
+            description pkgDesc
+            url githubUrl
+
+            scm {
+                url githubUrl
+                connection scmUrl
+                developerConnection scmUrl
+            }
+
+            developers {
+                developer devInfo
+            }
+
+            licenses {
+                license {
+                    name pkgLicense
+                    url pkgLicenseUrl
+                    distribution 'repo'
+                }
+            }
+        }
+    }
+}

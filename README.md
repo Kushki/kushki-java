@@ -1,8 +1,7 @@
 # kushki-java
 
-|   | Build status |
-|---|---|
-| CI         | [![Build Status](https://snap-ci.com/Kushki/kushki-java/branch/master/build_image)](https://snap-ci.com/Kushki/kushki-java/branch/master) |
+Estatus: [![Build Status](https://snap-ci.com/Kushki/kushki-java/branch/master/build_image)](https://snap-ci.com/Kushki/kushki-java/branch/master)  
+Última versión estable: [ ![Download](https://api.bintray.com/packages/kushki/maven/kushkipagos/images/download.svg) ](https://bintray.com/kushki/maven/kushkipagos/_latestVersion)
 
 ## Documentación
 
