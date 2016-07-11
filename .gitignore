@@ -12,5 +12,4 @@ src/main/java/testrun/
 src/main/java/com/testrun/
 lib/JUnitParams-1.0.4-javadoc.jar
 lib/JUnitParams-1.0.4-sources.jar
-out/test
-out/production
+out/
