@@ -1,7 +1,8 @@
 # kushki-java
 
-Estatus: [![Build Status](https://snap-ci.com/Kushki/kushki-java/branch/master/build_image)](https://snap-ci.com/Kushki/kushki-java/branch/master)  
-Última versión estable: [ ![Download](https://api.bintray.com/packages/kushki/maven/kushkipagos/images/download.svg) ](https://bintray.com/kushki/maven/kushkipagos/_latestVersion)
+Estatus: [![Snap CI branch](https://img.shields.io/snap-ci/Kushki/kushki-java/master.svg?maxAge=2592000)](https://snap-ci.com/Kushki/kushki-java/branch/master)  
+Última versión estable: [![Bintray](https://img.shields.io/bintray/v/kushki/maven/kushkipagos.svg?maxAge=2592000)](https://bintray.com/kushki/maven/kushkipagos) [![Maven Central](https://img.shields.io/maven-central/v/com.kushkipagos/kushkipagos.svg?maxAge=2592000)](http://mvnrepository.com/artifact/com.kushkipagos/kushkipagos)  
+Licencia: [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](https://github.com/Kushki/kushki-java/blob/master/LICENSE.txt)
 
 ## Documentación
 
