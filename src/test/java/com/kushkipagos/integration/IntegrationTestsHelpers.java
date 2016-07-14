@@ -17,6 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 final class IntegrationTestsHelpers {
 
     final static int THREAD_SLEEP = 1000;
+    final static int THREAD_SLEEP_VOID = 4000;
 
     public static final String MERCHANT_ID = "10000001641310597258111220";
     private static final String SECRET_MERCHANT_ID = "10000001641344874123111220";

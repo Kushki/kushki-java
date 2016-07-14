@@ -40,7 +40,7 @@ public class KushkiVoidIntegrationTest014to019and024 {
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         chargeTransaction = secretKushki.charge(token, amount);
         String ticket = chargeTransaction.getTicketNumber();
-        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP_VOID);
         voidTransaction = secretKushki.voidCharge(ticket, amount);
     }
 
@@ -53,7 +53,7 @@ public class KushkiVoidIntegrationTest014to019and024 {
 
     @Test
     public void shouldReturnFailedVoidTransactionNoTicketTC018() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
-        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP_VOID);
         Transaction voidTransaction = secretKushki.voidCharge("", amount);
 
         assertsTransaction(voidTransaction, false, "El número de ticket de la transacción es requerido", "705");
@@ -63,7 +63,7 @@ public class KushkiVoidIntegrationTest014to019and024 {
     public void shouldReturnFailedVoidTransactionInvalidTicketTC019() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
         String ticket = "153633977318400068";
 
-        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP_VOID);
         Transaction voidTransaction = secretKushki.voidCharge(ticket, amount);
 
         assertsTransaction(voidTransaction, false, "Transacción no encontrada", "222");
