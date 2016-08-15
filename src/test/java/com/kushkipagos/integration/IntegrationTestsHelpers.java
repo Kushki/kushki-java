@@ -53,6 +53,4 @@ final class IntegrationTestsHelpers {
     static void assertsValidTransaction(Transaction transaction) {
         assertsTransaction(transaction, true, "Transacción aprobada", "000");
     }
-
-
 }

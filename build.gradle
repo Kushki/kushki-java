@@ -97,6 +97,7 @@ findbugs {
 
 tasks.withType(Test) {
     reports.html.destination = file("${reporting.baseDir}/${name}")
+    outputs.upToDateWhen { false }
     testLogging {
         showStandardStreams = true
     }
