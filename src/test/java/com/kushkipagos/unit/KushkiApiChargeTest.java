@@ -2,7 +2,12 @@ package com.kushkipagos.unit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kushkipagos.*;
+import com.kushkipagos.Amount;
+import com.kushkipagos.AurusEncryption;
+import com.kushkipagos.Kushki;
+import com.kushkipagos.KushkiEnvironment;
+import com.kushkipagos.KushkiException;
+import com.kushkipagos.Transaction;
 import com.kushkipagos.commons.TestsHelpers;
 import org.junit.Before;
 import org.junit.Test;

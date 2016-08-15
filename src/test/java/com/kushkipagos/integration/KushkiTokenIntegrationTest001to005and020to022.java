@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kushkipagos.Kushki;
 import com.kushkipagos.KushkiEnvironment;
 import com.kushkipagos.KushkiException;
-import com.kushkipagos.commons.TestsHelpers;
 import com.kushkipagos.Transaction;
+import com.kushkipagos.commons.TestsHelpers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,8 +21,8 @@ import java.util.Map;
 
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
+import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 
 public class KushkiTokenIntegrationTest001to005and020to022 {
     private Kushki kushki;

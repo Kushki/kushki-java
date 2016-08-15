@@ -14,8 +14,8 @@ import javax.crypto.IllegalBlockSizeException;
 import static com.kushkipagos.commons.TestsHelpers.getRandomAmount;
 import static com.kushkipagos.commons.TestsHelpers.getRandomMonths;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
+import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 
 public class KushkiDeferredPaymentsIntegrationTest026 {
 

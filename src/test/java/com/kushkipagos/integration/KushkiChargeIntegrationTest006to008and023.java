@@ -5,8 +5,8 @@ import com.kushkipagos.Amount;
 import com.kushkipagos.Kushki;
 import com.kushkipagos.KushkiEnvironment;
 import com.kushkipagos.KushkiException;
-import com.kushkipagos.commons.TestsHelpers;
 import com.kushkipagos.Transaction;
+import com.kushkipagos.commons.TestsHelpers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,8 +20,8 @@ import java.security.spec.InvalidKeySpecException;
 
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
+import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 
 /**
  * Created by lmunda on 1/22/16 10:16.
