@@ -9,9 +9,6 @@ import java.util.Random;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.RandomUtils.nextInt;
 
-/**
- * Created by lmunda on 12/16/15 10:22.
- */
 public final class TestsHelpers {
 
     private TestsHelpers() {

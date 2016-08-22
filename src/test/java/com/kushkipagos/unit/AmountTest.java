@@ -16,9 +16,6 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by dvillaci on 4/14/16.
- */
 @RunWith(JUnitParamsRunner.class)
 public class AmountTest {
 

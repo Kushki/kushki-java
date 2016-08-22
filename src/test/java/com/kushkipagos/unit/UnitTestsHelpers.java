@@ -18,9 +18,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by lmunda on 2/16/16 14:55.
- */
 final class UnitTestsHelpers {
     private UnitTestsHelpers() {
 

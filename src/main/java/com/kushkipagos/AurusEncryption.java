@@ -15,7 +15,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
 /**
- * Created by lmunda on 12/2/15 10:31.
  * sent by: Ashish Mandloi (amandloi@aurusinc.com)
  */
 public class AurusEncryption {

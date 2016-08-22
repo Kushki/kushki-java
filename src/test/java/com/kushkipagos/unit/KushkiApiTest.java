@@ -9,9 +9,6 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-/**
- * Created by lmunda on 2/16/16 12:09.
- */
 public class KushkiApiTest {
     private String merchantId;
     private Kushki kushki;

@@ -23,9 +23,6 @@ import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTr
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 
-/**
- * Created by lmunda on 1/22/16 10:16.
- */
 public class KushkiChargeIntegrationTest006to008and023 {
     private Kushki kushki;
     private Kushki secretKushki;

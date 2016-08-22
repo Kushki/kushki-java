@@ -29,9 +29,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by lmunda on 2/16/16 12:13.
- */
 public class KushkiApiDeferredChargeTest {
     private Kushki kushki;
 

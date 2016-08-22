@@ -2,9 +2,6 @@ package com.kushkipagos;
 
 import java.util.Locale;
 
-/**
- * Created by lmunda on 1/21/16 14:07.
- */
 public final class Validations {
 
     private Validations() {
