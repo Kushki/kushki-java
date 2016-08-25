@@ -14,7 +14,8 @@ public class Transaction {
     }
 
     public Response getResponse() {
-        return response;}
+        return response;
+    }
 
     public boolean isSuccessful() {
         return response.getStatus() == 200;
