@@ -109,12 +109,15 @@ public class Kushki {
         return post(VOID_URL, parameters);
     }
 
+    public Transaction requestToken(Map<String, String> cardParams, Amount amount) throws IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
+        Map<String, String> parameters = ParametersBuilder.getTokenParameters(this, cardParams, amount);
+        return post(TOKENS_URL, parameters);
+    }
+
     private Transaction post(String url, Map<String, String> parameters) {
         WebTarget target = client.target(environment.getUrl()).path(url);
-
         Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON_TYPE);
         Response response = invocationBuilder.post(Entity.entity(parameters, MediaType.APPLICATION_JSON_TYPE));
-
         return new Transaction(response);
     }
 }

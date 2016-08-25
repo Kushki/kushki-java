@@ -1,8 +1,6 @@
 package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kushkipagos.Amount;
-import com.kushkipagos.AurusTokenService;
 import com.kushkipagos.Kushki;
 import com.kushkipagos.KushkiEnvironment;
 import com.kushkipagos.KushkiException;
@@ -30,13 +28,11 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
     private Kushki kushki;
     private Map<String, String> cardParams = new HashMap<>(5);
     private Transaction tokenTransaction;
-    private AurusTokenService aurusTokenService;
 
     @Before
     public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException {
         kushki = setupKushki(false);
         cardParams = TestsHelpers.getValidCardData();
-        aurusTokenService = new AurusTokenService();
     }
 
     @Test
@@ -50,7 +46,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
     public void shouldReturnNonSuccessfulTokenTransactionInvalidCardTC002() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         cardParams.put("number", "5411111111115854");
 
-        tokenTransaction = aurusTokenService.requestToken(kushki, cardParams, TestsHelpers.getRandomAmount());
+        tokenTransaction = kushki.requestToken(cardParams, TestsHelpers.getRandomAmount());
 
         assertsTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
     }
@@ -60,7 +56,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
         cardParams.put("expiry_month", "ab");
         cardParams.put("expiry_year", "cd");
 
-        tokenTransaction = aurusTokenService.requestToken(kushki, cardParams, TestsHelpers.getRandomAmount());
+        tokenTransaction = kushki.requestToken(cardParams, TestsHelpers.getRandomAmount());
 
         assertsTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
     }
@@ -70,7 +66,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
         cardParams.put("expiry_month", "12");
         cardParams.put("expiry_year", "14");
 
-        tokenTransaction = aurusTokenService.requestToken(kushki, cardParams, TestsHelpers.getRandomAmount());
+        tokenTransaction = kushki.requestToken(cardParams, TestsHelpers.getRandomAmount());
 
         assertsTransaction(tokenTransaction, false, "Tarjeta vencida", "018");
     }
@@ -79,7 +75,7 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
     public void shouldReturnNonSuccessfulTokenTransactionInvalidCVVTC005() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         cardParams.put("cvv", "abc");
 
-        tokenTransaction = aurusTokenService.requestToken(kushki, cardParams, TestsHelpers.getRandomAmount());
+        tokenTransaction = kushki.requestToken(cardParams, TestsHelpers.getRandomAmount());
 
         assertsTransaction(tokenTransaction, false, "CVC no válido", "007");
     }

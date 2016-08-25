@@ -2,7 +2,6 @@ package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kushkipagos.Amount;
-import com.kushkipagos.AurusTokenService;
 import com.kushkipagos.Kushki;
 import com.kushkipagos.KushkiException;
 import com.kushkipagos.Transaction;
@@ -16,7 +15,6 @@ import static com.kushkipagos.commons.TestsHelpers.getValidCardData;
 
 final class TokenHelper {
 
-    private static AurusTokenService aurusTokenService = new AurusTokenService();
     private TokenHelper() {
     }
 
@@ -26,6 +24,6 @@ final class TokenHelper {
 
     static Transaction getValidTokenTransaction(Kushki kushki, Amount amount) throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         Map<String, String> cardParams = getValidCardData();
-        return aurusTokenService.requestToken(kushki, cardParams, amount);
+        return kushki.requestToken(cardParams, amount);
     }
 }
