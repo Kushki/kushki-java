@@ -1,9 +1,8 @@
 package com.kushkipagos.commons;
 
 import com.kushkipagos.Amount;
+import com.kushkipagos.Card;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
@@ -49,14 +48,7 @@ public final class TestsHelpers {
         return monthsDeferred[rnd];
     }
 
-    public static Map<String, String> getValidCardData() {
-        Map<String, String> cardParams = new HashMap<>(5);
-        cardParams.put("name", randomAlphabetic(20));
-        cardParams.put("number", "4017779991118888");
-        cardParams.put("expiry_month", "12");
-        cardParams.put("expiry_year", "21");
-        cardParams.put("cvv", "123");
-        cardParams.put("card_present", "1");
-        return cardParams;
+    public static Card getValidCard() {
+        return new Card(randomAlphabetic(20), "4017779991118888", "123", "12", "21");
     }
 }

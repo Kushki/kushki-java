@@ -3,6 +3,7 @@ package com.kushkipagos.unit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kushkipagos.Amount;
 import com.kushkipagos.AurusEncryption;
+import com.kushkipagos.Card;
 import com.kushkipagos.Kushki;
 import com.kushkipagos.KushkiEnvironment;
 import com.kushkipagos.Transaction;
@@ -39,9 +40,9 @@ public class KushkiApiTokenTest {
     @Test
     public void shouldSendRightParametersToRequestToken() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> cardParams = TestsHelpers.getValidCardData();
+        Card card = TestsHelpers.getValidCard();
         Amount amount = TestsHelpers.getRandomAmount();
-        String stringifiedCard = objectMapper.writeValueAsString(cardParams);
+        String stringifiedCard = objectMapper.writeValueAsString(card);
         String stringifiedTotalAmount = amount.toHash().get("Total_amount");
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encryptedParams = randomAlphabetic(10);
@@ -50,7 +51,7 @@ public class KushkiApiTokenTest {
         UnitTestsHelpers.mockEncryption(kushki, encryption, encryptedParams);
         Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, BASE_URL, Kushki.TOKENS_URL);
 
-        kushki.requestToken(cardParams, amount);
+        kushki.requestToken(card, amount);
 
         verify(invocationBuilder).post(entityArgumentCaptor.capture());
         Entity<Map<String, String>> entity = entityArgumentCaptor.getValue();
@@ -67,8 +68,8 @@ public class KushkiApiTokenTest {
         Invocation.Builder builder = UnitTestsHelpers.mockClient(kushki, BASE_URL, Kushki.TOKENS_URL);
         Response response = mock(Response.class);
         when(builder.post(any(Entity.class))).thenReturn(response);
-        Map<String, String> cardParams = TestsHelpers.getValidCardData();
-        Transaction transaction = kushki.requestToken(cardParams, TestsHelpers.getRandomAmount());
+        Card card = TestsHelpers.getValidCard();
+        Transaction transaction = kushki.requestToken(card, TestsHelpers.getRandomAmount());
         assertThat(transaction.getResponse(), is(response));
     }
 }
