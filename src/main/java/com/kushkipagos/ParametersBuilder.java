@@ -28,9 +28,8 @@ public final class ParametersBuilder {
         return encryptParams(kushki, params);
     }
 
-    static Map<String, String> getTokenParameters(Kushki kushki, Card card, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String params = new ObjectMapper().writeValueAsString(card);
-        params = buildAndStringifyTokenParameters(kushki, params, amount);
+    static Map<String, String> getTokenParameters(Kushki kushki, Card card, Double totalAmount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String params = buildAndStringifyTokenParameters(kushki, card, totalAmount);
         return encryptParams(kushki, params);
     }
 
@@ -78,12 +77,12 @@ public final class ParametersBuilder {
         return mapper.writeValueAsString(parameters);
     }
 
-    private static String buildAndStringifyTokenParameters(Kushki kushki, String cardParams, Amount amount) throws JsonProcessingException, KushkiException {
-        Map<String, String> parameters = getCommonParameters(kushki);
-        parameters.put("card", cardParams);
-        parameters.put("amount", amount.toHash().get("Total_amount"));
-        parameters.put("remember_me", "0");
+    private static String buildAndStringifyTokenParameters(Kushki kushki, Card card, Double totalAmount) throws JsonProcessingException, KushkiException {
         ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> parameters = getCommonParameters(kushki);
+        parameters.put("card", mapper.writeValueAsString(card));
+        parameters.put("amount", Validations.validateNumber(totalAmount, 0, 12, "El total"));
+        parameters.put("remember_me", "0");
         return mapper.writeValueAsString(parameters);
     }
 

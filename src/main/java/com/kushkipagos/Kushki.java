@@ -109,8 +109,8 @@ public class Kushki {
         return post(VOID_URL, parameters);
     }
 
-    public Transaction requestToken(Card card, Amount amount) throws IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
-        Map<String, String> parameters = ParametersBuilder.getTokenParameters(this, card, amount);
+    public Transaction requestToken(Card card, Double totalAmount) throws IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
+        Map<String, String> parameters = ParametersBuilder.getTokenParameters(this, card, totalAmount);
         return post(TOKENS_URL, parameters);
     }
 

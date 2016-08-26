@@ -6,7 +6,6 @@ import com.kushkipagos.Kushki;
 import com.kushkipagos.KushkiEnvironment;
 import com.kushkipagos.KushkiException;
 import com.kushkipagos.Transaction;
-import com.kushkipagos.commons.TestsHelpers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,28 +40,28 @@ public class KushkiTokenIntegrationTest001to005and020to022 {
     @Test
     public void shouldReturnNonSuccessfulTokenTransactionInvalidCardTC002() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         Card card = new Card("SOME NAME", "5411111111115854", "123", "12", "21");
-        tokenTransaction = kushki.requestToken(card, TestsHelpers.getRandomAmount());
+        tokenTransaction = kushki.requestToken(card, 4d);
         assertsTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
     }
 
     @Test
     public void shouldReturnNonSuccessfulTokenTransactionInvalidExpiryTC003() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         Card card = new Card("SOME NAME", "4017779991118888", "123", "ab", "cd");
-        tokenTransaction = kushki.requestToken(card, TestsHelpers.getRandomAmount());
+        tokenTransaction = kushki.requestToken(card, 4d);
         assertsTransaction(tokenTransaction, false, "Tarjeta no válida", "017");
     }
 
     @Test
     public void shouldReturnNonSuccessfulTokenTransactionCardExpiredTC004() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         Card card = new Card("SOME NAME", "4017779991118888", "123", "12", "14");
-        tokenTransaction = kushki.requestToken(card, TestsHelpers.getRandomAmount());
+        tokenTransaction = kushki.requestToken(card, 4d);
         assertsTransaction(tokenTransaction, false, "Tarjeta vencida", "018");
     }
 
     @Test
     public void shouldReturnNonSuccessfulTokenTransactionInvalidCvvTC005() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         Card card = new Card("SOME NAME", "4017779991118888", "abc", "12", "21");
-        tokenTransaction = kushki.requestToken(card, TestsHelpers.getRandomAmount());
+        tokenTransaction = kushki.requestToken(card, 4d);
         assertsTransaction(tokenTransaction, false, "CVC no válido", "007");
     }
 

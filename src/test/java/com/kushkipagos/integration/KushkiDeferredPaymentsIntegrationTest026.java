@@ -31,7 +31,7 @@ public class KushkiDeferredPaymentsIntegrationTest026 {
     @Test
     public void shouldReturnSuccessfulDeferredChargeTransactionTC026() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
         Amount amount = getRandomAmount();
-        Transaction tokenTransaction = getValidTokenTransaction(kushki, amount);
+        Transaction tokenTransaction = getValidTokenTransaction(kushki, amount.getTotalAmount());
         Integer months = getRandomMonths();
         String token = tokenTransaction.getToken();
 

@@ -35,7 +35,7 @@ public class KushkiVoidIntegrationTest014to019and024 {
         secretKushki = setupKushki(true);
 
         amount = TestsHelpers.getRandomAmount();
-        tokenTransaction = getValidTokenTransaction(kushki, amount);
+        tokenTransaction = getValidTokenTransaction(kushki, amount.getTotalAmount());
         String token = tokenTransaction.getToken();
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
         chargeTransaction = secretKushki.charge(token, amount);

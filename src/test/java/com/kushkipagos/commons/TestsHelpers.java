@@ -35,6 +35,7 @@ public final class TestsHelpers {
     }
 
     public static Amount getRandomAmount() {
+        // https://xkcd.com/221/
         return new Amount(1d, 1d, 1d, 1d);
     }
 
