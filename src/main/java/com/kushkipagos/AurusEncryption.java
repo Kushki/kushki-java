@@ -14,9 +14,6 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
-/**
- * sent by: Ashish Mandloi (amandloi@aurusinc.com)
- */
 public class AurusEncryption {
 
     private final Cipher cipher;
