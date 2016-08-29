@@ -13,4 +13,4 @@ cp -r build/docs/javadoc/* "$target_dir"
 git add "$target_dir"
 git commit -m "Update docs for v$artifact_version"
 git push origin gh-pages
-echo "Documentation published to https://kushki.github.io/kushki-java/docs/$artifact_version/"
+echo "Docs published to https://kushki.github.io/kushki-java/docs/$artifact_version/index.html"
