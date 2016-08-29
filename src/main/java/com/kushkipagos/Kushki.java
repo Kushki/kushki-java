@@ -146,7 +146,7 @@ public class Kushki {
 
     /**
      * Request a token to later perform charge operations in Kushki using the {@link #charge} or {@link #deferredCharge}
-     * methods.
+     * methods. This must be done from a {@link Kushki} instance built with the public merchant ID, not the private one.
      * <br>
      * <strong>Note:</strong> If you are using this method from your backend, be sure to comply with all the PCI
      * requirements to handle card data on your servers.
