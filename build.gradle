@@ -113,3 +113,7 @@ tasks.withType(FindBugs) {
 artifacts {
     archives javadocJar, sourcesJar
 }
+
+javadoc {
+    options.overview = 'src/main/java/overview.html'
+}
