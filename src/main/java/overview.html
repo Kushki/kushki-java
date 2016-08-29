@@ -10,5 +10,54 @@
     integrate with Kushki are documented in the
     <a href="com/kushkipagos/Kushki.html#method.summary">Kushki class</a>.
   </p>
+
+  <h2>Quickstart</h2>
+  <h3>1. Download the library</h3>
+  <p>
+    <strong>Using Gradle:</strong> Include this code in your <code>build.gradle</code> file,
+    replacing <code>$VERSION</code> with the version of the library to be installed:
+  </p>
+  <pre>
+apply plugin: 'java'
+sourceCompatibility = 1.7
+repositories {
+    jcenter() // alternatively, mavenCentral()
+}
+dependencies {
+    compile 'com.kushkipagos:kushkipagos:$VERSION'
+}
+  </pre>
+
+  <p>
+   <strong>Using Maven:</strong> Include this code in your <code>pom.xml</code> file, replacing
+   <code>$VERSION</code> with the version of the library to be installed:
+  </p>
+  <pre>
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.kushkipagos&lt;/groupId&gt;
+        &lt;artifactId&gt;kushkipagos&lt;/artifactId&gt;
+        &lt;version&gt;$VERSION&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+  </pre>
+
+  <h3>2. Instantiate a Kushki object</h3>
+  <pre>
+String merchantId = "REPLACE-WITH-YOUR-PRIVATE-MERCHANT-ID";
+String language = "es";
+String currency = "USD";
+KushkiEnvironment environment = KushkiEnvironment.PRODUCTION;
+Kushki kushki = new Kushki(merchantId, language, currency, environment);
+  </pre>
+
+  <h3>3. Use the Kushki object</h3>
+  <p>Use the following methods to interact with Kushki:</p>
+  <ul>
+    <li>{@link com.kushkipagos.Kushki#charge}</li>
+    <li>{@link com.kushkipagos.Kushki#deferredCharge}</li>
+    <li>{@link com.kushkipagos.Kushki#voidCharge}</li>
+    <li>{@link com.kushkipagos.Kushki#requestToken}</li>
+  </ul>
 </body>
 </html>
