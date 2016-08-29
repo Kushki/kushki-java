@@ -48,6 +48,7 @@ public class KushkiVoidIntegrationTest014to019and024 {
     public void shouldReturnSuccessfulVoidTransactionTC014() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         assertsValidTransaction(tokenTransaction);
         assertsValidTransaction(chargeTransaction);
+        System.out.println("Charge Ticket Number: " + chargeTransaction.getTicketNumber());
         assertsValidTransaction(voidTransaction);
     }
 

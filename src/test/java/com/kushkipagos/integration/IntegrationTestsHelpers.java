@@ -42,6 +42,7 @@ final class IntegrationTestsHelpers {
         String resultCode = transaction.getResponseCode();
         if (!isSuccessful.equals(resultSuccessful) || !expectedMessage.equals(resultMessage) || !expectedCode.equals(resultCode)) {
             LOG.warning("\n\nIs successful? " + resultSuccessful + " Expected: " + isSuccessful);
+            LOG.warning("Failed ticket number: " + transaction.getTicketNumber());
             LOG.warning("Response text: " + resultMessage + " Expected: " + expectedMessage);
             LOG.warning("Response code: " + resultCode + " Expected: " + expectedCode + "\n\n");
         }
