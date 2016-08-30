@@ -19,6 +19,13 @@ public class Card {
     @JsonProperty("card_present")
     private String cardPresent = "1";
 
+    /**
+     * @param name The cardholder name.
+     * @param number The card number.
+     * @param cvv The card security code, also known as CVC.
+     * @param expiryMonth The two digits of the expiry month from 01 to 12 (<i>e.g.</i> "08").
+     * @param expiryYear The last two digits of the expiry year (<i>e.g.</i> "21").
+     */
     public Card(String name, String number, String cvv, String expiryMonth, String expiryYear) {
         this.name = name;
         this.number = number;
