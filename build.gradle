@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 buildscript {
     repositories {
         jcenter()
@@ -99,7 +101,8 @@ tasks.withType(Test) {
     reports.html.destination = file("${reporting.baseDir}/${name}")
     outputs.upToDateWhen { false }
     testLogging {
-        showStandardStreams = true
+        events TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED,
+            TestLogEvent.STANDARD_ERROR, TestLogEvent.STANDARD_OUT
     }
 }
 
