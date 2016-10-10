@@ -8,15 +8,10 @@ apply plugin: 'maven'
 ext {
     pkgName = 'kushkipagos'
     groupName = 'com.kushkipagos'
-    pkgDesc = 'Librería Java para integrarse con KushkiPagos'
+    pkgDesc = 'Librería Java para integrarse con Kushki'
     githubRepo = 'github.com/Kushki/kushki-java'
     pkgLicense = 'MIT'
     pkgLicenseUrl = 'https://github.com/Kushki/kushki-java/blob/master/LICENSE.txt'
-    devInfo = {
-        id 'thoughtworks'
-        name 'Thoughtworks'
-        email 'kushki@thoughtworks.com'
-    }
     bintrayUser = System.getenv('BINTRAY_USER')
     bintrayKey = System.getenv('BINTRAY_API_KEY')
     mavenCentralUser = System.getenv('MAVEN_CENTRAL_USER')
@@ -41,6 +36,42 @@ artifacts {
     archives sourcesJar
 }
 
+install {
+    repositories.mavenInstaller {
+        pom.version = versionTag
+        pom.groupId = groupName
+        pom.artifactId = pkgName
+        pom.project {
+            name pkgName
+            description pkgDesc
+            url githubUrl
+            organization {
+                name 'Kushki S.A.'
+                url 'https://www.kushkipagos.com'
+            }
+            developers {
+                developer {
+                    id 'thoughtworks'
+                    name 'ThoughtWorks'
+                    email 'kushki@thoughtworks.com'
+                }
+            }
+            scm {
+                url githubUrl
+                connection scmUrl
+                developerConnection scmUrl
+            }
+            licenses {
+                license {
+                    name pkgLicense
+                    url pkgLicenseUrl
+                    distribution 'repo'
+                }
+            }
+        }
+    }
+}
+
 bintray {
     user = bintrayUser
     key = bintrayKey
@@ -59,7 +90,7 @@ bintray {
         version {
             name = versionTag
             desc = pkgDesc
-            vcsTag = versionTag
+            vcsTag = 'v' + versionTag
             released = new Date()
             gpg {
                 sign = true
@@ -69,39 +100,6 @@ bintray {
                 user = mavenCentralUser
                 password = mavenCentralToken
                 close = '1'
-            }
-        }
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        pom.name = pkgName
-        pom.version = versionTag
-        pom.groupId = groupName
-        pom.artifactId = pkgName
-        pom.project {
-            name pkgName
-            packaging 'bundle'
-            description pkgDesc
-            url githubUrl
-
-            scm {
-                url githubUrl
-                connection scmUrl
-                developerConnection scmUrl
-            }
-
-            developers {
-                developer devInfo
-            }
-
-            licenses {
-                license {
-                    name pkgLicense
-                    url pkgLicenseUrl
-                    distribution 'repo'
-                }
             }
         }
     }
