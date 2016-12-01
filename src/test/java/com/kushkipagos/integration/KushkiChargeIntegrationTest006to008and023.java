@@ -74,12 +74,14 @@ public class KushkiChargeIntegrationTest006to008and023 {
     public void shouldReturnFailedChargeTransactionInvalidCurrencyTC023() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InterruptedException {
         String merchantId = IntegrationTestsHelpers.MERCHANT_ID;
         String language = "es";
-        String currency = "xyz";
-        kushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
+        String currency = "USD";
+        String invalidCurrency = "XYZ";
+        Kushki tokenKushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction tokenTransaction = getValidTokenTransaction(kushki, amount.getTotalAmount());
+        Transaction tokenTransaction = getValidTokenTransaction(tokenKushki, amount.getTotalAmount());
         String token = tokenTransaction.getToken();
 
+        kushki = new Kushki(merchantId, language, invalidCurrency, KushkiEnvironment.TESTING);
         Transaction chargeTransaction = kushki.charge(token, amount);
 
         assertsValidTransaction(tokenTransaction);
