@@ -63,12 +63,48 @@ public class KushkiApiTokenTest {
     }
 
     @Test
+    public void shouldSendRightParametersToRequestTokenColombia() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Card card = TestsHelpers.getValidCard();
+        String stringifiedCard = objectMapper.writeValueAsString(card);
+        Integer totalAmount = 3200;
+        String stringifiedAmount = "3200";
+        AurusEncryption encryption = mock(AurusEncryption.class);
+        String encryptedParams = randomAlphabetic(10);
+        ArgumentCaptor<Entity> entityArgumentCaptor = ArgumentCaptor.forClass(Entity.class);
+        ArgumentCaptor<String> unencryptedParamsArgumentCaptor = ArgumentCaptor.forClass(String.class);
+        UnitTestsHelpers.mockEncryption(kushki, encryption, encryptedParams);
+        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, BASE_URL, Kushki.TOKENS_URL);
+
+        kushki.requestTokenColombia(card, totalAmount);
+
+        verify(invocationBuilder).post(entityArgumentCaptor.capture());
+        Entity<Map<String, String>> entity = entityArgumentCaptor.getValue();
+        Map<String, String> parameters = entity.getEntity();
+        assertThat(parameters.get("request"), is(encryptedParams));
+        verify(encryption).encryptMessageChunk(unencryptedParamsArgumentCaptor.capture());
+        parameters = objectMapper.readValue(unencryptedParamsArgumentCaptor.getValue(), Map.class);
+        assertThat(parameters.get("card"), is(stringifiedCard));
+        assertThat(parameters.get("amount"), is(stringifiedAmount));
+    }
+
+    @Test
     public void shouldReturnTransactionObjectAfterGettingToken() throws Exception {
         Invocation.Builder builder = UnitTestsHelpers.mockClient(kushki, BASE_URL, Kushki.TOKENS_URL);
         Response response = mock(Response.class);
         when(builder.post(any(Entity.class))).thenReturn(response);
         Card card = TestsHelpers.getValidCard();
         Transaction transaction = kushki.requestToken(card, 4d);
+        assertThat(transaction.getResponse(), is(response));
+    }
+
+    @Test
+    public void shouldReturnTransactionObjectAfterGettingTokenColombia() throws Exception {
+        Invocation.Builder builder = UnitTestsHelpers.mockClient(kushki, BASE_URL, Kushki.TOKENS_URL);
+        Response response = mock(Response.class);
+        when(builder.post(any(Entity.class))).thenReturn(response);
+        Card card = TestsHelpers.getValidCard();
+        Transaction transaction = kushki.requestTokenColombia(card, 3200);
         assertThat(transaction.getResponse(), is(response));
     }
 }

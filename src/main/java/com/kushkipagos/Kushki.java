@@ -108,6 +108,11 @@ public class Kushki {
         return post(CHARGE_URL, parameters);
     }
 
+    public Transaction chargeColombia(String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        Map<String, String> parameters = ParametersBuilder.getChargeParametersColombia(this, token, amount);
+        return post(CHARGE_URL, parameters);
+    }
+
     /**
      * Perform a deferred charge in Kushki using a valid token for the given amount.
      *
@@ -127,6 +132,12 @@ public class Kushki {
         return post(DEFERRED_CHARGE_URL, parameters);
     }
 
+    public Transaction deferredChargeColombia(String token, Amount amount, Integer months) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String validMonths = Validations.validateMonths(months);
+        Map<String, String> parameters = ParametersBuilder.getDeferredChargeParametersColombia(this, token, amount, validMonths);
+        return post(DEFERRED_CHARGE_URL, parameters);
+    }
+
     /**
      * Void a transaction previously performed in Kushki.
      *
@@ -141,6 +152,11 @@ public class Kushki {
      */
     public Transaction voidCharge(String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, ticket, amount);
+        return post(VOID_URL, parameters);
+    }
+
+    public Transaction voidChargeColombia(String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        Map<String, String> parameters = ParametersBuilder.getVoidRefundParametersColombia(this, ticket, amount);
         return post(VOID_URL, parameters);
     }
 
@@ -163,6 +179,11 @@ public class Kushki {
      */
     public Transaction requestToken(Card card, Double totalAmount) throws IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
         Map<String, String> parameters = ParametersBuilder.getTokenParameters(this, card, totalAmount);
+        return post(TOKENS_URL, parameters);
+    }
+
+    public Transaction requestTokenColombia(Card card, Integer totalAmount) throws IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
+        Map<String, String> parameters = ParametersBuilder.getTokenParametersColombia(this, card, totalAmount);
         return post(TOKENS_URL, parameters);
     }
 

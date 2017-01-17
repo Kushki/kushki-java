@@ -18,8 +18,18 @@ public final class ParametersBuilder {
         return encryptParams(kushki, params);
     }
 
+    static Map<String, String> getChargeParametersColombia(Kushki kushki, String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String params = buildAndStringifyChargeParametersColombia(kushki, token, amount);
+        return encryptParams(kushki, params);
+    }
+
     static Map<String, String> getDeferredChargeParameters(Kushki kushki, String token, Amount amount, String months) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String params = buildAndStringifyDeferredChargeParameters(kushki, token, amount, months);
+        return encryptParams(kushki, params);
+    }
+
+    static Map<String, String> getDeferredChargeParametersColombia(Kushki kushki, String token, Amount amount, String months) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String params = buildAndStringifyDeferredChargeParametersColombia(kushki, token, amount, months);
         return encryptParams(kushki, params);
     }
 
@@ -28,8 +38,18 @@ public final class ParametersBuilder {
         return encryptParams(kushki, params);
     }
 
+    static Map<String, String> getVoidRefundParametersColombia(Kushki kushki, String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String params = buildAndStringifyVoidRefundParametersColombia(kushki, ticket, amount);
+        return encryptParams(kushki, params);
+    }
+
     static Map<String, String> getTokenParameters(Kushki kushki, Card card, Double totalAmount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String params = buildAndStringifyTokenParameters(kushki, card, totalAmount);
+        return encryptParams(kushki, params);
+    }
+
+    static Map<String, String> getTokenParametersColombia(Kushki kushki, Card card, Integer totalAmount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        String params = buildAndStringifyTokenParametersColombia(kushki, card, totalAmount);
         return encryptParams(kushki, params);
     }
 
@@ -43,7 +63,17 @@ public final class ParametersBuilder {
     private static String buildAndStringifyChargeParameters(Kushki kushki, String token, Amount amount) throws JsonProcessingException, KushkiException {
         ObjectMapper mapperAmount = new ObjectMapper();
         String stringifiedAmount = mapperAmount.writeValueAsString(amount.toHash());
+        Map<String, String> parameters = getCommonParameters(kushki);
+        parameters.put("transaction_token", token);
+        parameters.put("transaction_amount", stringifiedAmount);
 
+        ObjectMapper mapperParameters = new ObjectMapper();
+        return mapperParameters.writeValueAsString(parameters);
+    }
+
+    private static String buildAndStringifyChargeParametersColombia(Kushki kushki, String token, Amount amount) throws JsonProcessingException, KushkiException {
+        ObjectMapper mapperAmount = new ObjectMapper();
+        String stringifiedAmount = mapperAmount.writeValueAsString(amount.toHashColombia());
         Map<String, String> parameters = getCommonParameters(kushki);
         parameters.put("transaction_token", token);
         parameters.put("transaction_amount", stringifiedAmount);
@@ -55,6 +85,19 @@ public final class ParametersBuilder {
     private static String buildAndStringifyDeferredChargeParameters(Kushki kushki, String token, Amount amount, String months) throws JsonProcessingException, KushkiException {
         ObjectMapper mapperAmount = new ObjectMapper();
         String stringifiedAmount = mapperAmount.writeValueAsString(amount.toHash());
+
+        Map<String, String> parameters = getCommonParameters(kushki);
+        parameters.put("transaction_token", token);
+        parameters.put("transaction_amount", stringifiedAmount);
+        parameters.put("months", months);
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(parameters);
+    }
+
+    private static String buildAndStringifyDeferredChargeParametersColombia(Kushki kushki, String token, Amount amount, String months) throws JsonProcessingException, KushkiException {
+        ObjectMapper mapperAmount = new ObjectMapper();
+        String stringifiedAmount = mapperAmount.writeValueAsString(amount.toHashColombia());
 
         Map<String, String> parameters = getCommonParameters(kushki);
         parameters.put("transaction_token", token);
@@ -77,7 +120,28 @@ public final class ParametersBuilder {
         return mapper.writeValueAsString(parameters);
     }
 
+    private static String buildAndStringifyVoidRefundParametersColombia(Kushki kushki, String ticket, Amount amount) throws JsonProcessingException, KushkiException {
+        ObjectMapper mapperAmount = new ObjectMapper();
+        String stringifiedAmount = mapperAmount.writeValueAsString(amount.toHashColombia());
+
+        Map<String, String> parameters = getCommonParameters(kushki);
+        parameters.put("ticket_number", ticket);
+        parameters.put("transaction_amount", stringifiedAmount);
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(parameters);
+    }
+
     private static String buildAndStringifyTokenParameters(Kushki kushki, Card card, Double totalAmount) throws JsonProcessingException, KushkiException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> parameters = getCommonParameters(kushki);
+        parameters.put("card", mapper.writeValueAsString(card));
+        parameters.put("amount", Validations.validateNumber(totalAmount, 0, 12, "El total"));
+        parameters.put("remember_me", "0");
+        return mapper.writeValueAsString(parameters);
+    }
+
+    private static String buildAndStringifyTokenParametersColombia(Kushki kushki, Card card, Integer totalAmount) throws JsonProcessingException, KushkiException {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> parameters = getCommonParameters(kushki);
         parameters.put("card", mapper.writeValueAsString(card));
