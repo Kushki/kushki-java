@@ -45,7 +45,6 @@ public final class TestsHelpers {
     }
 
     public static Amount getRandomAmountColombia() {
-        // https://xkcd.com/221/
         return new Amount(1d, 1d, 1d, new Tax(1d,1d,1d,1d));
     }
 

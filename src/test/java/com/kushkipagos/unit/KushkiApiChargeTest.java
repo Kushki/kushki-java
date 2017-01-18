@@ -56,7 +56,7 @@ public class KushkiApiChargeTest {
         String token = randomAlphabetic(10);
         Amount amount = TestsHelpers.getRandomAmountColombia();
         Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, KushkiEnvironment.TESTING.getUrl(), Kushki.CHARGE_URL);
-        kushki.chargeColombia(token, amount);
+        kushki.charge(token, amount);
         verify(invocationBuilder).post(any(Entity.class));
     }
 
@@ -91,13 +91,13 @@ public class KushkiApiChargeTest {
     public void shouldSendRightParametersToChargeCardColombia() throws NoSuchFieldException, IllegalAccessException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String token = randomAlphabetic(10);
         Amount amount = TestsHelpers.getRandomAmountColombia();
-        String stringifiedAmount = new ObjectMapper().writeValueAsString(amount.toHashColombia());
+        String stringifiedAmount = new ObjectMapper().writeValueAsString(amount.toHash());
 
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encrypted = randomAlphabetic(10);
         UnitTestsHelpers.mockEncryption(kushki, encryption, encrypted);
         Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, KushkiEnvironment.TESTING.getUrl(), Kushki.CHARGE_URL);
-        kushki.chargeColombia(token, amount);
+        kushki.charge(token, amount);
 
         ArgumentCaptor<Entity> entityArgumentCaptor = ArgumentCaptor.forClass(Entity.class);
         ArgumentCaptor<String> unencryptedParamsArgumentCaptor = ArgumentCaptor.forClass(String.class);
@@ -135,7 +135,7 @@ public class KushkiApiChargeTest {
 
         Response response = mock(Response.class);
         when(invocationBuilder.post(any(Entity.class))).thenReturn(response);
-        Transaction transaction = kushki.chargeColombia(token, amount);
+        Transaction transaction = kushki.charge(token, amount);
         assertThat(transaction.getResponse(), is(response));
     }
 }

@@ -73,7 +73,7 @@ public class KushkiApiDeferredChargeTest {
         String token = randomAlphabetic(10);
         Amount amount = TestsHelpers.getRandomAmountColombia();
         Integer months = TestsHelpers.getRandomMonthsColombia();
-        String stringifiedAmount = new ObjectMapper().writeValueAsString(amount.toHashColombia());
+        String stringifiedAmount = new ObjectMapper().writeValueAsString(amount.toHash());
 
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encrypted = randomAlphabetic(10);

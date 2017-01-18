@@ -108,11 +108,6 @@ public class Kushki {
         return post(CHARGE_URL, parameters);
     }
 
-    public Transaction chargeColombia(String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        Map<String, String> parameters = ParametersBuilder.getChargeParametersColombia(this, token, amount);
-        return post(CHARGE_URL, parameters);
-    }
-
     /**
      * Perform a deferred charge in Kushki using a valid token for the given amount.
      *
@@ -179,11 +174,6 @@ public class Kushki {
      */
     public Transaction requestToken(Card card, Double totalAmount) throws IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
         Map<String, String> parameters = ParametersBuilder.getTokenParameters(this, card, totalAmount);
-        return post(TOKENS_URL, parameters);
-    }
-
-    public Transaction requestTokenColombia(Card card, Double totalAmount) throws IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
-        Map<String, String> parameters = ParametersBuilder.getTokenParametersColombia(this, card, totalAmount);
         return post(TOKENS_URL, parameters);
     }
 

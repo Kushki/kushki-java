@@ -27,7 +27,6 @@ import static com.kushkipagos.integration.TokenHelper.getValidTokenTransactionCo
 
 public class KushkiChargeIntegrationTest006to008and023 {
     private Kushki kushki;
-    private Kushki kushkiColombia;
     private Kushki secretKushki;
     private Kushki secretKushkiColombia;
 
@@ -43,18 +42,18 @@ public class KushkiChargeIntegrationTest006to008and023 {
     @Before
     public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         kushki = setupKushki(false);
-        kushkiColombia = setupKushkiColombia(false);
+        Kushki kushkiColombia = setupKushkiColombia(false);
         secretKushki = setupKushki(true);
         secretKushkiColombia = setupKushkiColombia(true);
 
         amount = TestsHelpers.getRandomAmount();
         amountColombia = TestsHelpers.getRandomAmountColombia();
         tokenTransaction = getValidTokenTransaction(kushki, amount.getTotalAmount());
-        tokenTransactionColombia = getValidTokenTransactionColombia(kushkiColombia, amountColombia.getTotalAmountColombia());
+        tokenTransactionColombia = getValidTokenTransactionColombia(kushkiColombia, amountColombia.getTotalAmount());
         token = tokenTransaction.getToken();
         tokenColombia = tokenTransactionColombia.getToken();
         chargeTransaction = secretKushki.charge(token, amount);
-        chargeTransactionColombia = secretKushkiColombia.chargeColombia(tokenColombia, amountColombia);
+        chargeTransactionColombia = secretKushkiColombia.charge(tokenColombia, amountColombia);
     }
 
     @Test
@@ -82,7 +81,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
     @Test
     public void shouldReturnNonSuccessfulChargeTransactionUsedTokenTC007Colombia() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction secondChargeTransaction = secretKushkiColombia.chargeColombia(tokenColombia, amountColombia);
+        Transaction secondChargeTransaction = secretKushkiColombia.charge(tokenColombia, amountColombia);
 
         assertsValidTransaction(tokenTransactionColombia);
         assertsValidTransaction(chargeTransactionColombia);
@@ -104,7 +103,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
         String token = "k7jwynu59sd28wu81i2ygsyvllyfimju";
 
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction chargeTransaction = secretKushkiColombia.chargeColombia(token, amountColombia);
+        Transaction chargeTransaction = secretKushkiColombia.charge(token, amountColombia);
 
         assertsTransaction(chargeTransaction, false, "ID de comercio no válido", "201");
     }
@@ -135,11 +134,11 @@ public class KushkiChargeIntegrationTest006to008and023 {
         String invalidCurrency = "XYZ";
         Kushki tokenKushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction tokenTransaction = getValidTokenTransactionColombia(tokenKushki, amountColombia.getTotalAmountColombia());
+        Transaction tokenTransaction = getValidTokenTransactionColombia(tokenKushki, amountColombia.getTotalAmount());
         String token = tokenTransaction.getToken();
 
         kushki = new Kushki(merchantId, language, invalidCurrency, KushkiEnvironment.TESTING);
-        Transaction chargeTransaction = kushki.chargeColombia(token, amountColombia);
+        Transaction chargeTransaction = kushki.charge(token, amountColombia);
 
         assertsValidTransaction(tokenTransaction);
         assertsTransaction(chargeTransaction, false, "Tipo de moneda no válida", "205");

@@ -76,7 +76,7 @@ public class KushkiApiTokenTest {
         UnitTestsHelpers.mockEncryption(kushki, encryption, encryptedParams);
         Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, BASE_URL, Kushki.TOKENS_URL);
 
-        kushki.requestTokenColombia(card, totalAmount);
+        kushki.requestToken(card, totalAmount);
 
         verify(invocationBuilder).post(entityArgumentCaptor.capture());
         Entity<Map<String, String>> entity = entityArgumentCaptor.getValue();
@@ -104,7 +104,7 @@ public class KushkiApiTokenTest {
         Response response = mock(Response.class);
         when(builder.post(any(Entity.class))).thenReturn(response);
         Card card = TestsHelpers.getValidCard();
-        Transaction transaction = kushki.requestTokenColombia(card, 3200d);
+        Transaction transaction = kushki.requestToken(card, 3200d);
         assertThat(transaction.getResponse(), is(response));
     }
 }

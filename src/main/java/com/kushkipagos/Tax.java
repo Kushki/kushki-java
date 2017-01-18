@@ -3,9 +3,6 @@ package com.kushkipagos;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by acabrera on 17/01/17.
- */
 public class Tax {
     private Double propina;
     private Double tasaAeroportuaria;
@@ -17,10 +14,9 @@ public class Tax {
         this.tasaAeroportuaria = tasaAeroportuaria;
         this.agenciaDeViaje = agenciaDeViaje;
         this.iac = iac;
-
     }
 
-    public Double getTotalTax() {return propina + tasaAeroportuaria + agenciaDeViaje + iac;}
+    public Double getTotalTax() { return propina + tasaAeroportuaria + agenciaDeViaje + iac; }
 
     public Map<String, String> toHash() throws KushkiException {
         String validatedPropina = Validations.validateNumber(propina,0, 12, "La propina");
