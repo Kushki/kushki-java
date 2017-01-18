@@ -1,11 +1,7 @@
 package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kushkipagos.Amount;
-import com.kushkipagos.Kushki;
-import com.kushkipagos.KushkiEnvironment;
-import com.kushkipagos.KushkiException;
-import com.kushkipagos.Transaction;
+import com.kushkipagos.*;
 import com.kushkipagos.commons.TestsHelpers;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +14,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
-import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
-import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushkiColombia;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.*;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransactionColombia;
 
@@ -79,27 +72,7 @@ public class KushkiChargeIntegrationTest006to008and023 {
     }
 
     @Test
-    public void shouldReturnNonSuccessfulChargeTransactionUsedTokenTC007Colombia() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
-        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction secondChargeTransaction = secretKushkiColombia.charge(tokenColombia, amountColombia);
-
-        assertsValidTransaction(tokenTransactionColombia);
-        assertsValidTransaction(chargeTransactionColombia);
-        assertsTransaction(secondChargeTransaction, false, "El token de la transacción ha expirado", "578");
-    }
-
-    @Test
     public void shouldReturnNonSuccessfulChargeTransactionInvalidTokenTC008() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
-        String token = "k7jwynu59sd28wu81i2ygsyvllyfimju";
-
-        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction chargeTransaction = secretKushki.charge(token, amount);
-
-        assertsTransaction(chargeTransaction, false, "ID de comercio no válido", "201");
-    }
-
-    @Test
-    public void shouldReturnNonSuccessfulChargeTransactionInvalidTokenTC008Colombia() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
         String token = "k7jwynu59sd28wu81i2ygsyvllyfimju";
 
         Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
@@ -125,23 +98,4 @@ public class KushkiChargeIntegrationTest006to008and023 {
         assertsValidTransaction(tokenTransaction);
         assertsTransaction(chargeTransaction, false, "Tipo de moneda no válida", "205");
     }
-
-    @Test
-    public void shouldReturnFailedChargeTransactionInvalidCurrencyTC023Colombia() throws IOException, BadPaddingException, IllegalBlockSizeException, KushkiException, InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InterruptedException {
-        String merchantId = IntegrationTestsHelpers.MERCHANT_ID;
-        String language = "es";
-        String currency = "COP";
-        String invalidCurrency = "XYZ";
-        Kushki tokenKushki = new Kushki(merchantId, language, currency, KushkiEnvironment.TESTING);
-        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-        Transaction tokenTransaction = getValidTokenTransactionColombia(tokenKushki, amountColombia.getTotalAmount());
-        String token = tokenTransaction.getToken();
-
-        kushki = new Kushki(merchantId, language, invalidCurrency, KushkiEnvironment.TESTING);
-        Transaction chargeTransaction = kushki.charge(token, amountColombia);
-
-        assertsValidTransaction(tokenTransaction);
-        assertsTransaction(chargeTransaction, false, "Tipo de moneda no válida", "205");
-    }
-
 }

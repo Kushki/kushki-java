@@ -5,11 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -127,12 +123,6 @@ public class Kushki {
         return post(DEFERRED_CHARGE_URL, parameters);
     }
 
-    public Transaction deferredChargeColombia(String token, Amount amount, Integer months) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String validMonths = Validations.validateMonths(months);
-        Map<String, String> parameters = ParametersBuilder.getDeferredChargeParametersColombia(this, token, amount, validMonths);
-        return post(DEFERRED_CHARGE_URL, parameters);
-    }
-
     /**
      * Void a transaction previously performed in Kushki.
      *
@@ -147,11 +137,6 @@ public class Kushki {
      */
     public Transaction voidCharge(String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         Map<String, String> parameters = ParametersBuilder.getVoidRefundParameters(this, ticket, amount);
-        return post(VOID_URL, parameters);
-    }
-
-    public Transaction voidChargeColombia(String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        Map<String, String> parameters = ParametersBuilder.getVoidRefundParametersColombia(this, ticket, amount);
         return post(VOID_URL, parameters);
     }
 

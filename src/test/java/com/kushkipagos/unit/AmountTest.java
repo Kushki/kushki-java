@@ -85,26 +85,4 @@ public class AmountTest {
                 {invalidIce, "El ICE debe ser superior o igual a 0"},
         };
     }
-
-    @SuppressWarnings("unused")
-    private Object[][] invalidAmountsAndExceptionMessagesForColombia() {
-        Tax invalidPropina = new Tax(-2d, 0d,0d, 0d);
-        Tax invalidTasaAeroportuaria = new Tax(0d, -2d,0d, 0d);
-        Tax invalidAgenciaDeViaje = new Tax(0d, 0d,-2d, 0d);
-        Tax invalidIac = new Tax(0d, 0d,0d, -2d);
-
-        Amount invalidSubtotalIVA = new Amount(-2d, 0d, 0d, 0d);
-        Amount invalidIva = new Amount(0d, -2d, 0d,  0d);
-        Amount invalidSubtotalIVA0 = new Amount(0d, 0d, -2d,  0d);
-
-        return new Object[][]{
-                {invalidSubtotalIVA, "El subtotal IVA debe ser superior o igual a 0"},
-                {invalidSubtotalIVA0, "El subtotal IVA 0 debe ser superior o igual a 0"},
-                {invalidIva, "El IVA debe ser superior o igual a 0"},
-                {invalidPropina, "El ICE debe ser superior o igual a 0"},
-                {invalidTasaAeroportuaria, "El ICE debe ser superior o igual a 0"},
-                {invalidAgenciaDeViaje, "El ICE debe ser superior o igual a 0"},
-                {invalidIac, "El ICE debe ser superior o igual a 0"},
-        };
-    }
 }

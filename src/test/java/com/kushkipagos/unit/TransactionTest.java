@@ -99,17 +99,6 @@ public class TransactionTest {
     }
 
     @Test
-    public void shouldReturnApprovedAmountColombia() throws IOException {
-        Map<String, String> jsonMap = new HashMap<>(1);
-        Integer amount = TestsHelpers.getRandomIntegerAmount();
-        jsonMap.put("approved_amount", String.valueOf(amount));
-        JsonNode node = OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(jsonMap), JsonNode.class);
-        when(response.readEntity(JsonNode.class)).thenReturn(node);
-        transaction = new Transaction(response);
-        assertThat(transaction.getApprovedAmountColombia(), is(amount));
-    }
-
-    @Test
     public void shouldReturnResponseCode() throws IOException {
         Map<String, String> jsonMap = new HashMap<>(1);
         String responseCode = randomAlphabetic(3);

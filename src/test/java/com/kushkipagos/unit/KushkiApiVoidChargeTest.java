@@ -2,12 +2,7 @@ package com.kushkipagos.unit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kushkipagos.Amount;
-import com.kushkipagos.AurusEncryption;
-import com.kushkipagos.Kushki;
-import com.kushkipagos.KushkiEnvironment;
-import com.kushkipagos.KushkiException;
-import com.kushkipagos.Transaction;
+import com.kushkipagos.*;
 import com.kushkipagos.commons.TestsHelpers;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,9 +20,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class KushkiApiVoidChargeTest {
 
@@ -55,7 +48,7 @@ public class KushkiApiVoidChargeTest {
         String ticket = randomAlphabetic(10);
         Amount amount = TestsHelpers.getRandomAmountColombia();
         Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki, KushkiEnvironment.TESTING.getUrl(), Kushki.VOID_URL);
-        kushki.voidChargeColombia(ticket, amount);
+        kushki.voidCharge(ticket, amount);
         verify(invocationBuilder).post(any(Entity.class));
     }
 
@@ -95,7 +88,7 @@ public class KushkiApiVoidChargeTest {
         String encrypted = randomAlphabetic(10);
         UnitTestsHelpers.mockEncryption(kushki, encryption, encrypted);
         Invocation.Builder invocationBuilder = UnitTestsHelpers.mockInvocationBuilder(kushki,KushkiEnvironment.TESTING.getUrl(),  Kushki.VOID_URL);
-        kushki.voidChargeColombia(ticket, amount);
+        kushki.voidCharge(ticket, amount);
 
         ArgumentCaptor<Entity> entityArgumentCaptor = ArgumentCaptor.forClass(Entity.class);
         ArgumentCaptor<String> unencryptedParamsArgumentCaptor = ArgumentCaptor.forClass(String.class);
@@ -124,16 +117,4 @@ public class KushkiApiVoidChargeTest {
         assertThat(transaction.getResponse(), is(response));
     }
 
-    @Test
-    public void shouldReturnTransactionObjectAfterVoidingChargeColombia() throws NoSuchFieldException, IllegalAccessException, JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        String ticket = randomAlphabetic(10);
-        Amount amount = TestsHelpers.getRandomAmountColombia();
-
-        Invocation.Builder invocationBuilder = UnitTestsHelpers.mockClient(kushki, KushkiEnvironment.TESTING.getUrl(), Kushki.VOID_URL);
-
-        Response response = mock(Response.class);
-        when(invocationBuilder.post(any(Entity.class))).thenReturn(response);
-        Transaction transaction = kushki.voidChargeColombia(ticket, amount);
-        assertThat(transaction.getResponse(), is(response));
-    }
 }

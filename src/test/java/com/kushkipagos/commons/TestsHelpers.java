@@ -40,7 +40,6 @@ public final class TestsHelpers {
     }
 
     public static Amount getRandomAmount() {
-        // https://xkcd.com/221/
         return new Amount(1d, 1d, 1d, 1d);
     }
 
@@ -50,10 +49,6 @@ public final class TestsHelpers {
 
     public static Double getRandomDoubleAmount() {
         return getRandomAmount(true);
-    }
-
-    public static Integer getRandomIntegerAmount() {
-        return getRandomAmountIntegerColombia();
     }
 
     public static Integer getRandomMonths() {

@@ -1,11 +1,7 @@
 package com.kushkipagos.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kushkipagos.Card;
-import com.kushkipagos.Kushki;
-import com.kushkipagos.KushkiEnvironment;
-import com.kushkipagos.KushkiException;
-import com.kushkipagos.Transaction;
+import com.kushkipagos.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,10 +13,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
-import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
-import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
-import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushkiColombia;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.*;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransactionColombia;
 
