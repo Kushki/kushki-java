@@ -67,8 +67,8 @@ public class KushkiApiTokenTest {
         ObjectMapper objectMapper = new ObjectMapper();
         Card card = TestsHelpers.getValidCard();
         String stringifiedCard = objectMapper.writeValueAsString(card);
-        Integer totalAmount = 3200;
-        String stringifiedAmount = "3200";
+        Double totalAmount = 3200d;
+        String stringifiedAmount = "3200.00";
         AurusEncryption encryption = mock(AurusEncryption.class);
         String encryptedParams = randomAlphabetic(10);
         ArgumentCaptor<Entity> entityArgumentCaptor = ArgumentCaptor.forClass(Entity.class);
@@ -104,7 +104,7 @@ public class KushkiApiTokenTest {
         Response response = mock(Response.class);
         when(builder.post(any(Entity.class))).thenReturn(response);
         Card card = TestsHelpers.getValidCard();
-        Transaction transaction = kushki.requestTokenColombia(card, 3200);
+        Transaction transaction = kushki.requestTokenColombia(card, 3200d);
         assertThat(transaction.getResponse(), is(response));
     }
 }

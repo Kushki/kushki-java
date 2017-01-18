@@ -21,4 +21,12 @@ final class TokenHelper {
     static Transaction getValidTokenTransaction(Kushki kushki, Double totalAmount) throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
         return kushki.requestToken(TestsHelpers.getValidCard(), totalAmount);
     }
+
+    static Transaction getValidTokenTransactionColombia(Kushki kushki) throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+        return kushki.requestTokenColombia(TestsHelpers.getValidCardColombia(), 3200d);
+    }
+
+    static Transaction getValidTokenTransactionColombia(Kushki kushki, Double totalAmount) throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException {
+        return kushki.requestTokenColombia(TestsHelpers.getValidCardColombia(), totalAmount);
+    }
 }

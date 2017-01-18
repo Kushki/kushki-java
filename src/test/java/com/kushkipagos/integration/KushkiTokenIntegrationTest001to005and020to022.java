@@ -20,21 +20,32 @@ import java.security.spec.InvalidKeySpecException;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.assertsValidTransaction;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushki;
+import static com.kushkipagos.integration.IntegrationTestsHelpers.setupKushkiColombia;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
+import static com.kushkipagos.integration.TokenHelper.getValidTokenTransactionColombia;
 
 public class KushkiTokenIntegrationTest001to005and020to022 {
     private Kushki kushki;
+    private Kushki kushkiColombia;
     private Transaction tokenTransaction;
+    private Transaction tokenTransactionColombia;
 
     @Before
     public void setUp() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException {
         kushki = setupKushki(false);
+        kushkiColombia = setupKushkiColombia(false);
     }
 
     @Test
     public void shouldReturnSuccessfulTokenTransactionTC001() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         tokenTransaction = getValidTokenTransaction(kushki);
         assertsValidTransaction(tokenTransaction);
+    }
+
+    @Test
+    public void shouldReturnSuccessfulTokenTransactionTC001Colombia() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        tokenTransactionColombia = getValidTokenTransactionColombia(kushkiColombia);
+        assertsValidTransaction(tokenTransactionColombia);
     }
 
     @Test

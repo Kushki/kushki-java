@@ -48,7 +48,7 @@ public final class ParametersBuilder {
         return encryptParams(kushki, params);
     }
 
-    static Map<String, String> getTokenParametersColombia(Kushki kushki, Card card, Integer totalAmount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+    static Map<String, String> getTokenParametersColombia(Kushki kushki, Card card, Double totalAmount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
         String params = buildAndStringifyTokenParametersColombia(kushki, card, totalAmount);
         return encryptParams(kushki, params);
     }
@@ -141,7 +141,7 @@ public final class ParametersBuilder {
         return mapper.writeValueAsString(parameters);
     }
 
-    private static String buildAndStringifyTokenParametersColombia(Kushki kushki, Card card, Integer totalAmount) throws JsonProcessingException, KushkiException {
+    private static String buildAndStringifyTokenParametersColombia(Kushki kushki, Card card, Double totalAmount) throws JsonProcessingException, KushkiException {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> parameters = getCommonParameters(kushki);
         parameters.put("card", mapper.writeValueAsString(card));
