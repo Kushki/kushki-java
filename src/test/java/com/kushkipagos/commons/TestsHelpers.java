@@ -2,7 +2,7 @@ package com.kushkipagos.commons;
 
 import com.kushkipagos.Amount;
 import com.kushkipagos.Card;
-import com.kushkipagos.Tax;
+import com.kushkipagos.ExtraTaxes;
 
 import java.util.Random;
 
@@ -44,7 +44,7 @@ public final class TestsHelpers {
     }
 
     public static Amount getRandomAmountColombia() {
-        return new Amount(1d, 1d, 1d, new Tax(1d,1d,1d,1d));
+        return new Amount(1d, 1d, 1d, new ExtraTaxes(1d,1d,1d,1d));
     }
 
     public static Double getRandomDoubleAmount() {

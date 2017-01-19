@@ -1,5 +1,6 @@
 package com.kushkipagos.unit;
 
+import com.kushkipagos.KushkiException;
 import com.kushkipagos.Tax;
 import org.junit.Test;
 
@@ -7,26 +8,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class TaxTest {
+
     @Test
-    public void shouldCalculateTotalTax() throws Exception {
-        Tax tax = new Tax(1d, 4d, 5d, 7d);
-        Double expectedTotal = 17d;
-        assertEquals(tax.getTotalTax(), expectedTotal);
+    public void shouldTransformToHash() throws KushkiException {
+        String id = "3";
+        String name = "Propina";
+        Double amount = 0.0;
+        Tax tax = new Tax(id, name, amount);
+        Map<String, String> result = tax.toHash();
+        Map<String, String> expectedTax = new HashMap<>();
+        expectedTax.put("taxId", "3");
+        expectedTax.put("taxAmount", "0.00");
+        expectedTax.put("taxName", "Propina");
+        assertThat(result, is(expectedTax));
     }
 
     @Test
-    public void shouldTransformTaxToHash() throws Exception {
-        Tax tax = new Tax(0d, 0d, 0d, 0d);
-        Map<String, String> expectedTax = new HashMap<>();
-        expectedTax.put("Propina", "0.00");
-        expectedTax.put("Tasa_Aeroportuaria", "0.00");
-        expectedTax.put("Agencia_De_Viaje", "0.00");
-        expectedTax.put("Iac", "0.00");
-        expectedTax.put("Total_Tax", "0.00");
-        assertThat(tax.toHash(), is(expectedTax));
+    public void shouldThrowKushkiExceptionIfTaxIsInvalid() {
+        Exception exception = null;
+        try {
+            new Tax("1", "name", -2d).toHash();
+        } catch (KushkiException e) {
+            exception = e;
+        }
+        String exceptionMessage = "El Amount debe ser superior o igual a 0";
+        assertNotNull("Exception should not be null", exception);
+        assertThat("Tax should be invalid because: " + exceptionMessage, exception.getMessage(),
+                is(exceptionMessage));
     }
 
 }

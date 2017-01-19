@@ -1,8 +1,8 @@
 package com.kushkipagos.unit;
 
 import com.kushkipagos.Amount;
+import com.kushkipagos.ExtraTaxes;
 import com.kushkipagos.KushkiException;
-import com.kushkipagos.Tax;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
@@ -23,13 +23,12 @@ public class AmountTest {
     @Test
     public void shouldTransformToHash() throws KushkiException {
         Amount amount = new Amount(0d, 0d, 0d, 0d);
-        Map<String, String> result = amount.toHash();
-        Map<String, String> expectedResult = new HashMap<>();
+        Map<String, Object> result = amount.toHash();
+        Map<String, Object> expectedResult = new HashMap<>();
         expectedResult.put("Subtotal_IVA", "0.00");
         expectedResult.put("Subtotal_IVA0", "0.00");
         expectedResult.put("IVA", "0.00");
         expectedResult.put("ICE", "0.00");
-        expectedResult.put("TAX", "0.00");
         expectedResult.put("Total_amount", "0.00");
         assertThat(result, is(expectedResult));
     }
@@ -43,17 +42,18 @@ public class AmountTest {
         Double total = subtotalIVA + iva + subtotalIVA0 + ice;
 
         Amount amount = new Amount(subtotalIVA, iva, subtotalIVA0, ice);
-        Map<String, String> result = amount.toHash();
-        Map<String, String> expectedResult = new HashMap<>();
+        Map<String, Object> result = amount.toHash();
+        Map<String, Object> expectedResult = new HashMap<>();
 
         expectedResult.put("Subtotal_IVA", getStringValue(subtotalIVA));
         expectedResult.put("Subtotal_IVA0", getStringValue(subtotalIVA0));
         expectedResult.put("IVA", getStringValue(iva));
         expectedResult.put("ICE", getStringValue(ice));
-        expectedResult.put("TAX", "0.00");
         expectedResult.put("Total_amount", getStringValue(total));
         assertThat(result, is(expectedResult));
     }
+
+    // TODO: Test this cases with a Colombian Amount
 
     @Test
     @Parameters(method = "invalidAmountsAndExceptionMessages")

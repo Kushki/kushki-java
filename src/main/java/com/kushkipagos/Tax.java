@@ -4,32 +4,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Tax {
-    private Double propina;
-    private Double tasaAeroportuaria;
-    private Double agenciaDeViaje;
-    private Double iac;
+    private String id;
+    private String name;
+    private Double amount;
 
-    public Tax(Double propina, Double tasaAeroportuaria, Double agenciaDeViaje, Double iac) {
-        this.propina = propina;
-        this.tasaAeroportuaria = tasaAeroportuaria;
-        this.agenciaDeViaje = agenciaDeViaje;
-        this.iac = iac;
+    public Tax(String id, String name, Double amount) {
+        this.id = id;
+        this.name = name;
+        this.setAmount(amount);
     }
 
-    public Double getTotalTax() { return propina + tasaAeroportuaria + agenciaDeViaje + iac; }
-
     public Map<String, String> toHash() throws KushkiException {
-        String validatedPropina = Validations.validateNumber(propina,0, 12, "La propina");
-        String validatedTasaAeroportuaria = Validations.validateNumber(getTotalTax(), 0, 12, "La tasa aeroportuaria");
-        String validatedAgenciaDeViaje= Validations.validateNumber(agenciaDeViaje, 0, 12, "La agencia de viaje");
-        String validatedIac = Validations.validateNumber(iac, 0, 12, "El IAC");
-        String validatedTotalTax = Validations.validateNumber(getTotalTax(), 0, 12, "El tax total");
         Map<String, String> hashMap = new HashMap<>();
-        hashMap.put("Propina", validatedPropina);
-        hashMap.put("Tasa_Aeroportuaria", validatedTasaAeroportuaria);
-        hashMap.put("Agencia_De_Viaje", validatedAgenciaDeViaje);
-        hashMap.put("Iac", validatedIac);
-        hashMap.put("Total_Tax", validatedTotalTax);
+        hashMap.put("taxId", this.id);
+        hashMap.put("taxAmount", Validations.validateNumber(this.getAmount(), 0, 12, "El Amount"));
+        hashMap.put("taxName", this.name);
         return hashMap;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public Double getAmount() {
+        return this.amount;
     }
 }
