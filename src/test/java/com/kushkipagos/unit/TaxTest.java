@@ -1,5 +1,6 @@
-package com.kushkipagos;
+package com.kushkipagos.unit;
 
+import com.kushkipagos.Tax;
 import org.junit.Test;
 
 import java.util.HashMap;
