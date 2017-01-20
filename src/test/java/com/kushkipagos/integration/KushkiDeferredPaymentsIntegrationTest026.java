@@ -11,10 +11,10 @@ import org.junit.Test;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
-import static com.kushkipagos.commons.TestsHelpers.getRandomAmount;
-import static com.kushkipagos.commons.TestsHelpers.getRandomMonths;
+import static com.kushkipagos.commons.TestsHelpers.*;
 import static com.kushkipagos.integration.IntegrationTestsHelpers.*;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
+import static com.kushkipagos.integration.TokenHelper.getValidTokenTransactionColombia;
 
 public class KushkiDeferredPaymentsIntegrationTest026 {
 
@@ -45,18 +45,17 @@ public class KushkiDeferredPaymentsIntegrationTest026 {
         assertsValidTransaction(deferredChargeTransaction);
     }
 
-    // TODO: Uncomment this test when Aurus fixes token logic
-//    @Test
-//    public void shouldReturnSuccessfulDeferredChargeTransactionTC026Colombia() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
-//        Amount amount = getRandomAmountColombia();
-//        Transaction tokenTransaction = getValidTokenTransactionColombia(kushkiColombia, amount.getTotalAmount());
-//        Integer months = getRandomMonthsColombia();
-//        String token = tokenTransaction.getToken();
-//
-//        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-//        Transaction deferredChargeTransaction = secretKushkiColombia.deferredCharge(token, amount, months);
-//
-//        assertsValidTransaction(tokenTransaction);
-//        assertsValidTransaction(deferredChargeTransaction);
-//    }
+    @Test
+    public void shouldReturnSuccessfulDeferredChargeTransactionTC026Colombia() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
+        Amount amount = getRandomAmountColombia();
+        Transaction tokenTransaction = getValidTokenTransactionColombia(kushkiColombia, amount.getTotalAmount());
+        Integer months = getRandomMonthsColombia();
+        String token = tokenTransaction.getToken();
+
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
+        Transaction deferredChargeTransaction = secretKushkiColombia.deferredCharge(token, amount, months);
+
+        assertsValidTransaction(tokenTransaction);
+        assertsValidTransaction(deferredChargeTransaction);
+    }
 }

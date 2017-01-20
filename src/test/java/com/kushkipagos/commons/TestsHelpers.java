@@ -44,7 +44,8 @@ public final class TestsHelpers {
     }
 
     public static Amount getRandomAmountColombia() {
-        return new Amount(1d, 1d, 1d, new ExtraTaxes(1d,1d,1d,1d));
+        return new Amount(16000d, 0d, 0d,
+                new ExtraTaxes(0d,2d,2d,2d));
     }
 
     public static Double getRandomDoubleAmount() {
