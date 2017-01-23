@@ -19,6 +19,7 @@ import java.security.spec.InvalidKeySpecException;
 
 import static com.kushkipagos.integration.IntegrationTestsHelpers.*;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
+import static com.kushkipagos.integration.TokenHelper.getValidTokenTransactionColombia;
 
 public class KushkiVoidIntegrationTest014to019and024 {
     private Kushki secretKushki;
@@ -49,7 +50,24 @@ public class KushkiVoidIntegrationTest014to019and024 {
         assertsValidTransaction(voidTransaction);
     }
 
-    // TODO: Add a test for a successful void transaction with Colombian merchant
+    @Test
+    public void shouldReturnSuccessfulVoidForColombianTransactionTC014() throws BadPaddingException, IllegalBlockSizeException, IOException, KushkiException, InterruptedException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException {
+        amount = TestsHelpers.getRandomAmountColombia();
+        secretKushki = setupKushkiColombia(true);
+        Kushki kushki = setupKushkiColombia(false);
+        tokenTransaction = getValidTokenTransactionColombia(kushki, amount.getTotalAmount());
+        String token = tokenTransaction.getToken();
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
+        chargeTransaction = secretKushki.charge(token, amount);
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
+        String ticket = chargeTransaction.getTicketNumber();
+        voidTransaction = secretKushki.voidCharge(ticket, amount);
+        assertsValidTransaction(tokenTransaction);
+        assertsValidTransaction(chargeTransaction);
+        System.out.println("Charge Ticket Number: " + chargeTransaction.getTicketNumber());
+        // TODO: Uncomment this when Colombian anular starts working
+//        assertsValidTransaction(voidTransaction);
+    }
 
     @Test
     public void shouldReturnFailedVoidTransactionNoTicketTC018() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {

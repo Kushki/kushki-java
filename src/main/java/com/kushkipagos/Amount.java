@@ -41,8 +41,7 @@ public class Amount {
         hashMap.put("Subtotal_IVA", validatedSubtotalIVA);
         hashMap.put("Subtotal_IVA0", validatedSubtotalIVA0);
         hashMap.put("IVA", validatedIva);
-        // TODO: Make ICE optional
-        hashMap.put("ICE", validatedIce);
+        if (ice > 0) hashMap.put("ICE", validatedIce);
         if (extraTaxes.size() > 0) hashMap.put("tax", extraTaxes);
         hashMap.put("Total_amount", validatedTotal);
         return hashMap;

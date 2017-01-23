@@ -18,7 +18,7 @@ public class TaxTest {
         String id = "3";
         String name = "Propina";
         Double amount = 0.0;
-        Tax tax = new Tax(id, name, amount);
+        Tax tax = new Tax(id, name, amount, "Tax");
         Map<String, String> result = tax.toHash();
         Map<String, String> expectedTax = new HashMap<>();
         expectedTax.put("taxId", "3");
@@ -31,11 +31,11 @@ public class TaxTest {
     public void shouldThrowKushkiExceptionIfTaxIsInvalid() {
         Exception exception = null;
         try {
-            new Tax("1", "name", -2d).toHash();
+            new Tax("1", "name", -2d, "El Tax").toHash();
         } catch (KushkiException e) {
             exception = e;
         }
-        String exceptionMessage = "El Amount debe ser superior o igual a 0";
+        String exceptionMessage = "El Tax debe ser superior o igual a 0";
         assertNotNull("Exception should not be null", exception);
         assertThat("Tax should be invalid because: " + exceptionMessage, exception.getMessage(),
                 is(exceptionMessage));

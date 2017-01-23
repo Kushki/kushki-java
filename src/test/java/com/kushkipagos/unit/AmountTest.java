@@ -22,14 +22,14 @@ public class AmountTest {
 
     @Test
     public void shouldTransformToHash() throws KushkiException {
-        Amount amount = new Amount(0d, 0d, 0d, 0d);
+        Amount amount = new Amount(0d, 0d, 0d, 1d);
         Map<String, Object> result = amount.toHash();
         Map<String, Object> expectedResult = new HashMap<>();
         expectedResult.put("Subtotal_IVA", "0.00");
         expectedResult.put("Subtotal_IVA0", "0.00");
         expectedResult.put("IVA", "0.00");
-        expectedResult.put("ICE", "0.00");
-        expectedResult.put("Total_amount", "0.00");
+        expectedResult.put("ICE", "1.00");
+        expectedResult.put("Total_amount", "1.00");
         assertThat(result, is(expectedResult));
     }
 
@@ -53,7 +53,25 @@ public class AmountTest {
         assertThat(result, is(expectedResult));
     }
 
-    // TODO: Test this cases with a Colombian Amount
+    @Test
+    public void shouldTransformToHashWithValidInputsForColombianAmount() throws KushkiException {
+        Double subtotalIVA = getRandomDouble(1d, 50d);
+        Double iva = getRandomDouble(1d, 50d);
+        Double subtotalIVA0 = getRandomDouble(1d, 50d);
+        ExtraTaxes extraTaxes = new ExtraTaxes(3d, 0d, 0d, 0d);
+        Double total = subtotalIVA + iva + subtotalIVA0 + extraTaxes.getTotalExtraTaxes();
+
+        Amount amount = new Amount(subtotalIVA, iva, subtotalIVA0, extraTaxes);
+        Map<String, Object> result = amount.toHash();
+        Map<String, Object> expectedResult = new HashMap<>();
+
+        expectedResult.put("Subtotal_IVA", getStringValue(subtotalIVA));
+        expectedResult.put("Subtotal_IVA0", getStringValue(subtotalIVA0));
+        expectedResult.put("IVA", getStringValue(iva));
+        expectedResult.put("tax", extraTaxes.toHashArray());
+        expectedResult.put("Total_amount", getStringValue(total));
+        assertThat(result, is(expectedResult));
+    }
 
     @Test
     @Parameters(method = "invalidAmountsAndExceptionMessages")
