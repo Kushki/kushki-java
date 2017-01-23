@@ -23,8 +23,8 @@ public class Kushki {
 
     private final Client client;
     private final KushkiEnvironment environment;
-    private final String defaultLanguage = "es";
-    private final String defaultCurrency = "USD";
+    private static final String defaultLanguage = "es";
+    private static final String defaultCurrency = "USD";
     private final KushkiEnvironment defaultEnvironment = KushkiEnvironment.PRODUCTION;
     private final String merchantId;
     private final String language;
