@@ -49,6 +49,15 @@ public class Kushki {
         this.environment = environment;
     }
 
+    public Kushki(String merchantId, KushkiEnvironment environment, String currency) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, IOException {
+        this.merchantId = merchantId;
+        this.language = defaultLanguage;
+        this.currency = currency;
+        this.encryption = new AurusEncryption();
+        this.client = ClientBuilder.newClient();
+        this.environment = environment;
+    }
+
     public Kushki(String merchantId, String language, String currency) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, InvalidKeySpecException {
         this.merchantId = merchantId;
         this.language = language;
@@ -90,7 +99,7 @@ public class Kushki {
     /**
      * Perform a charge in Kushki using a valid token for the given amount.
      *
-     * @param token A token obtained from the frontend or using the {@link #requestToken} method.
+     * @param token  A token obtained from the frontend or using the {@link #requestToken} method.
      * @param amount The detailed {@link Amount} to be charged.
      * @return A {@link Transaction} which contains the result of the operation.
      * @throws JsonProcessingException
@@ -107,7 +116,7 @@ public class Kushki {
     /**
      * Perform a deferred charge in Kushki using a valid token for the given amount.
      *
-     * @param token A token obtained from the frontend or using the {@link #requestToken} method.
+     * @param token  A token obtained from the frontend or using the {@link #requestToken} method.
      * @param amount The detailed {@link Amount} to be charged.
      * @param months The number of months to defer the payment.
      * @return A {@link Transaction} which contains the result of the operation.
@@ -147,10 +156,10 @@ public class Kushki {
      * <strong>Note:</strong> If you are using this method from your backend, be sure to comply with all the PCI
      * requirements to handle card data on your servers.
      *
-     * @param card The {@link Card} to which the token will be associated.
+     * @param card        The {@link Card} to which the token will be associated.
      * @param totalAmount The total amount which will be authorized.
      * @return A {@link Transaction} from which, if successful, the token can be extracted with the
-     *         {@link Transaction#getToken()} method.
+     * {@link Transaction#getToken()} method.
      * @throws IllegalBlockSizeException
      * @throws KushkiException
      * @throws BadPaddingException
