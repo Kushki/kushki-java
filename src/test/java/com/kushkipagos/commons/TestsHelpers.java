@@ -35,10 +35,6 @@ public final class TestsHelpers {
         return nextInt(1, 9999) + cents;
     }
 
-    private static Integer getRandomAmountIntegerColombia() {
-        return 2000 + (int)(Math.random() * 15000000);
-    }
-
     public static Amount getRandomAmount() {
         return new Amount(1d, 1d, 1d, 1d);
     }

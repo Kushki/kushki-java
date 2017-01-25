@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class ExtraTaxesTest {
+
     @Test
     public void shouldCalculateTotalTax() throws Exception {
         ExtraTaxes extraTaxes = new ExtraTaxes(1d, 4d, 5d, 7d);

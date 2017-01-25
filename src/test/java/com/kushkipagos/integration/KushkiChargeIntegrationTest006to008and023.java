@@ -19,6 +19,7 @@ import static com.kushkipagos.integration.TokenHelper.getValidTokenTransaction;
 import static com.kushkipagos.integration.TokenHelper.getValidTokenTransactionColombia;
 
 public class KushkiChargeIntegrationTest006to008and023 {
+
     private Kushki kushki;
     private Kushki secretKushki;
     private Kushki secretKushkiColombia;
