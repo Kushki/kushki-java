@@ -64,10 +64,9 @@ public class KushkiVoidIntegrationTest014to019and024 {
         String ticket = chargeTransaction.getTicketNumber();
         voidTransaction = secretKushki.voidCharge(ticket, amount);
         assertsValidTransaction(tokenTransaction);
-        // TODO: Uncomment this when Colombian void starts working
-//        assertsValidTransaction(chargeTransaction);
-//        System.out.println("Charge Ticket Number: " + chargeTransaction.getTicketNumber());
-//        assertsValidTransaction(voidTransaction);
+        assertsValidTransaction(chargeTransaction);
+        System.out.println("Charge Ticket Number: " + chargeTransaction.getTicketNumber());
+        assertsValidTransaction(voidTransaction);
     }
 
     @Test
