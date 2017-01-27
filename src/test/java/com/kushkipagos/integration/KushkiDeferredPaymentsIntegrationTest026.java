@@ -45,18 +45,17 @@ public class KushkiDeferredPaymentsIntegrationTest026 {
         assertsValidTransaction(deferredChargeTransaction);
     }
 
-    // TODO: Uncomment this when Colombian charge starts working
-//    @Test
-//    public void shouldReturnSuccessfulDeferredChargeTransactionTC026Colombia() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
-//        Amount amount = getRandomAmountColombia();
-//        Transaction tokenTransaction = getValidTokenTransactionColombia(kushkiColombia, amount.getTotalAmount());
-//        Integer months = getRandomMonthsColombia();
-//        String token = tokenTransaction.getToken();
-//
-//        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
-//        Transaction deferredChargeTransaction = secretKushkiColombia.deferredCharge(token, amount, months);
-//
-//        assertsValidTransaction(tokenTransaction);
-//        assertsValidTransaction(deferredChargeTransaction);
-//    }
+    @Test
+    public void shouldReturnSuccessfulDeferredChargeTransactionTC026Colombia() throws BadPaddingException, IllegalBlockSizeException, JsonProcessingException, KushkiException, InterruptedException {
+        Amount amount = getRandomAmountColombia();
+        Transaction tokenTransaction = getValidTokenTransactionColombia(kushkiColombia, amount.getTotalAmount());
+        Integer months = getRandomMonthsColombia();
+        String token = tokenTransaction.getToken();
+
+        Thread.sleep(IntegrationTestsHelpers.THREAD_SLEEP);
+        Transaction deferredChargeTransaction = secretKushkiColombia.deferredCharge(token, amount, months);
+
+        assertsValidTransaction(tokenTransaction);
+        assertsValidTransaction(deferredChargeTransaction);
+    }
 }

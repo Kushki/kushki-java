@@ -55,12 +55,12 @@ public class KushkiChargeIntegrationTest006to008and023 {
         assertsValidTransaction(tokenTransaction);
         assertsValidTransaction(chargeTransaction);
     }
-    // TODO: Uncomment this when Colombian charge starts working
-//    @Test
-//    public void shouldReturnSuccessfulChargeTransactionTC006Colombia() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-//        assertsValidTransaction(tokenTransactionColombia);
-//        assertsValidTransaction(chargeTransactionColombia);
-//    }
+
+    @Test
+    public void shouldReturnSuccessfulChargeTransactionTC006Colombia() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
+        assertsValidTransaction(tokenTransactionColombia);
+        assertsValidTransaction(chargeTransactionColombia);
+    }
 
     @Test
     public void shouldReturnNonSuccessfulChargeTransactionUsedTokenTC007() throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException, InterruptedException {
