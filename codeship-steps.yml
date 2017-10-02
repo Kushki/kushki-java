@@ -1,5 +1,5 @@
 - type: serial
   steps:
     - name: unit
-      service: java-test
+      service: kushki-java
       command: ./codeship/01-unit.sh
