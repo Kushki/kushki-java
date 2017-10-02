@@ -1,10 +1,20 @@
-FROM openjdk:7
-RUN wget -q https://services.gradle.org/distributions/gradle-3.3-bin.zip \
-    && unzip gradle-3.3-bin.zip -d /opt \
-    && rm gradle-3.3-bin.zip
+FROM java:openjdk-8-jdk
 
-ENV GRADLE_HOME /opt/gradle-3.3
-ENV PATH $PATH:/opt/gradle-3.3/bin
-COPY . /project
-WORKDIR /project
-CMD ["printenv"]
+
+WORKDIR /app
+
+
+COPY gradle gradle
+COPY \
+  ./gradle \
+  build.gradle \
+  gradle.properties \
+  gradlew \
+  settings.gradle \
+
+  ./
+
+RUN ./gradlew
+RUN gradle assemble
+
+ADD . ./

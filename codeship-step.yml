@@ -1,5 +1,4 @@
 - type: serial
-  steps:
-    - name: unit
-      service: shell
-      command: ./codeship/01-unit.sh
+- name: ci
+  service: kushki-java
+  command: gradle test
