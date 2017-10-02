@@ -1,5 +1,5 @@
 - type: serial
   steps:
     - name: unit
-      service: projectname
+      service: kushkipagos
       command: /project/gradlew test
