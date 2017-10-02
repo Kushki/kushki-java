@@ -1,4 +1,4 @@
 - type: serial
-- name: ci
+  name: ci
   service: kushki-java
   command: gradle test
