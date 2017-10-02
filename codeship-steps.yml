@@ -1,5 +1,5 @@
 - type: serial
   steps:
     - name: unit
-      service: kushki-java
+      service: project-name
       command: /project/gradlew test
