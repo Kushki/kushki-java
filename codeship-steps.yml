@@ -1,5 +1,5 @@
 - type: serial
   steps:
     - name: unit
-      service: project-name
+      service: projectname
       command: /project/gradlew test
