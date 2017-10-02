@@ -1,5 +1,5 @@
 - type: serial
   steps:
     - name: unit
-      service: php-fpm
+      service: shell
       command: ./codeship/01-unit.sh
