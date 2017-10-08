@@ -2,4 +2,16 @@
   steps:
     - name: unit
       service: kushkipagos
-      command: /project/gradlew test
+      command: /project/pipeline/01-unit.sh
+  steps:
+    - name: integration
+      service: kushkipagos
+      command: /project/pipeline/02-integration.sh
+  steps:
+    - name: documentation
+      service: kushkipagos
+      command: /project/pipeline/03-documentation.sh
+  steps:
+    - name: distribute
+      service: kushkipagos
+      command: /project/pipeline/04-distribute.sh
