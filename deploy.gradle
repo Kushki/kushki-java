@@ -71,36 +71,3 @@ install {
         }
     }
 }
-
-bintray {
-    user = bintrayUser
-    key = bintrayKey
-    publish = true
-    configurations = ['archives']
-    pkg {
-        repo = 'maven'
-        name = pkgName
-        userOrg = user
-        licenses = [pkgLicense]
-        publicDownloadNumbers = false
-        vcsUrl = githubUrl + '.git'
-        desc = pkgDesc
-        websiteUrl = githubUrl
-        issueTrackerUrl = githubUrl + '/issues'
-        version {
-            name = versionTag
-            desc = pkgDesc
-            vcsTag = 'v' + versionTag
-            released = new Date()
-            gpg {
-                sign = true
-            }
-            mavenCentralSync {
-                sync = true
-                user = mavenCentralUser
-                password = mavenCentralToken
-                close = '1'
-            }
-        }
-    }
-}
