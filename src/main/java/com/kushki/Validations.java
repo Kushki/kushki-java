@@ -1,4 +1,4 @@
-package com.kushkipagos;
+package com.kushki;
 
 import java.util.Locale;
 

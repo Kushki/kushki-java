@@ -1,6 +1,8 @@
-package com.kushkipagos;
+package com.kushki.TO;
 
-import java.util.ArrayList;
+import com.kushki.KushkiException;
+import com.kushki.Validations;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +21,6 @@ public class Amount {
         this.ice = ice;
     }
 
-    public Amount(Double subtotalIVA, Double iva, Double subtotalIVA0, ExtraTaxes extraTaxes) {
-        this.subtotalIVA = subtotalIVA;
-        this.iva = iva;
-        this.subtotalIVA0 = subtotalIVA0;
-        this.extraTaxes = extraTaxes;
-    }
 
     public Double getTotalAmount() {
         return subtotalIVA + subtotalIVA0 + iva + ice + extraTaxes.getTotalExtraTaxes();
@@ -46,4 +42,46 @@ public class Amount {
         hashMap.put("Total_amount", validatedTotal);
         return hashMap;
     }
+
+    public Double getSubtotalIVA() {
+        return subtotalIVA;
+    }
+
+    public void setSubtotalIVA(Double subtotalIVA) {
+        this.subtotalIVA = subtotalIVA;
+    }
+
+    public Double getIva() {
+        return iva;
+    }
+
+    public void setIva(Double iva) {
+        this.iva = iva;
+    }
+
+    public Double getSubtotalIVA0() {
+        return subtotalIVA0;
+    }
+
+    public void setSubtotalIVA0(Double subtotalIVA0) {
+        this.subtotalIVA0 = subtotalIVA0;
+    }
+
+    public Double getIce() {
+        return ice;
+    }
+
+    public void setIce(Double ice) {
+        this.ice = ice;
+    }
+
+    public ExtraTaxes getExtraTaxes() {
+        return extraTaxes;
+    }
+
+    public void setExtraTaxes(ExtraTaxes extraTaxes) {
+        this.extraTaxes = extraTaxes;
+    }
+
+
 }

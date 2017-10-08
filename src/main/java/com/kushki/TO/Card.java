@@ -1,4 +1,4 @@
-package com.kushkipagos;
+package com.kushki.TO;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,7 @@
-package com.kushkipagos;
+package com.kushki.TO;
+
+import com.kushki.KushkiException;
+import com.kushki.Validations;
 
 import java.util.HashMap;
 import java.util.Map;
