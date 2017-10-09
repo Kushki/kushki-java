@@ -9,7 +9,7 @@ artifact_version=$(gradle --quiet printVersion)
 #CI_BRANCH
 
 #if [ "$CI_BRANCH" == "DEVELOPE" ]; then
-gradle clean bintrayUpload
+gradle  bintrayUpload
 #fi
 
 # ENVIRONMENT VARIABLES:
