@@ -4,7 +4,7 @@
 curl $BACKOFFICE_URL > /dev/null
 
 gradle integrationtest
-gradle -Puser="{$BINTRAY_USER}" -Pkey="{$BINTRAY_API_KEY}" clean bintrayUpload
+gradle clean bintrayUpload
 # ARTIFACTS:
 # ARTIFACT build/libs
 #
