@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 artifact_version=$(gradle --quiet printVersion)
 
 #git tag --annotate "v$artifact_version" -m "Release for version $artifact_version"
