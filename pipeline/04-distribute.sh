@@ -3,7 +3,7 @@
 #CI_BRANCH
 
 #if [ "$CI_BRANCH" == "DEVELOPE" ]; then
-gradle  bintrayUpload
+gradle  clean bintrayUpload
 #fi
 
 # ENVIRONMENT VARIABLES:
