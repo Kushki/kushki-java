@@ -131,16 +131,9 @@ bintray {
     publications = ['***']
     pkg {
         repo = 'maven'
-        name = '***'
-        userOrg = user
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/***.git'
-        labels = ['asd']
+        name = 'kushki-java'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/Kushki/kushki-java.git'
         publicDownloadNumbers = false
-        version {
-            name = '***'
-            desc = '****'
-            vcsTag = '1.0.0'
-        }
     }
 }
