@@ -122,22 +122,7 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-javadoc {
-    options.overview = 'src/main/java/overview.html'
-}
 
-
-
-publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            from components.java
-            groupId 'com.kushkipagos'
-            artifactId 'kushkipagos'
-            version '1.3.-alpha-0'
-        }
-    }
-}
 
 // Create the pom configuration:
 def pomConfig = {
@@ -159,9 +144,30 @@ def pomConfig = {
         url "https://github.com/Kushki/kushki-java"
     }
 }
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId 'com.kushkipagos'
+            artifactId 'kushkipagos'
+            version '1.3.-alpha-0'
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Java backend library')
+                root.appendNode('name', 'kushkipagos')
+                root.appendNode('url', 'https://github.com/Kushki/kushki-java')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
 bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
+    user = "$System.env.BINTRAY_USER"
+    key = "$System.env.BINTRAY_API_KEY"
     publications = ['MyPublication']
     pkg {
         userOrg = user
