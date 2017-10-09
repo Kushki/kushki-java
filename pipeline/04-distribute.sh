@@ -8,9 +8,9 @@ artifact_version=$(gradle --quiet printVersion)
 #git push --tags
 #CI_BRANCH
 
-if [ "$CI_BRANCH" == "DEVELOPE" ]; then
+#if [ "$CI_BRANCH" == "DEVELOPE" ]; then
 gradle clean bintrayUpload
-fi
+#fi
 
 # ENVIRONMENT VARIABLES:
 # STAGE
