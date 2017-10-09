@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-gradle unitTest
+/project/pipeline/gradlew clean bintrayUpload
