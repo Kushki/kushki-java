@@ -4,7 +4,7 @@
 curl $BACKOFFICE_URL > /dev/null
 
 gradle integrationtest
-
+gradle bintrayUpload
 # ARTIFACTS:
 # ARTIFACT build/libs
 #
