@@ -8,4 +8,4 @@
       command: /project/pipeline/02-integration.sh
     - name: distribute
       service: kushkipagos
-      command: /project/pipeline/04-distribute.sh
+      command: /project/pipeline/03-distribute.sh
