@@ -6,3 +6,6 @@
     - name: integration
       service: kushkipagos
       command: /project/pipeline/02-integration.sh
+    - name: integration
+      service: kushkipagos
+      command: /project/pipeline/03-distribute.sh
