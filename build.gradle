@@ -128,10 +128,10 @@ javadoc {
 bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
-    publications = ['***']
+ //   publications = ['***']
     pkg {
         repo = 'maven'
-        name = 'kushki-java'
+        name = 'kushkipagos'
         licenses = ['MIT']
         vcsUrl = 'https://github.com/Kushki/kushki-java.git'
         publicDownloadNumbers = false
