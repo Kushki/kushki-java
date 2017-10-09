@@ -73,6 +73,7 @@ public class KushkiSuscriptionTest {
             assertThat("Good Subscription", transaction.isSuccessful());
             String subscriptionId = transaction.getSubscriptionId();
             assertThat("get the subscription id", subscriptionId.length() > 0);
+            Thread.sleep(5000);
             transaction = kushki.adjustSubscription(subscriptionId, new Date(), 2, new Amount(10d, 1d, 0d, 0d), KushkiAdjustSuscriptionEnum.DISCOUNT);
             assertThat("Good subscription", transaction.isSuccessful());
         } catch (Exception e) {
