@@ -16,8 +16,8 @@ public class IntegrationHelper {
     final static int THREAD_SLEEP = 1000;
     final static int THREAD_SLEEP_VOID = 4000;
 
-    public static final String MERCHANT_ID = "10000001641310597258111220";
-    private static final String SECRET_MERCHANT_ID = "10000001641344874123111220";
+    public static final String MERCHANT_ID = "10000001641080185390111217";
+    private static final String SECRET_MERCHANT_ID = "10000001641088709280111217";
 
     public static final String MERCHANT_ID_COLOMBIA = "10000001958318993042555001";
     private static final String SECRET_MERCHANT_ID_COLOMBIA = "10000001958363505343555001";

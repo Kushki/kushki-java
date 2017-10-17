@@ -1,8 +1,8 @@
 package com.kushkipagos.integration;
 
+import com.kushki.Kushki;
 import com.kushki.enums.KushkiAdjustSubscription;
 import com.kushki.enums.KushkiPeriodicitySubscriptionType;
-import com.kushki.Kushki;
 import com.kushki.to.Amount;
 import com.kushki.to.ContactDetail;
 import com.kushki.to.SuscriptionInfo;
