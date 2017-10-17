@@ -7,4 +7,5 @@ ENV GRADLE_HOME /opt/gradle-2.2
 ENV PATH $PATH:/opt/gradle-2.2/bin
 COPY . /project
 WORKDIR /project
+RUN chmod -R +x /project/pipeline/
 CMD ["printenv"]
