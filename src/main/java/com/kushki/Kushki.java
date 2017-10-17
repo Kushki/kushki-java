@@ -121,9 +121,6 @@ public class Kushki {
      * @param amount The detailed {@link Amount} to be charged.
      * @param metadata The JSONObject with transaction's metadata
      * @return A {@link Transaction} which contains the result of the operation.
-     * @throws JsonProcessingException
-     * @throws BadPaddingException
-     * @throws IllegalBlockSizeException
      * @throws KushkiException
      * @since 1.0.0
      */
@@ -141,9 +138,6 @@ public class Kushki {
      * @param amount The detailed {@link Amount} to be charged.
      * @param months The number of months to defer the payment.
      * @return A {@link Transaction} which contains the result of the operation.
-     * @throws JsonProcessingException
-     * @throws BadPaddingException
-     * @throws IllegalBlockSizeException
      * @throws KushkiException
      * @since 1.0.0
      */
@@ -162,9 +156,6 @@ public class Kushki {
      * @param months   The number of months to defer the payment (could by null).
      * @param metadata JSONObject with Metadata (could by null).
      * @return A {@link Transaction} which contains the result of the operation.
-     * @throws JsonProcessingException
-     * @throws BadPaddingException
-     * @throws IllegalBlockSizeException
      * @throws KushkiException
      * @since 1.0.0
      */
@@ -177,11 +168,7 @@ public class Kushki {
      * Void a transaction previously performed in com.kushki.Kushki.
      *
      * @param ticket The ticket number of the transaction to be voided.
-     * @param amount The detailed {@link Amount} to be voided.
      * @return A {@link Transaction} which contains the result of the operation.
-     * @throws JsonProcessingException
-     * @throws BadPaddingException
-     * @throws IllegalBlockSizeException
      * @throws KushkiException
      * @since 1.0.0
      */
