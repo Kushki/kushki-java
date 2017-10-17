@@ -1,9 +1,9 @@
 package com.kushki;
 
-import com.kushki.Enum.KushkiAdjustSuscriptionEnum;
-import com.kushki.TO.Amount;
-import com.kushki.TO.ContactDetail;
-import com.kushki.TO.SuscriptionInfo;
+import com.kushki.enums.KushkiAdjustSubscription;
+import com.kushki.to.Amount;
+import com.kushki.to.ContactDetail;
+import com.kushki.to.SuscriptionInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,24 +13,36 @@ import java.util.Date;
 public final class ParametersBuilder {
 
 
+    public static final String TOKEN = "token";
+    public static final String MONTHS = "months";
+    public static final String METADATA = "metadata";
+    public static final String AMOUNT = "amount";
+    public static final String REQUIRED_FIELD_IS_NULL = "A required field is null";
+    public static final String LANGUAGE = "language";
+    public static final String START_DATE = "startDate";
+    public static final String PERIODICITY = "periodicity";
+    public static final String PLAN_NAME = "planName";
+    public static final String CONTACT_DETAILS = "contactDetails";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+
     public static JSONObject getChargeParameters(Kushki kushki, String token, Amount amount, Integer month, JSONObject metadata) throws KushkiException {
         JSONObject responseObject = new JSONObject();
         try {
-            responseObject.put("token", token);
+            responseObject.put(TOKEN, token);
             JSONObject amountObject = getAmountJson(kushki, amount);
             if (month != null)
-                responseObject.put("months", (int) month);
+                responseObject.put(MONTHS, (int) month);
             if (metadata != null) {
-                responseObject.put("metadata", metadata);
+                responseObject.put(METADATA, metadata);
             }
-            responseObject.put("amount", amountObject);
+            responseObject.put(AMOUNT, amountObject);
         } catch (Exception e) {
-            throw new KushkiException("A required field is null");
+            throw new KushkiException(REQUIRED_FIELD_IS_NULL);
         }
         return responseObject;
     }
 
-    private static JSONObject getAmountJson(Kushki kushki, Amount amount) throws JSONException {
+    private static JSONObject getAmountJson(Kushki kushki, Amount amount) {
         JSONObject amountObject = new JSONObject();
         amountObject.put("subtotalIva", amount.getSubtotalIVA());
         amountObject.put("subtotalIva0", amount.getSubtotalIVA0());
@@ -44,7 +56,7 @@ public final class ParametersBuilder {
     }
 
 
-    private static JSONObject getContactDetailJson(Kushki kushki, ContactDetail contactInfo) throws JSONException {
+    private static JSONObject getContactDetailJson(ContactDetail contactInfo) throws JSONException {
         JSONObject contactObject = new JSONObject();
         contactObject.put("firstName", contactInfo.getFirstName());
         contactObject.put("lastName", contactInfo.getLastName());
@@ -72,16 +84,16 @@ public final class ParametersBuilder {
             if (cvv != null && cvv.length() > 0)
                 responseObject.put("cvv", cvv);
             if (kushki.getLanguage() != null)
-                responseObject.put("language", kushki.getLanguage());
+                responseObject.put(LANGUAGE, kushki.getLanguage());
             if (metadata != null) {
-                responseObject.put("metadata", metadata);
+                responseObject.put(METADATA, metadata);
             }
             if (amount != null) {
                 JSONObject amountObject = getAmountJson(kushki, amount);
-                responseObject.put("amount", amountObject);
+                responseObject.put(AMOUNT, amountObject);
             }
         } catch (Exception e) {
-            throw new KushkiException("A required field is null");
+            throw new KushkiException(REQUIRED_FIELD_IS_NULL);
         }
         return responseObject;
     }
@@ -89,37 +101,37 @@ public final class ParametersBuilder {
     public static JSONObject getSubscriptionParams(Kushki kushki, String token, Amount amount, JSONObject metadata, SuscriptionInfo suscriptionInfo) throws KushkiException {
         JSONObject responseObject = new JSONObject();
         try {
-            responseObject.put("token", token);
-            responseObject.put("planName", suscriptionInfo.getPlanName());
-            responseObject.put("periodicity", suscriptionInfo.getPeriodicity().getName());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            responseObject.put("startDate", dateFormat.format(suscriptionInfo.getStartDate()));
+            responseObject.put(TOKEN, token);
+            responseObject.put(PLAN_NAME, suscriptionInfo.getPlanName());
+            responseObject.put(PERIODICITY, suscriptionInfo.getPeriodicity().getName());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
+            responseObject.put(START_DATE, dateFormat.format(suscriptionInfo.getStartDate()));
             if (kushki.getLanguage() != null)
-                responseObject.put("language", kushki.getLanguage());
-            JSONObject contactObject = getContactDetailJson(kushki, suscriptionInfo.getContactDetail());
+                responseObject.put(LANGUAGE, kushki.getLanguage());
+            JSONObject contactObject = getContactDetailJson( suscriptionInfo.getContactDetail());
             JSONObject amountObject = getAmountJson(kushki, amount);
             if (metadata != null) {
-                responseObject.put("metadata", metadata);
+                responseObject.put(METADATA, metadata);
             }
-            responseObject.put("amount", amountObject);
-            responseObject.put("contactDetails", contactObject);
+            responseObject.put(AMOUNT, amountObject);
+            responseObject.put(CONTACT_DETAILS, contactObject);
         } catch (Exception e) {
-            throw new KushkiException("A required field is null");
+            throw new KushkiException(REQUIRED_FIELD_IS_NULL);
         }
         return responseObject;
     }
 
-    public static JSONObject getSubscriptionAdjustmentParams(Kushki kushki, Date date, int periods, KushkiAdjustSuscriptionEnum type, Amount amount) throws KushkiException {
+    public static JSONObject getSubscriptionAdjustmentParams(Kushki kushki, Date date, int periods, KushkiAdjustSubscription type, Amount amount) throws KushkiException {
         JSONObject responseObject = new JSONObject();
         try {
             responseObject.put("type", type.getName());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
             responseObject.put("date", dateFormat.format(date));
             responseObject.put("periods", periods);
             JSONObject amountObject = getAmountJson(kushki, amount);
-            responseObject.put("amount", amountObject);
+            responseObject.put(AMOUNT, amountObject);
         } catch (Exception e) {
-            throw new KushkiException("A required field is null");
+            throw new KushkiException(REQUIRED_FIELD_IS_NULL);
         }
         return responseObject;
     }
@@ -128,31 +140,31 @@ public final class ParametersBuilder {
         JSONObject responseObject = new JSONObject();
         try {
             if (suscriptionInfo != null) {
-                JSONObject contactObject = getContactDetailJson(kushki, suscriptionInfo.getContactDetail());
+                JSONObject contactObject = getContactDetailJson( suscriptionInfo.getContactDetail());
                 if (contactObject != null) {
-                    responseObject.put("contactDetails", contactObject);
+                    responseObject.put(CONTACT_DETAILS, contactObject);
                 }
                 if (suscriptionInfo.getPlanName() != null && suscriptionInfo.getPlanName().length() > 0)
-                    responseObject.put("planName", suscriptionInfo.getPlanName());
+                    responseObject.put(PLAN_NAME, suscriptionInfo.getPlanName());
                 if (suscriptionInfo.getPeriodicity() != null)
-                    responseObject.put("periodicity", suscriptionInfo.getPeriodicity().getName());
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    responseObject.put(PERIODICITY, suscriptionInfo.getPeriodicity().getName());
+                SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
                 if (suscriptionInfo.getStartDate() != null)
-                    responseObject.put("startDate", dateFormat.format(suscriptionInfo.getStartDate()));
+                    responseObject.put(START_DATE, dateFormat.format(suscriptionInfo.getStartDate()));
             }
             if (kushki.getLanguage() != null)
-                responseObject.put("language", kushki.getLanguage());
+                responseObject.put(LANGUAGE, kushki.getLanguage());
 
             if (metadata != null) {
-                responseObject.put("metadata", metadata);
+                responseObject.put(METADATA, metadata);
             }
             if (amount != null) {
                 JSONObject amountObject = getAmountJson(kushki, amount);
-                responseObject.put("amount", amountObject);
+                responseObject.put(AMOUNT, amountObject);
             }
 
         } catch (Exception e) {
-            throw new KushkiException("A required field is null");
+            throw new KushkiException(REQUIRED_FIELD_IS_NULL);
         }
         return responseObject;
     }
@@ -160,9 +172,9 @@ public final class ParametersBuilder {
     public static JSONObject getUpdateCardParams(String subscriptionId) throws KushkiException {
         JSONObject responseObject = new JSONObject();
         try {
-            responseObject.put("token", subscriptionId);
+            responseObject.put(TOKEN, subscriptionId);
         } catch (Exception e) {
-            throw new KushkiException("A required field is null");
+            throw new KushkiException(REQUIRED_FIELD_IS_NULL);
         }
         return responseObject;
     }

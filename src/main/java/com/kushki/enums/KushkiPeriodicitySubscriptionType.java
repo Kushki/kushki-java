@@ -1,6 +1,6 @@
-package com.kushki.Enum;
+package com.kushki.enums;
 
-public enum KushkiPeriodicitySuscriptionEnum {
+public enum KushkiPeriodicitySubscriptionType {
     DAILY("daily"),
     WEEKLY("weekly"),
     BIWEEKLY("biweekly"),
@@ -12,11 +12,12 @@ public enum KushkiPeriodicitySuscriptionEnum {
 
     private String name;
 
+    @Override
     public String toString(){
         return name;
     }
 
-    KushkiPeriodicitySuscriptionEnum(String name) {
+    KushkiPeriodicitySubscriptionType(String name) {
         this.name = name;
     }
 

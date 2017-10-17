@@ -1,6 +1,6 @@
-package com.kushki.Enum;
+package com.kushki.enums;
 
-public enum KushkiTransaccionEnum {
+public enum KushkiTransaccionType {
     VOID("/charges/"),
     REFUND("/refund/"),
     CHARGE("/charges"),
@@ -10,11 +10,12 @@ public enum KushkiTransaccionEnum {
 
     private String url;
 
+    @Override
     public String toString(){
         return url;
     }
 
-    KushkiTransaccionEnum(String url) {
+    KushkiTransaccionType(String url) {
         this.url = url;
     }
 

@@ -1,12 +1,12 @@
 package com.kushkipagos.integration;
 
-import com.kushki.Enum.KushkiAdjustSuscriptionEnum;
-import com.kushki.Enum.KushkiPeriodicitySuscriptionEnum;
+import com.kushki.enums.KushkiAdjustSubscription;
+import com.kushki.enums.KushkiPeriodicitySubscriptionType;
 import com.kushki.Kushki;
-import com.kushki.TO.Amount;
-import com.kushki.TO.ContactDetail;
-import com.kushki.TO.SuscriptionInfo;
-import com.kushki.TO.Transaction;
+import com.kushki.to.Amount;
+import com.kushki.to.ContactDetail;
+import com.kushki.to.SuscriptionInfo;
+import com.kushki.to.Transaction;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             assertThat("Good subscription", transaction.isSuccessful());
             assertThat("get the subscription id", transaction.getSubscriptionId().length() > 0);
@@ -48,14 +48,14 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             assertThat("Good Subscription", transaction.isSuccessful());
             String subscriptionId = transaction.getSubscriptionId();
             assertThat("get the subscription id", transaction.getSubscriptionId().length() > 0);
             String tokenUpdate = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
             transaction = kushki.updateSubscriptionCard(tokenUpdate, subscriptionId);
-            assertThat("Good subscription", transaction.isSuccessful());
+            assertThat("The transaction to update fail", transaction.isSuccessful());
         } catch (Exception e) {
             assertThat("The test throw a exception", false);
             e.printStackTrace();
@@ -68,13 +68,13 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             assertThat("Good Subscription", transaction.isSuccessful());
             String subscriptionId = transaction.getSubscriptionId();
             assertThat("get the subscription id", subscriptionId.length() > 0);
             Thread.sleep(5000);
-            transaction = kushki.adjustSubscription(subscriptionId, new Date(), 2, new Amount(10d, 1d, 0d, 0d), KushkiAdjustSuscriptionEnum.DISCOUNT);
+            transaction = kushki.adjustSubscription(subscriptionId, new Date(), 2, new Amount(10d, 1d, 0d, 0d), KushkiAdjustSubscription.DISCOUNT);
             assertThat("Good subscription", transaction.isSuccessful());
         } catch (Exception e) {
             assertThat("The test throw a exception", false);
@@ -88,10 +88,10 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             String transaccionId = transaction.getSubscriptionId();
-            transaction = kushki.updateSubscription(amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            transaction = kushki.updateSubscription(amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")), transaccionId);
             assertThat("Good update", transaction.isSuccessful());
         } catch (Exception e) {
@@ -106,10 +106,10 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             String transaccionId = transaction.getSubscriptionId();
-            transaction = kushki.updateSubscription(null, longTestJSON, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            transaction = kushki.updateSubscription(null, longTestJSON, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")), transaccionId);
             assertThat("Good update", transaction.isSuccessful());
         } catch (Exception e) {
@@ -125,7 +125,7 @@ public class KushkiSuscriptionTest {
             Kushki kushki = getKushkiTESTECCommerce();
             Amount amount = new Amount(100d, 12d, 0d, 0d);
             String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
-            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             String subscriptionId = transaction.getSubscriptionId();
             Thread.sleep(10000);
@@ -144,7 +144,7 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.subscription(token, amount, longTestJSON,  new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, longTestJSON,  new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             String transaccionId = transaction.getSubscriptionId();
             transaction = kushki.updateSubscription(amount, longTestJSON, null, transaccionId);
@@ -162,7 +162,7 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.updateSubscription(amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.updateSubscription(amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")), "123");
             assertThat("Good Charge", !transaction.isSuccessful());
         } catch (Exception e) {
@@ -177,7 +177,7 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             assertThat("Good Charge", transaction.isSuccessful());
             assertThat("get the ticket of a wonderful charge", transaction.getSubscriptionId().length() > 0);
@@ -204,7 +204,7 @@ public class KushkiSuscriptionTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidSubscriptionChargeToken(getKushkiTESTECCommerce());
         try {
-            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySuscriptionEnum.MONTLY,
+            Transaction transaction = kushki.subscription(token, amount, null, new SuscriptionInfo("SuperPLAN", KushkiPeriodicitySubscriptionType.MONTLY,
                     new Date(), new ContactDetail("Heidi", "Nino", "user@user.com")));
             assertThat("Good Charge", transaction.isSuccessful());
             assertThat("get the ticket of a wonderful charge", transaction.getSubscriptionId().length() > 0);

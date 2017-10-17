@@ -1,28 +1,28 @@
-package com.kushki.TO;
+package com.kushki.to;
 
-import com.kushki.Enum.KushkiPeriodicitySuscriptionEnum;
+import com.kushki.enums.KushkiPeriodicitySubscriptionType;
 
 import java.util.Date;
 
 public class SuscriptionInfo {
     private String planName;
-    private KushkiPeriodicitySuscriptionEnum periodicity;
+    private KushkiPeriodicitySubscriptionType periodicity;
     private Date startDate;
-    private com.kushki.TO.ContactDetail contactDetail;
+    private com.kushki.to.ContactDetail contactDetail;
 
 
-    public SuscriptionInfo(String planName, KushkiPeriodicitySuscriptionEnum periodicity, Date startDate, ContactDetail contactDetail) {
+    public SuscriptionInfo(String planName, KushkiPeriodicitySubscriptionType periodicity, Date startDate, ContactDetail contactDetail) {
         this.planName = planName;
         this.periodicity = periodicity;
         this.startDate = startDate;
         this.contactDetail = contactDetail;
     }
 
-    public KushkiPeriodicitySuscriptionEnum getPeriodicity() {
+    public KushkiPeriodicitySubscriptionType getPeriodicity() {
         return periodicity;
     }
 
-    public void setPeriodicity(KushkiPeriodicitySuscriptionEnum periodicity) {
+    public void setPeriodicity(KushkiPeriodicitySubscriptionType periodicity) {
         this.periodicity = periodicity;
     }
 

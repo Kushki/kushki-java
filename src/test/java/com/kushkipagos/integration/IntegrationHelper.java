@@ -1,8 +1,8 @@
 package com.kushkipagos.integration;
 
-import com.kushki.TO.Amount;
+import com.kushki.to.Amount;
 import com.kushki.Kushki;
-import com.kushki.Enum.KushkiEnvironment;
+import com.kushki.enums.KushkiEnvironment;
 import org.json.JSONObject;
 import org.junit.Test;
 

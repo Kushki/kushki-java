@@ -1,4 +1,4 @@
-package com.kushki.TO;
+package com.kushki.to;
 
 
 import com.mashape.unirest.http.HttpResponse;
@@ -19,9 +19,14 @@ public class Transaction {
         this.body = body;
     }
 
+    public Transaction(int statusCode) {
+        this.status = statusCode;
+        this.body = null;
+    }
+
 
     public boolean isSuccessful() {
-        return status == 200 || status == 201 || status == 204;
+        return (status == 200 || status == 201 || status == 204);
     }
 
     public JsonNode getResponseBody() {

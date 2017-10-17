@@ -1,6 +1,4 @@
-package com.kushki.TO;
-
-import java.util.Date;
+package com.kushki.to;
 
 public class ContactDetail {
     private String firstName;

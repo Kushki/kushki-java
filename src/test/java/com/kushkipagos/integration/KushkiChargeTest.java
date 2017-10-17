@@ -1,9 +1,9 @@
 package com.kushkipagos.integration;
 
 import com.kushki.*;
-import com.kushki.TO.Amount;
-import com.kushki.TO.ExtraTaxes;
-import com.kushki.TO.Transaction;
+import com.kushki.to.Amount;
+import com.kushki.to.ExtraTaxes;
+import com.kushki.to.Transaction;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,9 +30,9 @@ public class KushkiChargeTest {
         Amount ammount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTECCommerce(), ammount);
         try {
-            Transaction charge = kushki.charge(token, ammount);
+            Transaction charge = kushki.charge(token, ammount, null, null);
             assertThat("Good Charge", charge.isSuccessful());
-            assertThat("get the ticket of a wonderfull charge", charge.getTicketNumber().length()>0);
+            assertThat("get the ticket of a wonderfull charge", charge.getTicketNumber().length() > 0);
         } catch (Exception e) {
             assertThat("The test break", false);
             e.printStackTrace();
@@ -43,12 +43,12 @@ public class KushkiChargeTest {
     public void goodChargeTestWithExtraTax() {
         Kushki kushki = getKushkiTESTCOCommerce();
         Amount amount = new Amount(90d, 12d, 0d, 0d);
-        amount.setExtraTaxes(new ExtraTaxes(1d,2d,3d,4d));
+        amount.setExtraTaxes(new ExtraTaxes(1d, 2d, 3d, 4d));
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTCOCommerce(), amount);
         try {
-            Transaction charge = kushki.charge(token, amount);
-            assertThat("Good Charge with Extra Tax"+amount.getTotalAmount(), charge.isSuccessful());
-            assertThat("get the ticket of a wonderful charge with extra tax", charge.getTicketNumber().length()>0);
+            Transaction charge = kushki.charge(token, amount, null, null);
+            assertThat("Good Charge with Extra Tax" + amount.getTotalAmount(), charge.isSuccessful());
+            assertThat("get the ticket of a wonderful charge with extra tax", charge.getTicketNumber().length() > 0);
         } catch (Exception e) {
             assertThat("The test break", false);
             e.printStackTrace();
@@ -61,7 +61,7 @@ public class KushkiChargeTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTECCommerce(), amount);
         try {
-            Transaction charge = kushki.charge(token, amount, longTestJSON);
+            Transaction charge = kushki.charge(token, amount, null, longTestJSON);
             assertThat("Good Charge", charge.isSuccessful());
         } catch (Exception e) {
             assertThat("The test break", false);
@@ -75,7 +75,7 @@ public class KushkiChargeTest {
         Amount ammount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTCOCommerce(), ammount);
         try {
-            Transaction charge = kushki.deferredCharge(token, ammount, 12);
+            Transaction charge = kushki.charge(token, ammount, 12, null);
             assertThat("Good Charge", charge.isSuccessful());
         } catch (Exception e) {
             assertThat("The test break", false);
@@ -89,7 +89,7 @@ public class KushkiChargeTest {
         Amount ammount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTCOCommerce(), ammount);
         try {
-            Transaction charge = kushki.deferredCharge(token, ammount, 12, longTestJSON);
+            Transaction charge = kushki.charge(token, ammount, 12, longTestJSON);
             assertThat("Good Charge", charge.isSuccessful());
         } catch (Exception e) {
             assertThat("The test break", false);
@@ -103,7 +103,7 @@ public class KushkiChargeTest {
         Amount ammount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTCOCommerce(), ammount);
         try {
-            Transaction charge = kushki.deferredCharge(token, ammount, 12);
+            Transaction charge = kushki.charge(token, ammount, 12, null);
             assertThat("Good Charge", !charge.isSuccessful());
         } catch (Exception e) {
             assertThat("The test break", false);
@@ -119,7 +119,7 @@ public class KushkiChargeTest {
         Amount ammountChanged = new Amount(120d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTECCommerce(), ammount);
         try {
-            Transaction charge = kushki.charge(token, ammountChanged);
+            Transaction charge = kushki.charge(token, ammountChanged, null, null);
             assertThat("The total Amount of the Charge was broken", !charge.isSuccessful());
         } catch (Exception e) {
             assertThat("The test break", false);
@@ -133,7 +133,7 @@ public class KushkiChargeTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTECCommerce(), amount);
         try {
-            Transaction charge = kushki.charge(token.concat("AA"), amount);
+            Transaction charge = kushki.charge(token.concat("AA"), amount, null, null);
             assertThat("The total Amount of the Charge was broken", !charge.isSuccessful());
         } catch (Exception e) {
             assertThat("The test break", false);
@@ -147,10 +147,10 @@ public class KushkiChargeTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTECCommerce(), amount);
         try {
-            Transaction charge = kushki.charge(token, amount);
+            Transaction charge = kushki.charge(token, amount, null, null);
             assertThat("Good Charge", charge.isSuccessful());
             Thread.sleep(5000);
-            Transaction voidCharge = kushki.voidCharge(charge.getTicketNumber(),amount);
+            Transaction voidCharge = kushki.voidCharge(charge.getTicketNumber());
             assertThat("Good Void", voidCharge.isSuccessful());
         } catch (Exception e) {
             assertThat("The test break", false);
@@ -164,11 +164,12 @@ public class KushkiChargeTest {
         Amount amount = new Amount(100d, 12d, 0d, 0d);
         String token = IntegrationHelper.getValidChargeToken(getKushkiTESTECCommerce(), amount);
         try {
-            Transaction charge = kushki.charge(token,amount);
-            assertThat("Good Charge", charge.isSuccessful());
+            Transaction charge = kushki.charge(token, amount, null, null);
+            assertThat("Fail the charge", charge.isSuccessful());
             Thread.sleep(5000);
-            Transaction voidCharge = kushki.refundCharge(charge.getTicketNumber());
-            assertThat("Good Void", voidCharge.isSuccessful());
+            Transaction refundCharge = kushki.refundCharge(charge.getTicketNumber());
+            System.out.println(refundCharge);
+            assertThat("Fail de refund", refundCharge.isSuccessful());
         } catch (Exception e) {
             assertThat("The test break", false);
             e.printStackTrace();

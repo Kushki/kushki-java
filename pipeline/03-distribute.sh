@@ -2,8 +2,9 @@
 
 # Waking up herokuapp
 curl $BACKOFFICE_URL > /dev/null
-
+#if [ "$CI_BRANCH" == "DEVELOPE" ]; then
 gradle bintrayUpload
+#fi
 # ARTIFACTS:
 # ARTIFACT build/libs
 #

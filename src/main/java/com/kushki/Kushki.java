@@ -1,19 +1,19 @@
 package com.kushki;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kushki.Enum.KushkiAdjustSuscriptionEnum;
-import com.kushki.Enum.KushkiEnvironment;
-import com.kushki.Enum.KushkiTransaccionEnum;
-import com.kushki.TO.Amount;
-import com.kushki.TO.Card;
-import com.kushki.TO.SuscriptionInfo;
-import com.kushki.TO.Transaction;
+import com.kushki.enums.KushkiAdjustSubscription;
+import com.kushki.enums.KushkiEnvironment;
+import com.kushki.enums.KushkiTransaccionType;
+import com.kushki.to.Amount;
+import com.kushki.to.SuscriptionInfo;
+import com.kushki.to.Transaction;
 import org.json.JSONObject;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.ws.rs.client.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -31,7 +31,7 @@ public class Kushki {
     private final KushkiEnvironment environment;
     private static final String defaultLanguage = "es";
     private static final String defaultCurrency = "USD";
-    private final KushkiEnvironment defaultEnvironment = KushkiEnvironment.WRAPPER_PRODUCTION;
+    private final KushkiEnvironment defaultEnvironment = KushkiEnvironment.PRODUCTION;
     private final String merchantId;
     private final String language;
     private final String currency;
@@ -98,22 +98,46 @@ public class Kushki {
         return environment;
     }
 
+    /**
+     * Perform a  charge in com.kushki.Kushki using a valid token for the given amount.
+     * @deprecated this method  was replace by charge(String token, Amount amount, Integer months, JSONObject metadata)
+     * @param token  A token obtained from the frontend or using the method.
+     * @param amount The detailed {@link Amount} to be charged.
+     * @return A {@link Transaction} which contains the result of the operation.
+     * @throws KushkiException when the imput fail
+     * @since 1.0.0
+     */
     @Deprecated
-    public Transaction charge(String token, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        return this.gateway.post(KushkiTransaccionEnum.CHARGE.toString()
+    public Transaction charge(String token, Amount amount) throws KushkiException {
+        return this.gateway.post(KushkiTransaccionType.CHARGE.toString()
                 , ParametersBuilder.getChargeParameters(this, token, amount, null, null), this);
     }
 
+    /**
+     * Perform a deferred charge in com.kushki.Kushki using a valid token for the given amount.
+     *
+     * @deprecated this method  was replace by charge(String token, Amount amount, Integer months, JSONObject metadata)
+     * @param token  A token obtained from the frontend or using the method.
+     * @param amount The detailed {@link Amount} to be charged.
+     * @param metadata The JSONObject with transaction's metadata
+     * @return A {@link Transaction} which contains the result of the operation.
+     * @throws JsonProcessingException
+     * @throws BadPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws KushkiException
+     * @since 1.0.0
+     */
     @Deprecated
-    public Transaction charge(String token, Amount amount, JSONObject metadata) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        return this.gateway.post(KushkiTransaccionEnum.CHARGE.toString()
+    public Transaction charge(String token, Amount amount, JSONObject metadata) throws KushkiException {
+        return this.gateway.post(KushkiTransaccionType.CHARGE.toString()
                 , ParametersBuilder.getChargeParameters(this, token, amount, null, metadata), this);
     }
 
     /**
      * Perform a deferred charge in com.kushki.Kushki using a valid token for the given amount.
      *
-     * @param token  A token obtained from the frontend or using the {@link #requestToken} method.
+     * @deprecated this method  was replace by charge(String token, Amount amount, Integer months, JSONObject metadata)
+     * @param token  A token obtained from the frontend or using the method.
      * @param amount The detailed {@link Amount} to be charged.
      * @param months The number of months to defer the payment.
      * @return A {@link Transaction} which contains the result of the operation.
@@ -125,15 +149,15 @@ public class Kushki {
      */
 
     @Deprecated
-    public Transaction deferredCharge(String token, Amount amount, Integer months) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        return this.gateway.post(KushkiTransaccionEnum.CHARGE.toString()
+    public Transaction charge(String token, Amount amount, Integer months) throws  KushkiException {
+        return this.gateway.post(KushkiTransaccionType.CHARGE.toString()
                 , ParametersBuilder.getChargeParameters(this, token, amount, months, null), this);
     }
 
     /**
      * Perform a deferred o normal charge in com.kushki.Kushki using a valid token for the given amount.
      *
-     * @param token    A token obtained from the frontend or using the {@link #requestToken} method.
+     * @param token    A token obtained from the frontend or using the  method.
      * @param amount   The detailed {@link Amount} to be charged.
      * @param months   The number of months to defer the payment (could by null).
      * @param metadata JSONObject with Metadata (could by null).
@@ -144,8 +168,8 @@ public class Kushki {
      * @throws KushkiException
      * @since 1.0.0
      */
-    public Transaction deferredCharge(String token, Amount amount, Integer months, JSONObject metadata) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        return this.gateway.post(KushkiTransaccionEnum.CHARGE.toString()
+    public Transaction charge(String token, Amount amount, Integer months, JSONObject metadata) throws KushkiException {
+        return this.gateway.post(KushkiTransaccionType.CHARGE.toString()
                 , ParametersBuilder.getChargeParameters(this, token, amount, months, metadata), this);
     }
 
@@ -161,66 +185,42 @@ public class Kushki {
      * @throws KushkiException
      * @since 1.0.0
      */
-    public Transaction voidCharge(String ticket, Amount amount) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        return this.gateway.delete(KushkiTransaccionEnum.VOID.toString(), ticket, this);
+    public Transaction voidCharge(String ticket) throws KushkiException {
+        return this.gateway.delete(KushkiTransaccionType.VOID.toString(), ticket, this);
     }
 
-    public Transaction refundCharge(String ticket) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        return this.gateway.delete(KushkiTransaccionEnum.REFUND.toString(), ticket, this);
-    }
-
-    /**
-     * Request a token to later perform charge operations in com.kushki.Kushki using the {@link #charge} or {@link #deferredCharge}
-     * methods. This must be done from a {@link Kushki} instance built with the public merchant ID, not the private one.
-     * <br>
-     * <strong>Note:</strong> If you are using this method from your backend, be sure to comply with all the PCI
-     * requirements to handle card data on your servers.
-     *
-     * @param card        The {@link Card} to which the token will be associated.
-     * @param totalAmount The total amount which will be authorized.
-     * @return A {@link Transaction} from which, if successful, the token can be extracted with the
-     * {@link Transaction#getToken()} method.
-     * @throws IllegalBlockSizeException
-     * @throws KushkiException
-     * @throws BadPaddingException
-     * @throws JsonProcessingException
-     * @since 1.1.0
-     */
-    @Deprecated
-    public Transaction requestToken(Card card, Double totalAmount) throws IllegalBlockSizeException, KushkiException, BadPaddingException, JsonProcessingException {
-        //  Map<String, String> parameters = ParametersBuilder.getTokenParameters(this, card, totalAmount);
-        //  return post(TOKENS_URL, parameters);
-        return null;
+    public Transaction refundCharge(String ticket) throws  KushkiException {
+        return this.gateway.delete(KushkiTransaccionType.REFUND.toString(), ticket, this);
     }
 
     public Transaction subscription(String token, Amount amount, JSONObject metadata, SuscriptionInfo suscriptionInfo) throws KushkiException {
-        return this.gateway.post(KushkiTransaccionEnum.SUSCRIPTION.toString()
+        return this.gateway.post(KushkiTransaccionType.SUSCRIPTION.toString()
                 , ParametersBuilder.getSubscriptionParams(this, token, amount, metadata, suscriptionInfo), this);
     }
 
     public Transaction updateSubscription(Amount amount, JSONObject metadata, SuscriptionInfo suscriptionInfo, String subscriptionId) throws KushkiException {
-        return this.gateway.patch(KushkiTransaccionEnum.SUSCRIPTION.toString() + "/" + subscriptionId
+        return this.gateway.patch(KushkiTransaccionType.SUSCRIPTION.toString() + "/" + subscriptionId
                 , ParametersBuilder.getUpdateSubscriptionParams(this, amount, metadata, suscriptionInfo), this);
     }
 
     public Transaction updateSubscriptionCard(String newToken, String subscriptionId) throws KushkiException {
-        return this.gateway.put(KushkiTransaccionEnum.SUSCRIPTION.toString() + "/" + subscriptionId + KushkiTransaccionEnum.SUSCRIPTION_CARD
+        return this.gateway.put(KushkiTransaccionType.SUSCRIPTION.toString() + "/" + subscriptionId + KushkiTransaccionType.SUSCRIPTION_CARD
                 , ParametersBuilder.getUpdateCardParams(newToken), this);
     }
 
-    public Transaction adjustSubscription(String subscriptionId, Date date, int periods, Amount amount, KushkiAdjustSuscriptionEnum adjustPeriod) throws KushkiException {
-        return this.gateway.put(KushkiTransaccionEnum.SUSCRIPTION + "/" + subscriptionId + KushkiTransaccionEnum.SUSCRIPTION_ADJUSTMENT,
+    public Transaction adjustSubscription(String subscriptionId, Date date, int periods, Amount amount, KushkiAdjustSubscription adjustPeriod) throws KushkiException {
+        return this.gateway.put(KushkiTransaccionType.SUSCRIPTION + "/" + subscriptionId + KushkiTransaccionType.SUSCRIPTION_ADJUSTMENT,
                 ParametersBuilder.getSubscriptionAdjustmentParams(this, date, periods, adjustPeriod, amount), this);
 
     }
 
     public Transaction subscriptionCharge(String cvv, Amount amount, JSONObject metadata, String subscriptionId) throws KushkiException {
-        return this.gateway.post(KushkiTransaccionEnum.SUSCRIPTION.toString() + "/" + subscriptionId + KushkiTransaccionEnum.CHARGE
+        return this.gateway.post(KushkiTransaccionType.SUSCRIPTION.toString() + "/" + subscriptionId + KushkiTransaccionType.CHARGE
                 , ParametersBuilder.getSubscriptionChargeParams(cvv, amount, metadata, this), this);
     }
 
     public Transaction deleteSubscription(String subscriptionId) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        return this.gateway.delete(KushkiTransaccionEnum.SUSCRIPTION.toString(), subscriptionId, this);
+        return this.gateway.delete(KushkiTransaccionType.SUSCRIPTION.toString(), subscriptionId, this);
     }
 
 }

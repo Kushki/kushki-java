@@ -1,4 +1,4 @@
-package com.kushki.TO;
+package com.kushki.to;
 
 import com.kushki.KushkiException;
 import com.kushki.Validations;
