@@ -3,7 +3,7 @@ package com.kushki;
 import com.kushki.enums.KushkiAdjustSubscription;
 import com.kushki.to.Amount;
 import com.kushki.to.ContactDetail;
-import com.kushki.to.SuscriptionInfo;
+import com.kushki.to.SubscriptionInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -98,17 +98,17 @@ public final class ParametersBuilder {
         return responseObject;
     }
 
-    public static JSONObject getSubscriptionParams(Kushki kushki, String token, Amount amount, JSONObject metadata, SuscriptionInfo suscriptionInfo) throws KushkiException {
+    public static JSONObject getSubscriptionParams(Kushki kushki, String token, Amount amount, JSONObject metadata, SubscriptionInfo subscriptionInfo) throws KushkiException {
         JSONObject responseObject = new JSONObject();
         try {
             responseObject.put(TOKEN, token);
-            responseObject.put(PLAN_NAME, suscriptionInfo.getPlanName());
-            responseObject.put(PERIODICITY, suscriptionInfo.getPeriodicity().getName());
+            responseObject.put(PLAN_NAME, subscriptionInfo.getPlanName());
+            responseObject.put(PERIODICITY, subscriptionInfo.getPeriodicity().getName());
             SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
-            responseObject.put(START_DATE, dateFormat.format(suscriptionInfo.getStartDate()));
+            responseObject.put(START_DATE, dateFormat.format(subscriptionInfo.getStartDate()));
             if (kushki.getLanguage() != null)
                 responseObject.put(LANGUAGE, kushki.getLanguage());
-            JSONObject contactObject = getContactDetailJson( suscriptionInfo.getContactDetail());
+            JSONObject contactObject = getContactDetailJson( subscriptionInfo.getContactDetail());
             JSONObject amountObject = getAmountJson(kushki, amount);
             if (metadata != null) {
                 responseObject.put(METADATA, metadata);
@@ -136,21 +136,21 @@ public final class ParametersBuilder {
         return responseObject;
     }
 
-    public static JSONObject getUpdateSubscriptionParams(Kushki kushki, Amount amount, JSONObject metadata, SuscriptionInfo suscriptionInfo) throws KushkiException {
+    public static JSONObject getUpdateSubscriptionParams(Kushki kushki, Amount amount, JSONObject metadata, SubscriptionInfo subscriptionInfo) throws KushkiException {
         JSONObject responseObject = new JSONObject();
         try {
-            if (suscriptionInfo != null) {
-                JSONObject contactObject = getContactDetailJson( suscriptionInfo.getContactDetail());
+            if (subscriptionInfo != null) {
+                JSONObject contactObject = getContactDetailJson( subscriptionInfo.getContactDetail());
                 if (contactObject != null) {
                     responseObject.put(CONTACT_DETAILS, contactObject);
                 }
-                if (suscriptionInfo.getPlanName() != null && suscriptionInfo.getPlanName().length() > 0)
-                    responseObject.put(PLAN_NAME, suscriptionInfo.getPlanName());
-                if (suscriptionInfo.getPeriodicity() != null)
-                    responseObject.put(PERIODICITY, suscriptionInfo.getPeriodicity().getName());
+                if (subscriptionInfo.getPlanName() != null && subscriptionInfo.getPlanName().length() > 0)
+                    responseObject.put(PLAN_NAME, subscriptionInfo.getPlanName());
+                if (subscriptionInfo.getPeriodicity() != null)
+                    responseObject.put(PERIODICITY, subscriptionInfo.getPeriodicity().getName());
                 SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
-                if (suscriptionInfo.getStartDate() != null)
-                    responseObject.put(START_DATE, dateFormat.format(suscriptionInfo.getStartDate()));
+                if (subscriptionInfo.getStartDate() != null)
+                    responseObject.put(START_DATE, dateFormat.format(subscriptionInfo.getStartDate()));
             }
             if (kushki.getLanguage() != null)
                 responseObject.put(LANGUAGE, kushki.getLanguage());
