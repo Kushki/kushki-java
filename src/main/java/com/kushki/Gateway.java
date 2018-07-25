@@ -26,6 +26,7 @@ public class Gateway {
         try {
             com.mashape.unirest.http.HttpResponse<JsonNode> jsonResponse = Unirest.post(this.enviroment.getUrl() + url)
                     .header(PRIVATE_MERCHANT_ID, kushki.getMerchantId())
+                    .header("Content-Type", "application/json")
                     .body(data.toString())
                     .asJson();
             return new Transaction(jsonResponse);
@@ -38,6 +39,7 @@ public class Gateway {
         try {
             com.mashape.unirest.http.HttpResponse<JsonNode> jsonResponse = Unirest.patch(this.enviroment.getUrl() + url)
                     .header(PRIVATE_MERCHANT_ID, kushki.getMerchantId())
+                    .header("Content-Type", "application/json")
                     .body(data.toString())
                     .asJson();
             return new Transaction(jsonResponse.getStatus(), jsonResponse.getBody());
@@ -50,6 +52,7 @@ public class Gateway {
         try {
             com.mashape.unirest.http.HttpResponse<JsonNode> jsonResponse = Unirest.put(this.enviroment.getUrl() + url)
                     .header(PRIVATE_MERCHANT_ID, kushki.getMerchantId())
+                    .header("Content-Type", "application/json")
                     .body(data.toString())
                     .asJson();
             return new Transaction(jsonResponse.getStatus(), jsonResponse.getBody());
@@ -62,6 +65,7 @@ public class Gateway {
         try {
             com.mashape.unirest.http.HttpResponse<JsonNode> jsonResponse = Unirest.delete(this.enviroment.getUrl() + url + id)
                     .header(PRIVATE_MERCHANT_ID, kushki.getMerchantId())
+                    .header("Content-Type", "application/json")
                     .asJson();
             return new Transaction(jsonResponse.getStatus(), jsonResponse.getBody());
         } catch (UnirestException e) {
