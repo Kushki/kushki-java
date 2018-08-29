@@ -20,7 +20,7 @@ plugins {
 
 
 group 'com.kushkipagos'
-version '1.3.1'
+version '1.3.2'
 
 apply from: 'deploy.gradle'
 apply plugin: "com.jfrog.bintray"
@@ -168,7 +168,7 @@ publishing {
             artifact javadocJar
             groupId 'com.kushkipagos'
             artifactId 'kushkipagos'
-            version '1.3.1'
+            version '1.3.2'
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Java backend library')
@@ -181,8 +181,8 @@ publishing {
 }
 
 bintray {
-    user = "kushki"
-    key = "03596228441b1ac332c27ed6df54e56884b558aa"
+    user = "$System.env.BINTRAY_USER"
+    key = "$System.env.BINTRAY_API_KEY"
     publications = ['MyPublication']
     pkg {
         userOrg = user
