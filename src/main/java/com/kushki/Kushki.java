@@ -207,7 +207,7 @@ public class Kushki {
     }
 
     public Transaction deleteSubscription(String subscriptionId) throws JsonProcessingException, BadPaddingException, IllegalBlockSizeException, KushkiException {
-        return this.gateway.delete(KushkiTransaccionType.SUSCRIPTION.toString(), subscriptionId, this);
+        return this.gateway.delete(KushkiTransaccionType.SUSCRIPTION.toString()+ "/" , subscriptionId, this);
     }
 
 }
