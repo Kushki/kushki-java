@@ -1,11 +1,9 @@
 package com.kushki.enums;
 
 public enum KushkiEnvironment {
-
-
-    TESTING("https://api-uat.kushkipagos.com/v1"),
-    STAGING("https://api-stg.kushkipagos.com/v1"),
-    PRODUCTION("https://api.kushkipagos.com/v1");
+    TESTING("https://regional-uat.kushkipagos.com/v1"),
+    STAGING("https://regional-stg.kushkipagos.com/v1"),
+    PRODUCTION("https://regional.kushkipagos.com/v1");
 
     private String url;
 
