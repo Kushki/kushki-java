@@ -35,7 +35,7 @@ node {
            parallel(
                     createQAArtifact:{
 
-                    awsCodeBuild artifactLocationOverride: 'artifact-build-des', artifactNameOverride: "${commit_id}.zip", artifactNamespaceOverride: "NONE", artifactPackagingOverride: 'ZIP', artifactPathOverride: "uat/${projectName}/uat-master/", artifactTypeOverride: 'S3',   buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins',  envVariables: "[ { USRV_STAGE, uat }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH} ]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_build', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
+                    awsCodeBuild artifactLocationOverride: 'artifact-build-des', artifactNameOverride: "${commit_id}.zip", artifactNamespaceOverride: "NONE", artifactPackagingOverride: 'ZIP', artifactPathOverride: "qa/${projectName}/PR${PULL_REQUEST}/", artifactTypeOverride: 'S3',   buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins',  envVariables: "[ { USRV_STAGE, qa }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH} ]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_build', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
 
                     },
                     testingCode:{
