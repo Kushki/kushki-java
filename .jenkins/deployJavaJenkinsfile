@@ -6,7 +6,7 @@ import groovy.json.JsonSlurper;
 node {
     projectName =  determineRepoName()
     projectGit = "Kushki/${projectName}"
-    ENVIRONMENT = "primary"
+    ENVIRONMENT = "qa"
     PULL_REQUEST = env.CHANGE_ID
      CHANGE_BRANCH = "master"
 
@@ -27,12 +27,6 @@ node {
 
         stage('Test and build') {
           parallel(
-
-          createPRODArtifact:{
-
-          awsCodeBuild artifactLocationOverride: 'artifact-build-des', artifactNameOverride: "${commit_id}.zip", artifactNamespaceOverride: "NONE", artifactPackagingOverride: 'ZIP', artifactPathOverride: "primary/${projectName}/master/", artifactTypeOverride: 'S3',  buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialProd', credentialsType: 'jenkins',  envVariables: "[ { USRV_STAGE, primary }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH} ]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_build', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
-          }
-          ,
           testingCode:{
           awsCodeBuild artifactLocationOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS',  buildSpecFile: '', buildTimeoutOverride: '', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[ { USRV_STAGE, $ENVIRONMENT }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_testing', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
                        }
@@ -40,7 +34,7 @@ node {
         }
 
         stage ("deploy $ENVIRONMENT") {
-         awsCodeBuild artifactLocationOverride: '', artifactNameOverride: '', artifactNamespaceOverride: '', artifactPackagingOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS', buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[{ USRV_STAGE, $ENVIRONMENT }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH}, { ARTIFACT, s3://artifact-build-des/$ENVIRONMENT/${projectName}/PR${PULL_REQUEST}/${commit_id}.zip }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_deploy', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'project', sourceVersion: '', sseAlgorithm: 'AES256'
+         awsCodeBuild artifactLocationOverride: '', artifactNameOverride: '', artifactNamespaceOverride: '', artifactPackagingOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS', buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[{ USRV_STAGE, $ENVIRONMENT }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH}]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_build', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'project', sourceVersion: '', sseAlgorithm: 'AES256'
 
         }
 
