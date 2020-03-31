@@ -57,7 +57,7 @@ node {
         awsCodeBuild artifactLocationOverride: '', artifactNameOverride: '', artifactNamespaceOverride: '', artifactPackagingOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS', buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[{ USRV_STAGE, $ENVIRONMENT }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH}, { ARTIFACT, s3://artifact-build-des/$ENVIRONMENT/${projectName}/PR${PULL_REQUEST}/${commit_id}.zip }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_deploy', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'project', sourceVersion: '', sseAlgorithm: 'AES256'
 
         }
-        notifyRollbar(ENVIRONMENT,projectName, commit_id, GIT_AUTHOR_EMAIL)
+
 
 
     }
