@@ -10,7 +10,12 @@ node {
     ENVIRONMENT = "uat"
     commit_id = ""
     sh "echo ${projectName} - ${projectGit}"
-
+        if ("${CHANGE_TARGET}".contains("release")) {
+                    ENVIRONMENT = "ci"
+                }
+                if ("${CHANGE_TARGET}".contains("master")) {
+                    ENVIRONMENT = "qa"
+                }
         stage('Pull') {
          git branch: "${CHANGE_BRANCH}", url: "git@github.com:${projectGit}.git"
          sh "git rev-parse HEAD > .git/commit-id"
@@ -22,23 +27,17 @@ node {
         }
 
          stage('Config files') {
-                                  parallel(
-                                  uat:{createEnv("uat")},
-                                  primary:{createEnv("primary")}
-                                  )}
+
+                                  qa:{createEnv("qa")}
+                                  }
 
           stage('Test and build') {
            parallel(
-                    createUATArtifact:{
+                    createQAArtifact:{
 
                     awsCodeBuild artifactLocationOverride: 'artifact-build-des', artifactNameOverride: "${commit_id}.zip", artifactNamespaceOverride: "NONE", artifactPackagingOverride: 'ZIP', artifactPathOverride: "uat/${projectName}/uat-master/", artifactTypeOverride: 'S3',   buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins',  envVariables: "[ { USRV_STAGE, uat }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH} ]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_build', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
 
                     },
-                    createPRODArtifact:{
-
-                    awsCodeBuild artifactLocationOverride: 'artifact-build-des', artifactNameOverride: "${commit_id}.zip", artifactNamespaceOverride: "NONE", artifactPackagingOverride: 'ZIP', artifactPathOverride: "primary/${projectName}/master/", artifactTypeOverride: 'S3',  buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialProd', credentialsType: 'jenkins',  envVariables: "[ { USRV_STAGE, primary }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH} ]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_build', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
-                    }
-                    ,
                     testingCode:{
                     awsCodeBuild artifactLocationOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS',  buildSpecFile: '', buildTimeoutOverride: '', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[ { USRV_STAGE, $ENVIRONMENT }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_testing', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
                                  }
@@ -49,15 +48,6 @@ node {
 
         stage ("deploy $ENVIRONMENT") {
                  awsCodeBuild artifactLocationOverride: '', artifactNameOverride: '', artifactNamespaceOverride: '', artifactPackagingOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS', buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[{ USRV_STAGE, $ENVIRONMENT }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH}, { ARTIFACT, s3://artifact-build-des/$ENVIRONMENT/${projectName}/PR${PULL_REQUEST}/${commit_id}.zip }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_deploy', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'project', sourceVersion: '', sseAlgorithm: 'AES256'
-
-                }
-
-
-
-                ENVIRONMENT = 'primary'
-
-                stage ("deploy $ENVIRONMENT") {
-                awsCodeBuild artifactLocationOverride: '', artifactNameOverride: '', artifactNamespaceOverride: '', artifactPackagingOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS', buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[{ USRV_STAGE, $ENVIRONMENT }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH}, { ARTIFACT, s3://artifact-build-des/$ENVIRONMENT/${projectName}/PR${PULL_REQUEST}/${commit_id}.zip }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_deploy', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'project', sourceVersion: '', sseAlgorithm: 'AES256'
 
                 }
 
@@ -106,19 +96,4 @@ def createEnv(String environment) {
         }
             sh "cat ${fileName}"
     }
-def notifyRollbar(String environment, String projectName, String commit_id, String GIT_AUTHOR_EMAIL ){
-             sh "aws ssm get-parameters --names /${environment}/${projectName}/ROLLBAR_TOKEN --region us-east-1 --query \"Parameters[0].Value\" > .tmp"
-             def ROLLBAR_TOKEN  = readFile('.tmp')
-             ROLLBAR_TOKEN = ROLLBAR_TOKEN.split("\n")[0]
-             stage('Notify Rollbar') {
 
-       sh """
-                curl --fail -X POST https://api.rollbar.com/api/1/deploy/ \
-                   -F access_token=$ROLLBAR_TOKEN \
-                   -F environment=$environment \
-                   -F revision=$commit_id \
-                   -F local_username=$GIT_AUTHOR_EMAIL
-            """
-
-        }
-}
