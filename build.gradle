@@ -178,7 +178,7 @@ publishing {
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Java backend library')
-                root.appendNode('name', 'kushkipagos')
+                root.appendNode('name', 'com.kushkipagos')
                 root.appendNode('url', 'https://github.com/Kushki/kushki-java')
                 root.children().last() + pomConfig
             }
