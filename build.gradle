@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         classpath files('gradle/gradle-trust-all.jar')
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.1"
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
     }
 }
@@ -20,7 +20,7 @@ plugins {
 
 
 group 'com.kushkipagos'
-version '1.3.3'
+version '1.3.4r'
 
 apply from: 'deploy.gradle'
 apply plugin: "com.jfrog.bintray"
@@ -174,7 +174,7 @@ publishing {
             artifact javadocJar
             groupId 'com.kushkipagos'
             artifactId 'kushkipagos'
-            version '1.3.3'
+            version '1.3.4r'
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Java backend library')
