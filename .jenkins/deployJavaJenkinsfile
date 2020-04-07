@@ -25,17 +25,12 @@ node {
                 }
 
 
-        stage('Test and build') {
-          parallel(
-          testingCode:{
-          awsCodeBuild artifactLocationOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS',  buildSpecFile: '', buildTimeoutOverride: '', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[ { USRV_STAGE, $ENVIRONMENT }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_testing', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
-                       }
-          )
-        }
+        stage('Test') {
+                awsCodeBuild artifactLocationOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS',  buildSpecFile: '', buildTimeoutOverride: '', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[ { USRV_STAGE, $ENVIRONMENT }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_testing', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
+         }
 
-        stage ("deploy $ENVIRONMENT") {
-         awsCodeBuild artifactLocationOverride: '', artifactNameOverride: '', artifactNamespaceOverride: '', artifactPackagingOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS', buildSpecFile: '', buildTimeoutOverride: '10', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[{ USRV_STAGE, $ENVIRONMENT }, {USRV_COMMIT, $commit_id}, {USRV_BRANCH,$CHANGE_BRANCH}]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_build', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'project', sourceVersion: '', sseAlgorithm: 'AES256'
-
+        stage ("deploy) {
+                awsCodeBuild artifactLocationOverride: '', artifactPathOverride: '', artifactTypeOverride: 'NO_ARTIFACTS',  buildSpecFile: '', buildTimeoutOverride: '', credentialsId: 'awsCodeBuildCredentialOK', credentialsType: 'jenkins', envParameters: '', envVariables: "[ { USRV_STAGE, $ENVIRONMENT }]", gitCloneDepthOverride: '', projectName: 'usrv_back_java_deploy', proxyHost: '', proxyPort: '', region: 'us-east-1', sourceControlType: 'jenkins', sourceVersion: '', sseAlgorithm: 'AES256'
         }
 
 
